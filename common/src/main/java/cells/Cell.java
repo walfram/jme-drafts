@@ -15,4 +15,5 @@ public interface Cell {
   
   <T extends CellOffset> Cell relative(T offset);
 
+  float extent();
 }

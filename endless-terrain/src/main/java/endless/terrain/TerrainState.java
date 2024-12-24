@@ -93,6 +93,10 @@ public class TerrainState extends BaseAppState {
     
   }
 
+  private Geometry cellToGeometry(Cell cell) {
+    return null;  
+  }
+  
   private Geometry createGeometry(Cell cell) {
     List<Vector3f> points = createPoints(cell);
     Mesh mesh = new DebugPointMesh(points).create();
