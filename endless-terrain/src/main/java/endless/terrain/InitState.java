@@ -44,9 +44,6 @@ public class InitState extends BaseAppState {
     rootNode.attachChild(debugGrid);
     debugGrid.center();
 
-    app.getCamera().setLocation(new Vector3f(82.721375f, 78.605225f, 228.47423f));
-    app.getCamera().setRotation(new Quaternion(-0.026715863f, 0.972733f, -0.1786568f, -0.14545964f));
-
     MyCamera.setNearFar(app.getCamera(), app.getCamera().getFrustumNear(), 32768f);
     
     rootNode.addLight(new AmbientLight(ColorRGBA.White));
