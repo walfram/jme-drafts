@@ -3,7 +3,6 @@ package endless.terrain.heightmap;
 import cells.Cell;
 import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
-import endless.terrain.WrappedNoise;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,15 +32,15 @@ public class CellHeightmap implements Heightmap {
         triangles.add(
             new Triangle(
                 new Vector3f(pointA(x, z)),
-                new Vector3f(pointB(x, z)),
-                new Vector3f(pointC(x, z))
+                new Vector3f(pointC(x, z)),
+                new Vector3f(pointB(x, z))
             )
         );
         triangles.add(
             new Triangle(
                 new Vector3f(pointA(x, z)),
-                new Vector3f(pointC(x, z)),
-                new Vector3f(pointD(x, z))
+                new Vector3f(pointD(x, z)),
+                new Vector3f(pointC(x, z))
             )
         );
       }

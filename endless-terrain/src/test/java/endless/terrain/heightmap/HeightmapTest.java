@@ -7,7 +7,6 @@ import cells.Cell;
 import cells.Cell2d;
 import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
-import endless.terrain.WrappedNoise;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

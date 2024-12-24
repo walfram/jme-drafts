@@ -8,7 +8,7 @@ public class ConfigState extends BaseAppState {
   private final float cellExtent;
 
   public ConfigState() {
-    this(256f);
+    this(2048f);
   }
 
   public ConfigState(float cellExtent) {

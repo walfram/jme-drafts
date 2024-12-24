@@ -1,4 +1,4 @@
-package endless.terrain;
+package endless.terrain.heightmap;
 
 public interface WrappedNoise {
   

@@ -7,6 +7,8 @@ import cells.Cell2d;
 import com.jme3.scene.Mesh;
 import endless.terrain.heightmap.CellHeightmap;
 import endless.terrain.heightmap.Heightmap;
+import endless.terrain.heightmap.TerrainChunkMesh;
+import endless.terrain.heightmap.WrappedNoise;
 import noise.FastNoiseLite;
 import org.junit.jupiter.api.Test;
 

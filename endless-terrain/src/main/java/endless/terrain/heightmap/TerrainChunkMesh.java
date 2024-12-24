@@ -1,4 +1,4 @@
-package endless.terrain;
+package endless.terrain.heightmap;
 
 import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
@@ -9,13 +9,11 @@ import com.jme3.scene.VertexBuffer.Format;
 import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.scene.VertexBuffer.Usage;
 import com.jme3.util.BufferUtils;
-import endless.terrain.heightmap.Heightmap;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
-import jme3utilities.math.MyBuffer;
 
 public class TerrainChunkMesh {
 
