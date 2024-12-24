@@ -13,11 +13,11 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
+import misc.Difference;
+import misc.DebugPointMesh;
 import noise.FastNoiseLite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -95,7 +95,7 @@ public class TerrainState extends BaseAppState {
 
   private Geometry createGeometry(Cell cell) {
     List<Vector3f> points = createPoints(cell);
-    Mesh mesh = new PointsMesh(points).create();
+    Mesh mesh = new DebugPointMesh(points).create();
     
     Geometry geometry = new Geometry(cell.toString(), mesh);
     geometry.setLocalTranslation(cell.translation());

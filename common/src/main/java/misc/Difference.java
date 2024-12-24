@@ -1,4 +1,4 @@
-package endless.terrain;
+package misc;
 
 import java.util.HashSet;
 import java.util.Set;
