@@ -27,8 +27,8 @@ public class CellHeightmap implements Heightmap {
   public List<Triangle> triangles() {
     List<Triangle> triangles = new ArrayList<>(resolution * resolution * 2);
 
-    for (int x = 0; x < (resolution - 1); x++) {
-      for (int z = 0; z < (resolution - 1); z++) {
+    for (int z = 0; z < (resolution - 1); z++) {
+      for (int x = 0; x < (resolution - 1); x++) {
         triangles.add(
             new Triangle(
                 new Vector3f(pointA(x, z)),
