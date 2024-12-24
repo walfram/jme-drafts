@@ -86,6 +86,6 @@ public class TerrainChunkApp extends SimpleApplication {
       e = 0f;
     }
 
-    return e * 265f;
+    return e * 256f;
   }
 }

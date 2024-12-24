@@ -55,7 +55,7 @@ public class TerrainState extends BaseAppState {
 
     material = new Material(app.getAssetManager(), Materials.LIGHTING);
     material.setBoolean("UseMaterialColors", true);
-    material.setColor("Diffuse", ColorRGBA.White);
+    material.setColor("Diffuse", ColorRGBA.LightGray);
     material.setColor("Ambient", ColorRGBA.Gray);
 //    material.getAdditionalRenderState().setWireframe(true);
 
@@ -100,7 +100,7 @@ public class TerrainState extends BaseAppState {
   }
 
   private Geometry cellToGeometry(Cell cell) {
-    Mesh mesh = new TerrainChunk(new CellHeightmap(cell, this::calculateHeight, 33), new int[]{4, 8, 32}).mesh();
+    Mesh mesh = new TerrainChunk(new CellHeightmap(cell, this::calculateHeight, 33), new int[]{2, 4, 8}).mesh();
     Geometry geometry = new Geometry(cell.toString(), mesh);
     geometry.setLocalTranslation(cell.translation());
     geometry.setMaterial(material);
@@ -119,7 +119,7 @@ public class TerrainState extends BaseAppState {
       e = 0f;
     }
 
-    return e * 128f;
+    return e * 256f;
   }
 
   @Override
