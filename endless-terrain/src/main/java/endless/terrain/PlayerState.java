@@ -4,7 +4,6 @@ import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
@@ -22,7 +21,8 @@ public class PlayerState extends BaseAppState {
 
   private float speed = 0f;
   private float altitude = 0f;
-  
+  private final float maxSpeed = 64f;
+
   public PlayerState(Node rootNode) {
     rootNode.attachChild(scene);
   }
@@ -58,6 +58,17 @@ public class PlayerState extends BaseAppState {
   protected void onDisable() {
   }
 
+  @Override
+  public void update(float tpf) {
+    if (speed == 0f)
+      return;
+
+    Vector3f forward = scene.getLocalRotation().mult(Vector3f.UNIT_Z);
+    Vector3f delta = forward.mult(speed * tpf * maxSpeed);
+    Vector3f updated = scene.getLocalTranslation().add(delta);
+    scene.setLocalTranslation(updated);
+  }
+
   public void speedUp(double value, double tpf) {
     float inc = (float) (value * tpf);
     speed = Float.min(1f, speed + inc);
@@ -68,6 +79,10 @@ public class PlayerState extends BaseAppState {
     speed = Float.max(0f, speed - inc);
   }
 
+  public void speedZero(double value, double tpf) {
+    speed = 0f;
+  }
+  
   // TODO use yaw angle field, to avoid extreme angle?
   public void yaw(double value, double tpf) {
     float angle = (float) (value * tpf) * -1f;
@@ -76,7 +91,7 @@ public class PlayerState extends BaseAppState {
     Quaternion mult = yaw.mult(scene.getLocalRotation());
     scene.setLocalRotation(mult);
   }
-
+  
   // TODO use pitch angle field, to avoid extreme angle?
   public void pitch(double value, double tpf) {
     float angle = (float) (value * tpf) * -1f;
@@ -89,19 +104,28 @@ public class PlayerState extends BaseAppState {
   public void altitudeUp(double value, double tpf) {
     float inc = (float) (value * tpf);
     altitude = Float.min(1f, altitude + inc);
+
+    updateAltitude();
   }
 
   public void altitudeDown(double value, double tpf) {
     float inc = (float) (value * tpf);
     altitude = Float.max(0f, altitude - inc);
+
+    updateAltitude();
+  }
+
+  private void updateAltitude() {
+    Vector3f localTranslation = scene.getLocalTranslation();
+    localTranslation.y = 256f * altitude;
+    scene.setLocalTranslation(localTranslation);
   }
 
   public float speedValue() {
     return speed;
   }
-  
+
   public float altitudeValue() {
     return altitude;
   }
-  
 }

@@ -13,6 +13,7 @@ public class PlayerControlsState extends BaseAppState {
 
   private static final FunctionId FUNC_SPEED_UP = new FunctionId("speed-up");
   private static final FunctionId FUNC_SPEED_DOWN = new FunctionId("speed-down");
+  private static final FunctionId FUNC_SPEED_ZERO = new FunctionId("speed-zero");
   private static final FunctionId FUNC_MOUSE_DRAG_VERTICAL = new FunctionId("mouse-drag-vertical");
   private static final FunctionId FUNC_MOUSE_DRAG_HORIZONTAL = new FunctionId("mouse-drag-horizontal");
   private static final FunctionId FUNC_ALTITUDE_UP = new FunctionId("altitude-up");
@@ -27,6 +28,9 @@ public class PlayerControlsState extends BaseAppState {
     
     inputMapper.map(FUNC_SPEED_DOWN, KeyInput.KEY_S);
     inputMapper.addAnalogListener((func, value, tpf) -> getState(PlayerState.class).speedDown(value, tpf), FUNC_SPEED_DOWN);
+    
+    inputMapper.map(FUNC_SPEED_ZERO, KeyInput.KEY_0);
+    inputMapper.addAnalogListener((func, value, tpf) -> getState(PlayerState.class).speedZero(value, tpf), FUNC_SPEED_ZERO);
     
     inputMapper.map(FUNC_MOUSE_DRAG_HORIZONTAL, Axis.MOUSE_X, Button.MOUSE_BUTTON2);
     inputMapper.addAnalogListener((func, value, tpf) -> getState(PlayerState.class).yaw(value, tpf), FUNC_MOUSE_DRAG_HORIZONTAL);
