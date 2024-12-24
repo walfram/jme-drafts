@@ -58,7 +58,7 @@ public class TerrainChunkApp extends SimpleApplication {
 
     Heightmap heightmap = new CellHeightmap(cell, this::heightAt, 129);
 
-    TerrainChunk chunk = new TerrainChunk(heightmap, new int[]{4, 16, 128});
+    TerrainChunk chunk = new TerrainChunk(heightmap, new int[]{2, 8, 16});
 
     Geometry chunkGeometry = new Geometry("chunk", chunk.mesh());
     chunkGeometry.setMaterial(new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md"));
