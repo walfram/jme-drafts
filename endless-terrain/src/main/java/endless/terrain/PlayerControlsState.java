@@ -16,6 +16,7 @@ public class PlayerControlsState extends BaseAppState {
   private static final FunctionId FUNC_SPEED_ZERO = new FunctionId("speed-zero");
   private static final FunctionId FUNC_MOUSE_DRAG_VERTICAL = new FunctionId("mouse-drag-vertical");
   private static final FunctionId FUNC_MOUSE_DRAG_HORIZONTAL = new FunctionId("mouse-drag-horizontal");
+  private static final FunctionId FUNC_MOUSE_DRAG_TOGGLE = new FunctionId("mouse-drag-toggle");
   private static final FunctionId FUNC_ALTITUDE_UP = new FunctionId("altitude-up");
   private static final FunctionId FUNC_ALTITUDE_DOWN = new FunctionId("altitude-down");
   
@@ -37,11 +38,8 @@ public class PlayerControlsState extends BaseAppState {
     inputMapper.map(FUNC_MOUSE_DRAG_VERTICAL, Axis.MOUSE_Y, Button.MOUSE_BUTTON2);
     inputMapper.addAnalogListener((func, value, tpf) -> getState(PlayerState.class).pitch(value, tpf), FUNC_MOUSE_DRAG_VERTICAL);
     
-    inputMapper.addStateListener(
-        (func, state, tpf) -> getState(CameraState.class).updateCursorVisibility(state), 
-        FUNC_MOUSE_DRAG_HORIZONTAL, 
-        FUNC_MOUSE_DRAG_VERTICAL
-    );
+    inputMapper.map(FUNC_MOUSE_DRAG_TOGGLE, Button.MOUSE_BUTTON2);
+    inputMapper.addStateListener((func, state, tpf) -> getState(CameraState.class).updateCursorVisibility(state), FUNC_MOUSE_DRAG_TOGGLE);
     
     inputMapper.map(FUNC_ALTITUDE_UP, KeyInput.KEY_Q);
     inputMapper.addAnalogListener((func, value, tpf) -> getState(PlayerState.class).altitudeUp(value, tpf), FUNC_ALTITUDE_UP);
