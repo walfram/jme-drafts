@@ -7,4 +7,6 @@ public interface Heightmap {
 
   List<Triangle> triangles();
   
+  int quadsPerSide();
+  
 }

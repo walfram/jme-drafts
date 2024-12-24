@@ -9,6 +9,7 @@ import com.jme3.scene.VertexBuffer.Format;
 import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.scene.VertexBuffer.Usage;
 import com.jme3.util.BufferUtils;
+import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.List;
@@ -19,8 +20,12 @@ public class TerrainChunkMesh {
 
   private final Heightmap heightmap;
 
-  public TerrainChunkMesh(Heightmap heightmap) {
+  private final ReIndexedVertices reIndexedVertices = new ReIndexedVertices();
+  private final int[] partitionBy;
+
+  public TerrainChunkMesh(Heightmap heightmap, int[] partitionBy) {
     this.heightmap = heightmap;
+    this.partitionBy = partitionBy;
   }
 
   public Mesh create() {
@@ -54,11 +59,46 @@ public class TerrainChunkMesh {
     // 0, 1, 2, 3
     VertexBuffer lod0Buffer = new VertexBuffer(Type.Index);
     lod0Buffer.setupData(Usage.Dynamic, 3, Format.UnsignedInt, indexBuffer);
-    
+
     VertexBuffer lod1Buffer = new VertexBuffer(Type.Index);
+    lod1Buffer.setupData(
+        Usage.Dynamic,
+        3,
+        Format.UnsignedInt,
+        BufferUtils.createIntBuffer(
+            reIndexedVertices.apply(heightmap.quadsPerSide(), partitionBy[0])
+                .stream()
+                .mapToInt(Integer::intValue)
+                .toArray()
+        )
+    );
+
     VertexBuffer lod2Buffer = new VertexBuffer(Type.Index);
-    VertexBuffer lod3Buffer = new VertexBuffer(Type.Index);
+    lod2Buffer.setupData(
+        Usage.Dynamic,
+        3,
+        Format.UnsignedInt,
+        BufferUtils.createIntBuffer(
+            reIndexedVertices.apply(heightmap.quadsPerSide(), partitionBy[1])
+                .stream()
+                .mapToInt(Integer::intValue)
+                .toArray()
+        )
+    );
     
+    VertexBuffer lod3Buffer = new VertexBuffer(Type.Index);
+    lod3Buffer.setupData(
+        Usage.Dynamic,
+        3,
+        Format.UnsignedInt,
+        BufferUtils.createIntBuffer(
+            reIndexedVertices.apply(heightmap.quadsPerSide(), partitionBy[2])
+                .stream()
+                .mapToInt(Integer::intValue)
+                .toArray()
+        )
+    );
+
     VertexBuffer[] lodLevels = new VertexBuffer[]{
         lod0Buffer,
         lod1Buffer,
@@ -66,7 +106,7 @@ public class TerrainChunkMesh {
         lod3Buffer
     };
     mesh.setLodLevels(lodLevels);
-    
+
     mesh.updateBound();
     mesh.updateCounts();
 

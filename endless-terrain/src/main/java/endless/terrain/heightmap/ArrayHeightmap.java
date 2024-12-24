@@ -40,4 +40,9 @@ public class ArrayHeightmap implements Heightmap {
     
     return triangles;
   }
+
+  @Override
+  public int quadsPerSide() {
+    return size - 1;
+  }
 }

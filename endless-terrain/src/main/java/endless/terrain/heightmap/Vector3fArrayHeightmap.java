@@ -41,4 +41,9 @@ public class Vector3fArrayHeightmap implements Heightmap {
 
     return triangles;
   }
+
+  @Override
+  public int quadsPerSide() {
+    return resolution - 1;
+  }
 }

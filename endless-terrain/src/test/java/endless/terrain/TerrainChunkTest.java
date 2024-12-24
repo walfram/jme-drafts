@@ -24,14 +24,14 @@ public class TerrainChunkTest {
     WrappedNoise wrappedNoise = noise::GetNoise;
     Heightmap heightmap = new CellHeightmap(origin, wrappedNoise, 17);
 
-    Mesh mesh = new TerrainChunkMesh(heightmap).create();
+    Mesh mesh = new TerrainChunkMesh(heightmap, new int[]{2, 4, 16}).create();
 
     assertEquals(16 * 16 * 2, mesh.getTriangleCount());
 
     assertEquals(16 * 16 * 2, mesh.getTriangleCount(0));
     assertEquals(8 * 8 * 2, mesh.getTriangleCount(1));
     assertEquals(4 * 4 * 2, mesh.getTriangleCount(2));
-    assertEquals(2 * 2 * 2, mesh.getTriangleCount(3));
+    assertEquals(2, mesh.getTriangleCount(3));
   }
 
 }

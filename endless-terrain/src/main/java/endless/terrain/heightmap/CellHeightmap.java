@@ -49,6 +49,11 @@ public class CellHeightmap implements Heightmap {
     return triangles;
   }
 
+  @Override
+  public int quadsPerSide() {
+    return resolution - 1;
+  }
+
   private Vector3f pointD(int x, int z) {
     float dx = x * delta - cell.extent();
     float dz = (z + 1) * delta - cell.extent();

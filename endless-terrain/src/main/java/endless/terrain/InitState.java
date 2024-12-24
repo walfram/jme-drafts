@@ -33,7 +33,6 @@ public class InitState extends BaseAppState {
     flyCam.setDragToRotate(true);
     flyCam.setMoveSpeed(250f);
     flyCam.setZoomSpeed(0f);
-    getState(FlyCamAppState.class).setEnabled(false);
     
     float cellExtent = getState(ConfigState.class).cellExtent();
 

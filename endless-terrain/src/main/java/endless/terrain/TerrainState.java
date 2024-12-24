@@ -10,11 +10,13 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
+import com.jme3.scene.control.LodControl;
 import endless.terrain.heightmap.CellHeightmap;
 import endless.terrain.heightmap.TerrainChunkMesh;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import jme3utilities.SimpleControl;
 import misc.Difference;
 import noise.FastNoiseLite;
 import noise.FastNoiseLite.FractalType;
@@ -53,18 +55,19 @@ public class TerrainState extends BaseAppState {
 
     origin = new Cell2d(app.getCamera().getLocation(), cellExtent);
 
-    Set<Cell> neighbours = origin.neighboursAll();
-
     material = new Material(app.getAssetManager(), Materials.LIGHTING);
     material.setBoolean("UseMaterialColors", true);
     material.setColor("Diffuse", ColorRGBA.White);
     material.setColor("Ambient", ColorRGBA.Gray);
-    
+//    material.getAdditionalRenderState().setWireframe(true);
+
+    Set<Cell> neighbours = origin.neighboursAll();
     for (Cell cell : neighbours) {
       Geometry geometry = cellToGeometry(cell);
       cache.put(cell, geometry);
       currentCells.put(cell, geometry);
       scene.attachChild(geometry);
+      logger.debug("attached chunk = {}", geometry.getName());
     }
   }
 
@@ -93,15 +96,21 @@ public class TerrainState extends BaseAppState {
       Geometry geometry = cache.computeIfAbsent(cell, this::cellToGeometry);
       currentCells.put(cell, geometry);
       scene.attachChild(geometry);
+      logger.debug("attached chunk = {}", geometry.getName());
     }
 
   }
 
   private Geometry cellToGeometry(Cell cell) {
-    Mesh mesh = new TerrainChunkMesh(new CellHeightmap(cell, this::calculateHeight, 33)).create();
+    Mesh mesh = new TerrainChunkMesh(new CellHeightmap(cell, this::calculateHeight, 33), new int[]{4, 8, 32}).create();
     Geometry geometry = new Geometry(cell.toString(), mesh);
     geometry.setLocalTranslation(cell.translation());
     geometry.setMaterial(material);
+
+    ChunkLodControl lodControl = new ChunkLodControl(2f * cellExtent);
+    geometry.addControl(lodControl);
+    logger.debug("geometry {}, initial lod = {}", geometry.getName(), geometry.getLodLevel());
+    
     return geometry;
   }
 

@@ -27,9 +27,9 @@ public class EndlessTerrainApp extends SimpleApplication {
     stateManager.attach(new InitState(rootNode));
     stateManager.attach(new TerrainState(rootNode));
     
-    stateManager.attach(new CameraState());
+//    stateManager.attach(new CameraState());
     stateManager.attach(new PlayerState(rootNode));
-    stateManager.attach(new PlayerControlsState());
+//    stateManager.attach(new PlayerControlsState());
     
     stateManager.attach(new PostProcessingState());
     

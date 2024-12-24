@@ -21,7 +21,7 @@ public class PlayerState extends BaseAppState {
 
   private float speed = 0f;
   private float altitude = 0f;
-  private final float maxSpeed = 64f;
+  private final float maxSpeed = 16 * 64f;
 
   public PlayerState(Node rootNode) {
     rootNode.attachChild(scene);
@@ -44,7 +44,9 @@ public class PlayerState extends BaseAppState {
 
 //    getState(CameraState.class).follow(scene);
 //    getState(CameraState.class).chase(scene);
-    getState(CameraState.class).attachTo(scene);
+    
+    // TODO enable back
+    //getState(CameraState.class).attachTo(scene);
   }
 
   @Override
@@ -118,7 +120,7 @@ public class PlayerState extends BaseAppState {
 
   private void updateAltitude() {
     Vector3f localTranslation = scene.getLocalTranslation();
-    localTranslation.y = 256f * altitude;
+    localTranslation.y = 2048f * altitude;
     scene.setLocalTranslation(localTranslation);
   }
 

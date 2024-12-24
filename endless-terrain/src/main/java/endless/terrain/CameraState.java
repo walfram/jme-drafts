@@ -1,6 +1,7 @@
 package endless.terrain;
 
 import com.jme3.app.Application;
+import com.jme3.app.FlyCamAppState;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Quaternion;
@@ -20,6 +21,7 @@ public class CameraState extends BaseAppState {
   protected void initialize(Application app) {
     app.getCamera().setLocation(new Vector3f(82.721375f, 78.605225f, 228.47423f));
     app.getCamera().setRotation(new Quaternion(-0.026715863f, 0.972733f, -0.1786568f, -0.14545964f));
+    getState(FlyCamAppState.class).setEnabled(false);
   }
 
   @Override
