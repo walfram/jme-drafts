@@ -34,4 +34,12 @@ public class ConfigState extends BaseAppState {
   public float cellExtent() {
     return cellExtent;
   }
+
+  public int terrainHeightmapResolution() {
+    return 33;
+  }
+
+  public int[] terrainChunkPartitions() {
+    return new int[]{2, 4, 8};
+  }
 }

@@ -16,9 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import misc.Difference;
-import noise.FastNoiseLite;
-import noise.FastNoiseLite.FractalType;
-import noise.FastNoiseLite.NoiseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,13 +31,6 @@ public class TerrainState extends BaseAppState {
 
   private Material material;
 
-  private final FastNoiseLite noise = new FastNoiseLite(42);
-  {
-    noise.SetFrequency(0.001f);
-    noise.SetNoiseType(NoiseType.Value);
-    noise.SetFractalType(FractalType.PingPong);
-  }
-
   private float cellExtent;
 
   public TerrainState(Node rootNode) {
@@ -51,7 +41,7 @@ public class TerrainState extends BaseAppState {
   protected void initialize(Application app) {
     cellExtent = getState(ConfigState.class).cellExtent();
 
-    origin = new Cell2d(app.getCamera().getLocation(), cellExtent);
+    // origin = new Cell2d(app.getCamera().getLocation(), cellExtent);
 
     material = new Material(app.getAssetManager(), Materials.LIGHTING);
     material.setBoolean("UseMaterialColors", true);
@@ -59,14 +49,14 @@ public class TerrainState extends BaseAppState {
     material.setColor("Ambient", ColorRGBA.Gray);
 //    material.getAdditionalRenderState().setWireframe(true);
 
-    Set<Cell> neighbours = origin.neighboursAll();
-    for (Cell cell : neighbours) {
-      Geometry geometry = cellToGeometry(cell);
-      cache.put(cell, geometry);
-      currentCells.put(cell, geometry);
-      scene.attachChild(geometry);
-      logger.debug("attached chunk = {}", geometry.getName());
-    }
+//    Set<Cell> neighbours = origin.neighboursAll();
+//    for (Cell cell : neighbours) {
+//      Geometry geometry = cellToGeometry(cell);
+//      cache.put(cell, geometry);
+//      currentCells.put(cell, geometry);
+//      scene.attachChild(geometry);
+//      logger.debug("attached chunk = {}", geometry.getName());
+//    }
   }
 
   @Override
@@ -100,7 +90,15 @@ public class TerrainState extends BaseAppState {
   }
 
   private Geometry cellToGeometry(Cell cell) {
-    Mesh mesh = new TerrainChunk(new CellHeightmap(cell, this::calculateHeight, 33), new int[]{2, 4, 8}).mesh();
+    Mesh mesh = new TerrainChunk(
+        new CellHeightmap(
+            cell,
+            (x, z) -> getState(NoiseState.class).calculateHeight(x, z),
+            getState(ConfigState.class).terrainHeightmapResolution()
+        ),
+        getState(ConfigState.class).terrainChunkPartitions()
+    ).mesh();
+    
     Geometry geometry = new Geometry(cell.toString(), mesh);
     geometry.setLocalTranslation(cell.translation());
     geometry.setMaterial(material);
@@ -108,18 +106,8 @@ public class TerrainState extends BaseAppState {
     ChunkLodControl lodControl = new ChunkLodControl(2f * cellExtent);
     geometry.addControl(lodControl);
     logger.debug("geometry {}, initial lod = {}", geometry.getName(), geometry.getLodLevel());
-    
+
     return geometry;
-  }
-
-  private float calculateHeight(float x, float z) {
-    float e = noise.GetNoise(x, z);
-
-    if (e < 0) {
-      e = 0f;
-    }
-
-    return e * 256f;
   }
 
   @Override

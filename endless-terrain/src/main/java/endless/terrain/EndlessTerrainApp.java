@@ -26,6 +26,9 @@ public class EndlessTerrainApp extends SimpleApplication {
     
     stateManager.attach(new InitState(rootNode));
     
+    stateManager.attach(new NoiseState());
+    stateManager.attach(new ChunksState());
+    
     stateManager.attach(new TerrainState(rootNode));
     
 //    stateManager.attach(new CameraState());
