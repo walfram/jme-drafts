@@ -43,7 +43,8 @@ public class PlayerState extends BaseAppState {
     }
 
 //    getState(CameraState.class).follow(scene);
-    getState(CameraState.class).chase(scene);
+//    getState(CameraState.class).chase(scene);
+    getState(CameraState.class).attachTo(scene);
   }
 
   @Override

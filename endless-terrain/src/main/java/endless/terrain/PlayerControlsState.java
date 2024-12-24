@@ -37,6 +37,12 @@ public class PlayerControlsState extends BaseAppState {
     inputMapper.map(FUNC_MOUSE_DRAG_VERTICAL, Axis.MOUSE_Y, Button.MOUSE_BUTTON2);
     inputMapper.addAnalogListener((func, value, tpf) -> getState(PlayerState.class).pitch(value, tpf), FUNC_MOUSE_DRAG_VERTICAL);
     
+    inputMapper.addStateListener(
+        (func, state, tpf) -> getState(CameraState.class).updateCursorVisibility(state), 
+        FUNC_MOUSE_DRAG_HORIZONTAL, 
+        FUNC_MOUSE_DRAG_VERTICAL
+    );
+    
     inputMapper.map(FUNC_ALTITUDE_UP, KeyInput.KEY_Q);
     inputMapper.addAnalogListener((func, value, tpf) -> getState(PlayerState.class).altitudeUp(value, tpf), FUNC_ALTITUDE_UP);
     
