@@ -3,9 +3,7 @@ package endless.terrain.lod;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import endless.terrain.heightmap.ReIndexedVertices;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,24 +17,24 @@ public class LodLevelTest {
   @Test
   // TODO remove magic numbers
   void test_reindex_8x8() {
-    List<Integer> by2 = reindex.apply(8, 2);
+    List<Integer> by2 = reindex.reindex(8, 2);
     assertEquals(4 * 4 * 3 * 2, by2.size());
     
-    List<Integer> by4 = reindex.apply(8, 4);
+    List<Integer> by4 = reindex.reindex(8, 4);
     assertEquals(2 * 2 * 3 * 2, by4.size());
     
-    List<Integer> by8 = reindex.apply(8, 8);
+    List<Integer> by8 = reindex.reindex(8, 8);
     assertEquals(3 * 2, by8.size());
   }
   
   @Test
   // TODO remove magic numbers
   void test_reindex_4x4() {
-    List<Integer> by2 = reindex.apply(4, 2);
+    List<Integer> by2 = reindex.reindex(4, 2);
     assertEquals(4 * 3 * 2, by2.size());
     logger.debug("by2 = {}", by2);
     
-    List<Integer> by4 = reindex.apply(4, 4);
+    List<Integer> by4 = reindex.reindex(4, 4);
     assertEquals(3 * 2, by4.size());
     logger.debug("by4 = {}", by4);
   }

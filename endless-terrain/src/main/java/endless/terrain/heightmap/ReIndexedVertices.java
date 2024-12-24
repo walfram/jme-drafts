@@ -2,16 +2,14 @@ package endless.terrain.heightmap;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ReIndexedVertices implements BiFunction<Integer, Integer, List<Integer>> {
+public class ReIndexedVertices {
 
   private static final Logger logger = LoggerFactory.getLogger(ReIndexedVertices.class);
   
-  @Override
-  public List<Integer> apply(Integer baseQuads, Integer partition) {
+  public List<Integer> reindex(int baseQuads, int partition) {
     int size = baseQuads / partition;
     logger.debug("base quads = {}, partitioned quads (size) = {}, partition = {}", baseQuads, size, partition);
 
@@ -21,18 +19,18 @@ public class ReIndexedVertices implements BiFunction<Integer, Integer, List<Inte
     List<Integer> indices = new ArrayList<>(indexSize);
 
     for (int row = 0; row < size; row++) {
-      logger.debug("row = {}", row);
       for (int col = 0; col < size; col++) {
+        // q - quad
         int q0 = row * baseQuads * partition + col * partition;
         int q1 = q0 + (partition - 1) * baseQuads + partition - 1;
         int q2 = q0 + partition - 1;
 
-        // q0, q1, q2 - "use right triangle"
-        
+        // t - triangle
         int t0 = q0 * 2;
         int t1 = q1 * 2;
         int t2 = q2 * 2;
 
+        // v - vertex
         int v0 = t0 * 3;
         int v1 = t1 * 3 + 1;
         int v2 = t2 * 3 + 2;
