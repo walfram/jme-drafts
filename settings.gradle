@@ -1,0 +1,5 @@
+rootProject.name = 'jme-drafts'
+include 'common'
+include 'resources'
+include 'wave-function-collapse'
+
