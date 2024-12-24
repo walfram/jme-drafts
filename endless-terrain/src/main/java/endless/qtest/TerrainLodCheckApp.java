@@ -76,23 +76,23 @@ public class TerrainLodCheckApp extends SimpleApplication {
 
     MyCamera.setNearFar(cam, cam.getFrustumNear(), 32768f);
 
-    Geometry debugGrid = new Geometry("debug-grid", new Grid(16, 16, 64));
-    debugGrid.center();
-    debugGrid.setMaterial(new Material(assetManager, Materials.UNSHADED));
-    debugGrid.getMaterial().setColor("Color", ColorRGBA.Blue);
-    rootNode.attachChild(debugGrid);
+//    Geometry debugGrid = new Geometry("debug-grid", new Grid(16, 16, 64));
+//    debugGrid.center();
+//    debugGrid.setMaterial(new Material(assetManager, Materials.UNSHADED));
+//    debugGrid.getMaterial().setColor("Color", ColorRGBA.Blue);
+//    rootNode.attachChild(debugGrid);
 
     Cell cell = new Cell2d(0, 0, 1024f);
 
-    Heightmap heightmap = new CellHeightmap(cell, this::calculateHeight, 9);
-    TerrainChunk terrainChunk = new TerrainChunk(heightmap, new int[]{2, 4, 8});
+    Heightmap heightmap = new CellHeightmap(cell, this::calculateHeight, 5);
+    TerrainChunk terrainChunk = new TerrainChunk(heightmap, new int[]{2, 4, 4});
 
     Mesh mesh = terrainChunk.mesh();
     logger.debug("mesh triangles = {}, vertices = {}", mesh.getTriangleCount(), mesh.getVertexCount());
 
     geometry = new Geometry("chunk", mesh);
     geometry.setMaterial(new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md"));
-//    geometry.getMaterial().getAdditionalRenderState().setWireframe(true);
+    geometry.getMaterial().getAdditionalRenderState().setWireframe(true);
     rootNode.attachChild(geometry);
     
     logger.debug("geometry lods = {}", mesh.getNumLodLevels());
@@ -123,12 +123,13 @@ public class TerrainLodCheckApp extends SimpleApplication {
     logger.debug("lod level = {}, indices = {}", level, indices);
 
     List<Vector3f> points = Arrays.stream(indices).mapToObj(idx -> vertices[idx]).toList();
+    logger.debug("points = {}", points);
 
     DebugPointMesh debugPointMesh = new DebugPointMesh(points);
     Geometry g = new Geometry("debug-point-mesh", debugPointMesh.create());
     g.setMaterial(new Material(assetManager, Materials.UNSHADED));
-    g.getMaterial().setColor("Color", ColorRGBA.Red);
-    g.getMaterial().setFloat("PointSize", 8f);
+    g.getMaterial().setColor("Color", ColorRGBA.Yellow);
+    g.getMaterial().setFloat("PointSize", 16f);
     
     rootNode.detachChildNamed(g.getName());
     rootNode.attachChild(g);

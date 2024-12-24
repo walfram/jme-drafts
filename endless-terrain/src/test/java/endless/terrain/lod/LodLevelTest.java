@@ -34,9 +34,11 @@ public class LodLevelTest {
   void test_reindex_4x4() {
     List<Integer> by2 = reindex.apply(4, 2);
     assertEquals(4 * 3 * 2, by2.size());
+    logger.debug("by2 = {}", by2);
     
     List<Integer> by4 = reindex.apply(4, 4);
     assertEquals(3 * 2, by4.size());
+    logger.debug("by4 = {}", by4);
   }
   
 }
