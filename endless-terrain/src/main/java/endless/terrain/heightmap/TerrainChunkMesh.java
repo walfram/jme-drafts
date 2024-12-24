@@ -55,8 +55,15 @@ public class TerrainChunkMesh {
     VertexBuffer lod0Buffer = new VertexBuffer(Type.Index);
     lod0Buffer.setupData(Usage.Dynamic, 3, Format.UnsignedInt, indexBuffer);
     
+    VertexBuffer lod1Buffer = new VertexBuffer(Type.Index);
+    VertexBuffer lod2Buffer = new VertexBuffer(Type.Index);
+    VertexBuffer lod3Buffer = new VertexBuffer(Type.Index);
+    
     VertexBuffer[] lodLevels = new VertexBuffer[]{
-        lod0Buffer
+        lod0Buffer,
+        lod1Buffer,
+        lod2Buffer,
+        lod3Buffer
     };
     mesh.setLodLevels(lodLevels);
     

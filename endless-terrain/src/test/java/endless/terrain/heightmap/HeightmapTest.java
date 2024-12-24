@@ -16,6 +16,15 @@ import org.junit.jupiter.api.Test;
 public class HeightmapTest {
 
   @Test
+  void should_create_correct_number_of_triangles_from_cells() {
+    Cell cell = new Cell2d(0, 0, 32f);
+    
+    assertEquals(4 * 4 * 2, new CellHeightmap(cell, (x, z) -> 0f, 5).triangles().size());
+    assertEquals(8 * 8 * 2, new CellHeightmap(cell, (x, z) -> 0f, 9).triangles().size());
+    assertEquals(16 * 16 * 2, new CellHeightmap(cell, (x, z) -> 0f, 17).triangles().size());
+  }
+  
+  @Test
   void should_create_heightmap_from_cell() {
     Cell cell = new Cell2d(0, 0, 32f);
     Heightmap heightmap = new CellHeightmap(cell, (x, z) -> 0f, 3);
