@@ -10,13 +10,11 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
-import com.jme3.scene.control.LodControl;
 import endless.terrain.heightmap.CellHeightmap;
-import endless.terrain.heightmap.TerrainChunkMesh;
+import endless.terrain.heightmap.TerrainChunk;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import jme3utilities.SimpleControl;
 import misc.Difference;
 import noise.FastNoiseLite;
 import noise.FastNoiseLite.FractalType;
@@ -37,13 +35,13 @@ public class TerrainState extends BaseAppState {
   private Material material;
 
   private final FastNoiseLite noise = new FastNoiseLite(42);
-  private float cellExtent;
-
   {
     noise.SetFrequency(0.001f);
     noise.SetNoiseType(NoiseType.Value);
     noise.SetFractalType(FractalType.PingPong);
   }
+
+  private float cellExtent;
 
   public TerrainState(Node rootNode) {
     rootNode.attachChild(scene);
@@ -102,7 +100,7 @@ public class TerrainState extends BaseAppState {
   }
 
   private Geometry cellToGeometry(Cell cell) {
-    Mesh mesh = new TerrainChunkMesh(new CellHeightmap(cell, this::calculateHeight, 33), new int[]{4, 8, 32}).create();
+    Mesh mesh = new TerrainChunk(new CellHeightmap(cell, this::calculateHeight, 33), new int[]{4, 8, 32}).mesh();
     Geometry geometry = new Geometry(cell.toString(), mesh);
     geometry.setLocalTranslation(cell.translation());
     geometry.setMaterial(material);

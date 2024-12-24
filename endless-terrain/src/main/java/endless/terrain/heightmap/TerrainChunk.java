@@ -9,26 +9,29 @@ import com.jme3.scene.VertexBuffer.Format;
 import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.scene.VertexBuffer.Usage;
 import com.jme3.util.BufferUtils;
-import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class TerrainChunkMesh {
+public class TerrainChunk {
 
+  private static final Logger logger = LoggerFactory.getLogger(TerrainChunk.class);
+  
   private final Heightmap heightmap;
 
   private final ReIndexedVertices reIndexedVertices = new ReIndexedVertices();
   private final int[] partitionBy;
 
-  public TerrainChunkMesh(Heightmap heightmap, int[] partitionBy) {
+  public TerrainChunk(Heightmap heightmap, int[] partitionBy) {
     this.heightmap = heightmap;
     this.partitionBy = partitionBy;
   }
 
-  public Mesh create() {
+  public Mesh mesh() {
     Mesh mesh = new Mesh();
     mesh.setMode(Mode.Triangles);
 
@@ -52,6 +55,7 @@ public class TerrainChunkMesh {
     mesh.setBuffer(Type.Normal, 3, normalBuffer);
 
     int[] indices = IntStream.range(0, triangles.size() * 3).toArray();
+    logger.debug("last index = {}", indices[indices.length - 1]);
     IntBuffer indexBuffer = BufferUtils.createIntBuffer(indices);
     mesh.setBuffer(Type.Index, 3, indexBuffer);
 
@@ -61,43 +65,28 @@ public class TerrainChunkMesh {
     lod0Buffer.setupData(Usage.Dynamic, 3, Format.UnsignedInt, indexBuffer);
 
     VertexBuffer lod1Buffer = new VertexBuffer(Type.Index);
-    lod1Buffer.setupData(
-        Usage.Dynamic,
-        3,
-        Format.UnsignedInt,
-        BufferUtils.createIntBuffer(
-            reIndexedVertices.apply(heightmap.quadsPerSide(), partitionBy[0])
-                .stream()
-                .mapToInt(Integer::intValue)
-                .toArray()
-        )
-    );
+    int[] lod1 = reIndexedVertices.apply(heightmap.quadsPerSide(), partitionBy[0])
+        .stream()
+        .mapToInt(Integer::intValue)
+        .toArray();
+    logger.debug("lod1 = {}", lod1);
+    lod1Buffer.setupData(Usage.Dynamic, 3, Format.UnsignedInt, BufferUtils.createIntBuffer(lod1));
 
     VertexBuffer lod2Buffer = new VertexBuffer(Type.Index);
-    lod2Buffer.setupData(
-        Usage.Dynamic,
-        3,
-        Format.UnsignedInt,
-        BufferUtils.createIntBuffer(
-            reIndexedVertices.apply(heightmap.quadsPerSide(), partitionBy[1])
-                .stream()
-                .mapToInt(Integer::intValue)
-                .toArray()
-        )
-    );
-    
+    int[] lod2 = reIndexedVertices.apply(heightmap.quadsPerSide(), partitionBy[1])
+        .stream()
+        .mapToInt(Integer::intValue)
+        .toArray();
+    logger.debug("lod2 = {}", lod2);
+    lod2Buffer.setupData(Usage.Dynamic, 3, Format.UnsignedInt, BufferUtils.createIntBuffer(lod2));
+
     VertexBuffer lod3Buffer = new VertexBuffer(Type.Index);
-    lod3Buffer.setupData(
-        Usage.Dynamic,
-        3,
-        Format.UnsignedInt,
-        BufferUtils.createIntBuffer(
-            reIndexedVertices.apply(heightmap.quadsPerSide(), partitionBy[2])
-                .stream()
-                .mapToInt(Integer::intValue)
-                .toArray()
-        )
-    );
+    int[] lod3 = reIndexedVertices.apply(heightmap.quadsPerSide(), partitionBy[2])
+        .stream()
+        .mapToInt(Integer::intValue)
+        .toArray();
+    logger.debug("lod3 = {}", lod3);
+    lod3Buffer.setupData(Usage.Dynamic, 3, Format.UnsignedInt, BufferUtils.createIntBuffer(lod3));
 
     VertexBuffer[] lodLevels = new VertexBuffer[]{
         lod0Buffer,

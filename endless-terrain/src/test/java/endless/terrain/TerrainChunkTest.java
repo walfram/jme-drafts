@@ -7,7 +7,7 @@ import cells.Cell2d;
 import com.jme3.scene.Mesh;
 import endless.terrain.heightmap.CellHeightmap;
 import endless.terrain.heightmap.Heightmap;
-import endless.terrain.heightmap.TerrainChunkMesh;
+import endless.terrain.heightmap.TerrainChunk;
 import endless.terrain.heightmap.WrappedNoise;
 import noise.FastNoiseLite;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ public class TerrainChunkTest {
 
   // cell -> heightmap -> mesh
   @Test
-  void should_create_terrain_chunk_from_cell() {
+  void should_mesh_terrain_chunk_from_cell() {
     Cell origin = new Cell2d(0, 0, 256f);
 
     final FastNoiseLite noise = new FastNoiseLite();
@@ -24,7 +24,7 @@ public class TerrainChunkTest {
     WrappedNoise wrappedNoise = noise::GetNoise;
     Heightmap heightmap = new CellHeightmap(origin, wrappedNoise, 17);
 
-    Mesh mesh = new TerrainChunkMesh(heightmap, new int[]{2, 4, 16}).create();
+    Mesh mesh = new TerrainChunk(heightmap, new int[]{2, 4, 16}).mesh();
 
     assertEquals(16 * 16 * 2, mesh.getTriangleCount());
 

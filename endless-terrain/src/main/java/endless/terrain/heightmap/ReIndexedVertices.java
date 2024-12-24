@@ -13,10 +13,10 @@ public class ReIndexedVertices implements BiFunction<Integer, Integer, List<Inte
   @Override
   public List<Integer> apply(Integer baseQuads, Integer partition) {
     int size = baseQuads / partition;
-//    logger.debug("base quads = {}, partitioned quads (size) = {}, partition = {}", baseQuads, size, partition);
+    logger.debug("base quads = {}, partitioned quads (size) = {}, partition = {}", baseQuads, size, partition);
 
     int indexSize = size * size * 2 * 3;
-//    logger.debug("quad index size = {}", indexSize);
+    logger.debug("quad index size = {}", indexSize);
 
     List<Integer> indices = new ArrayList<>(indexSize);
 
