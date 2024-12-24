@@ -13,14 +13,12 @@ public class ChunkTest {
   
   @Test
   void should_calculate_resolution_based_on_cell_distance() {
-    Cell origin = new Cell2d(0, 0, extent);
+    assertEquals(2, new CellOffset2d(2, 0).distance());
     
-    assertEquals(2, origin.distance(new CellOffset2d(2, 0)));
-    
-    assertEquals(2.8284f, origin.distance(new CellOffset2d(2, 2)));
-    assertEquals(2.8284f, origin.distance(new CellOffset2d(2, -2)));
-    assertEquals(2.8284f, origin.distance(new CellOffset2d(-2, 2)));
-    assertEquals(2.8284f, origin.distance(new CellOffset2d(-2, -2)));
+    assertEquals(2.828427f, new CellOffset2d(2, 2).distance());
+    assertEquals(2.828427f, new CellOffset2d(2, -2).distance());
+    assertEquals(2.828427f, new CellOffset2d(-2, 2).distance());
+    assertEquals(2.828427f, new CellOffset2d(-2, -2).distance());
   }
   
   @Test

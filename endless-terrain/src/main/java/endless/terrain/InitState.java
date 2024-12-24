@@ -4,6 +4,8 @@ import com.jme3.app.Application;
 import com.jme3.app.FlyCamAppState;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.input.FlyByCamera;
+import com.jme3.light.AmbientLight;
+import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.material.Materials;
 import com.jme3.math.ColorRGBA;
@@ -32,7 +34,7 @@ public class InitState extends BaseAppState {
     
     float cellExtent = getState(ConfigState.class).cellExtent();
 
-    AxesVisualizer axesVisualizer = new AxesVisualizer(app.getAssetManager(), cellExtent);
+    AxesVisualizer axesVisualizer = new AxesVisualizer(app.getAssetManager(), cellExtent, 2);
     rootNode.addControl(axesVisualizer);
     axesVisualizer.setEnabled(true);
 
@@ -46,6 +48,9 @@ public class InitState extends BaseAppState {
     app.getCamera().setRotation(new Quaternion(-0.026715863f, 0.972733f, -0.1786568f, -0.14545964f));
 
     MyCamera.setNearFar(app.getCamera(), app.getCamera().getFrustumNear(), 32768f);
+    
+    rootNode.addLight(new AmbientLight(ColorRGBA.White));
+    rootNode.addLight(new DirectionalLight(app.getCamera().getDirection(), ColorRGBA.White));
   }
 
   @Override

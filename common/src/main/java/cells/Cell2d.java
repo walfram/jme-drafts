@@ -55,11 +55,6 @@ public record Cell2d(int x, int z, float extent) implements Cell {
   }
 
   @Override
-  public float distance(CellOffset offset) {
-    return 0;
-  }
-
-  @Override
   public Cell relative(CellOffset offset) {
     if (offset instanceof CellOffset2d ofs) {
       return new Cell2d(x + ofs.dx(), z + ofs.dz(), extent);
