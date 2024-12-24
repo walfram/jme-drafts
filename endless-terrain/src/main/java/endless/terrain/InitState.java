@@ -31,7 +31,7 @@ public class InitState extends BaseAppState {
   protected void initialize(Application app) {
     FlyByCamera flyCam = getState(FlyCamAppState.class).getCamera();
     flyCam.setDragToRotate(true);
-    flyCam.setMoveSpeed(50f);
+    flyCam.setMoveSpeed(250f);
     flyCam.setZoomSpeed(0f);
     getState(FlyCamAppState.class).setEnabled(false);
     

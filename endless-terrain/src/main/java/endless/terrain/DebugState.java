@@ -50,7 +50,7 @@ public class DebugState extends BaseAppState {
     speedValueText.setText(
         "speed = %.3f".formatted(getState(PlayerState.class).speedValue())
     );
-    
+
     altitudeValueText.setText(
         "altitude = %.3f".formatted(getState(PlayerState.class).altitudeValue())
     );

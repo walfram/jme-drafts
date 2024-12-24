@@ -7,19 +7,18 @@ import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
 import com.jme3.material.Materials;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import endless.terrain.heightmap.CellHeightmap;
 import endless.terrain.heightmap.TerrainChunkMesh;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import misc.Difference;
 import noise.FastNoiseLite;
+import noise.FastNoiseLite.FractalType;
+import noise.FastNoiseLite.NoiseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +39,8 @@ public class TerrainState extends BaseAppState {
 
   {
     noise.SetFrequency(0.001f);
+    noise.SetNoiseType(NoiseType.Value);
+    noise.SetFractalType(FractalType.PingPong);
   }
 
   public TerrainState(Node rootNode) {
@@ -54,19 +55,12 @@ public class TerrainState extends BaseAppState {
 
     Set<Cell> neighbours = origin.neighboursAll();
 
-//    material = new Material(app.getAssetManager(), Materials.UNSHADED);
-//    material.setColor("Color", ColorRGBA.Orange);
-//    material.setFloat("PointSize", 4f);
-
-//    material = new Material(app.getAssetManager(), "Common/MatDefs/Misc/ShowNormals.j3md");
     material = new Material(app.getAssetManager(), Materials.LIGHTING);
     material.setBoolean("UseMaterialColors", true);
-    material.setColor("Diffuse", ColorRGBA.Gray);
+    material.setColor("Diffuse", ColorRGBA.White);
     material.setColor("Ambient", ColorRGBA.Gray);
-//    material.getAdditionalRenderState().setWireframe(true);
     
     for (Cell cell : neighbours) {
-//      Geometry geometry = createGeometry(cell);
       Geometry geometry = cellToGeometry(cell);
       cache.put(cell, geometry);
       currentCells.put(cell, geometry);
@@ -111,47 +105,6 @@ public class TerrainState extends BaseAppState {
     return geometry;
   }
 
-//  private Geometry createGeometry(Cell cell) {
-//    List<Vector3f> points = createPoints(cell);
-//    Mesh mesh = new DebugPointMesh(points).create();
-//
-//    Geometry geometry = new Geometry(cell.toString(), mesh);
-//    geometry.setLocalTranslation(cell.translation());
-//    geometry.setMaterial(material);
-//    return geometry;
-//  }
-
-//  private List<Vector3f> createPoints(Cell cell) {
-//    int resolution = 33;
-//
-//    List<Vector3f> points = new ArrayList<>(resolution * resolution);
-//
-//    float cellExtent = getState(ConfigState.class).cellExtent();
-//    float cellWidth = 2f * cellExtent;
-//
-//    float delta = cellWidth / (resolution - 1);
-//    logger.debug("delta = {}", delta);
-//
-//    Vector3f center = cell.translation();
-//
-//    for (int x = 0; x < resolution; x++) {
-//      for (int z = 0; z < resolution; z++) {
-//        float dx = x * delta - cellExtent;
-//        float dz = z * delta - cellExtent;
-//
-//        float e = calculateHeight(center.x + dx, center.z + dz);
-//
-//        points.add(
-//            new Vector3f(dx, e, dz)
-//        );
-//      }
-//    }
-//
-//    logger.debug("points size = {}", points.size());
-//
-//    return points;
-//  }
-
   private float calculateHeight(float x, float z) {
     float e = noise.GetNoise(x, z);
 
@@ -159,7 +112,7 @@ public class TerrainState extends BaseAppState {
       e = 0f;
     }
 
-    return e * 64f;
+    return e * 128f;
   }
 
   @Override
