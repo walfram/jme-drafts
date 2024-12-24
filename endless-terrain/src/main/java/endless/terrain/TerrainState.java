@@ -99,7 +99,6 @@ public class TerrainState extends BaseAppState {
     }
     
     logger.debug("points size = {}", points.size());
-    logger.debug("points = {}", points);
     
     return points;
   }
