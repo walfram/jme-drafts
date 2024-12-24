@@ -3,4 +3,5 @@ include 'common'
 include 'resources'
 include 'wave-function-collapse'
 include 'endless-terrain'
+include 'planets'
 
