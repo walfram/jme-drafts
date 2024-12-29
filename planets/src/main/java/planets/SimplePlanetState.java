@@ -3,12 +3,14 @@ package planets;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
+import com.jme3.math.Easing;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.geom.DMesh;
 import com.simsilica.lemur.geom.Deformation;
 import com.simsilica.lemur.geom.MBox;
+import mesh.FlatShadedMesh;
 import noise.FastNoiseLite;
 import noise.FastNoiseLite.FractalType;
 import noise.FastNoiseLite.NoiseType;
@@ -42,20 +44,21 @@ public class SimplePlanetState extends BaseAppState {
 
       vert.normalizeLocal();
       if (v > 0) {
-        vert.multLocal(radius * (1 + v));
+//        vert.multLocal(radius * (1 + v));
+        vert.multLocal(1 + Easing.inCubic.apply(v)).multLocal(radius);
       } else {
         vert.multLocal(radius);
       }
-
+      
       normal.set(vert.normalize());
     };
 
     DMesh mesh = new DMesh(source, deform);
 
-    Geometry geometry = new Geometry("simple-planet", mesh);
+    Geometry geometry = new Geometry("simple-planet", new FlatShadedMesh(mesh));
 
     Material material = new Material(application.getAssetManager(), "Common/MatDefs/Misc/ShowNormals.j3md");
-     material.getAdditionalRenderState().setWireframe(true);
+//     material.getAdditionalRenderState().setWireframe(true);
 
     geometry.setMaterial(material);
 
