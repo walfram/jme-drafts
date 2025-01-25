@@ -1,0 +1,26 @@
+package galaxy.ship.designer;
+
+import com.jme3.app.SimpleApplication;
+import com.jme3.system.AppSettings;
+import com.simsilica.state.DebugHudState;
+
+public class ShipDesignerMain extends SimpleApplication {
+
+  public static void main(String[] args) {
+    AppSettings settings = new AppSettings(true);
+    settings.setResolution(1600, 800);
+
+    ShipDesignerMain app = new ShipDesignerMain();
+    app.setSettings(settings);
+    app.setShowSettings(false);
+    
+    app.start();
+  }
+  
+  @Override
+  public void simpleInitApp() {
+    stateManager.attach(new DesignerInitState(rootNode));
+    
+    stateManager.attach(new ShipParamsWidgetState(guiNode));
+  }
+}
