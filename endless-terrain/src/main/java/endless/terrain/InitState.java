@@ -14,6 +14,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.debug.Grid;
 import com.simsilica.lemur.GuiGlobals;
 import com.simsilica.lemur.style.BaseStyles;
+import debug.DebugGrid;
 import jme3utilities.MyCamera;
 import jme3utilities.debug.AxesVisualizer;
 
@@ -38,11 +39,7 @@ public class InitState extends BaseAppState {
     rootNode.addControl(axesVisualizer);
     axesVisualizer.setEnabled(true);
 
-    Geometry debugGrid = new Geometry("debug-grid", new Grid(8, 8, 2f * cellExtent));
-    debugGrid.setMaterial(new Material(app.getAssetManager(), Materials.UNSHADED));
-    debugGrid.getMaterial().setColor("Color", ColorRGBA.Blue);
-    rootNode.attachChild(debugGrid);
-    debugGrid.center();
+    new DebugGrid(app.getAssetManager(), cellExtent).attachTo(rootNode);
 
     MyCamera.setNearFar(app.getCamera(), app.getCamera().getFrustumNear(), 32768f);
     
