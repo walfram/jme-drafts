@@ -125,8 +125,7 @@ public class TerrainLodCheckApp extends SimpleApplication {
     List<Vector3f> points = Arrays.stream(indices).mapToObj(idx -> vertices[idx]).toList();
     logger.debug("points = {}", points);
 
-    DebugPointMesh debugPointMesh = new DebugPointMesh(points);
-    Geometry g = new Geometry("debug-point-mesh", debugPointMesh.create());
+    Geometry g = new Geometry("debug-point-mesh", new DebugPointMesh(points));
     g.setMaterial(new Material(assetManager, Materials.UNSHADED));
     g.getMaterial().setColor("Color", ColorRGBA.Yellow);
     g.getMaterial().setFloat("PointSize", 16f);

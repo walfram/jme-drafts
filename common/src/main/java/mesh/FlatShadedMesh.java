@@ -38,7 +38,6 @@ public class FlatShadedMesh extends Mesh {
     );
     updateBound();
     updateCounts();
-    ;
   }
 
   private static List<Triangle> trianglesOf(Mesh source) {

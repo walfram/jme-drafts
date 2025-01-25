@@ -21,7 +21,7 @@ public class SimplePlanetState extends BaseAppState {
 
   private static final Logger logger = LoggerFactory.getLogger(SimplePlanetState.class);
 
-  private static final float radius = 32f;
+  private static final float radius = 64f;
   
   private final Node scene = new Node("simple-planet-scene");
   private final FastNoiseLite noise = new FastNoiseLite(42);
@@ -45,7 +45,10 @@ public class SimplePlanetState extends BaseAppState {
       vert.normalizeLocal();
       if (v > 0) {
 //        vert.multLocal(radius * (1 + v));
-        vert.multLocal(1 + Easing.inCubic.apply(v)).multLocal(radius);
+        float eased = Easing.inCubic.apply(v);
+        logger.debug("v = {}, eased = {}", "%.4f".formatted(v), "%.4f".formatted(eased));
+//        vert.multLocal(1 + eased).multLocal(radius);
+        vert.addLocal(vert.mult(eased)).multLocal(radius);
       } else {
         vert.multLocal(radius);
       }

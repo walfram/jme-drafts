@@ -9,22 +9,14 @@ import java.util.List;
 
 public class DebugPointMesh extends Mesh {
 
-  private final List<Vector3f> points;
-
   public DebugPointMesh(List<Vector3f> points) {
-    this.points = points;
-  }
-
-  public Mesh create() {
-    Mesh mesh = new Mesh();
-    mesh.setMode(Mode.Points);
+    setMode(Mode.Points);
 
     FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(points.toArray(Vector3f[]::new));
-    mesh.setBuffer(Type.Position, 3, positionBuffer);
-    
-    mesh.updateBound();
-    mesh.updateCounts();
-    
-    return mesh;
+    setBuffer(Type.Position, 3, positionBuffer);
+
+    updateBound();
+    updateCounts();
   }
+
 }

@@ -92,7 +92,7 @@ public class RawTerrainChunkApp extends SimpleApplication {
     List<Vector3f> distinctPoints = triangles.stream().flatMap(t -> Stream.of(t.get1(), t.get2(), t.get3())).distinct().toList();
     logger.debug("distinct points = {}", distinctPoints.size());
 
-    Geometry distinctDebugPoints = new Geometry("distinct-debug-points", new DebugPointMesh(distinctPoints).create());
+    Geometry distinctDebugPoints = new Geometry("distinct-debug-points", new DebugPointMesh(distinctPoints));
     distinctDebugPoints.setMaterial(new Material(assetManager, Materials.UNSHADED));
     distinctDebugPoints.getMaterial().setColor("Color", ColorRGBA.Cyan);
     distinctDebugPoints.getMaterial().setFloat("PointSize", 8f);

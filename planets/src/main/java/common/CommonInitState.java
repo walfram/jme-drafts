@@ -1,4 +1,4 @@
-package planets;
+package common;
 
 import com.jme3.app.Application;
 import com.jme3.app.FlyCamAppState;
@@ -15,11 +15,11 @@ import com.jme3.scene.Node;
 import com.jme3.scene.debug.Grid;
 import jme3utilities.debug.AxesVisualizer;
 
-public class SimplePlanetsInit extends BaseAppState {
+public class CommonInitState extends BaseAppState {
 
   private final Node rootNode;
 
-  public SimplePlanetsInit(Node rootNode) {
+  public CommonInitState(Node rootNode) {
     this.rootNode = rootNode;
   }
 
