@@ -2,8 +2,6 @@ package endless.terrain;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import cells.Cell;
-import cells.Cell2d;
 import cells.CellOffset2d;
 import org.junit.jupiter.api.Test;
 
@@ -23,12 +21,12 @@ public class ChunkTest {
   
   @Test
   void should_create_cell_domain_for_current_cell() {
-    
+    // TODO
   }
   
   @Test
   void should_create_mesh_with_requested_resolution() {
-    
+    // TODO
   }
   
 }

@@ -8,7 +8,6 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.geom.DMesh;
 import com.simsilica.lemur.geom.MBox;
-import mesh.FlatShadedMesh;
 import noise.DefaultFastNoiseLite;
 import noise.FastNoiseLite;
 

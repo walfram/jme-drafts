@@ -12,7 +12,7 @@ public class LodLevelTest {
 
   private static final Logger logger = LoggerFactory.getLogger(LodLevelTest.class);
 
-  ReIndexedVertices reindex = new ReIndexedVertices();
+  final ReIndexedVertices reindex = new ReIndexedVertices();
   
   @Test
   // TODO remove magic numbers

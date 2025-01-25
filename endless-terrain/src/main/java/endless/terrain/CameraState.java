@@ -3,7 +3,6 @@ package endless.terrain;
 import com.jme3.app.Application;
 import com.jme3.app.FlyCamAppState;
 import com.jme3.app.state.BaseAppState;
-import com.jme3.bounding.BoundingBox;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Spatial;
