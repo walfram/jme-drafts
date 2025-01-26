@@ -2,7 +2,6 @@ package galaxy.ship.designer;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
-import com.simsilica.state.DebugHudState;
 
 public class ShipDesignerMain extends SimpleApplication {
 
