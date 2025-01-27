@@ -36,4 +36,5 @@ public class ShipDesign implements Weighted, Producible {
   public double requiredMaterialAmount() {
     return weight() * 10.0;
   }
+
 }

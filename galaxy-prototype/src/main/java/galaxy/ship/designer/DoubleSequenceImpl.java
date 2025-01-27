@@ -2,9 +2,13 @@ package galaxy.ship.designer;
 
 import com.simsilica.lemur.SequenceModels.AbstractSequence;
 
-public class SequenceModelImpl extends AbstractSequence<Double> {
+public class DoubleSequenceImpl extends AbstractSequence<Double> {
 
   private double value = 0;
+
+  public DoubleSequenceImpl(double initialValue) {
+    this.value = initialValue;
+  }
 
   @Override
   public Double getObject() {

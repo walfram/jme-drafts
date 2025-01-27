@@ -13,22 +13,21 @@ import com.simsilica.lemur.core.VersionedReference;
 import com.simsilica.lemur.event.CursorEventControl;
 import com.simsilica.lemur.event.CursorMotionEvent;
 import com.simsilica.lemur.event.DefaultCursorListener;
-import galaxy.ship.designer.SequenceModelImpl;
 import jme3utilities.SimpleControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SpinnerWidget extends Container {
+public class SpinnerWidget<T extends Number> extends Container {
 
   private static final Logger logger = LoggerFactory.getLogger(SpinnerWidget.class);
-  
-  private final SequenceModel<Double> model = new SequenceModelImpl();
-  private final VersionedReference<Double> reference = model.createReference();
-  
-  public SpinnerWidget() {
+  private final VersionedReference<T> reference;
+
+  public SpinnerWidget(SequenceModel<T> model) {
     super(new SpringGridLayout(Axis.Y, Axis.X, FillMode.Even, FillMode.First));
 
-    Label label = addChild(new Label("%.02f".formatted(model.getObject())));
+    this.reference = model.createReference();
+    
+    Label label = addChild(new Label("%.02f".formatted(model.getObject().doubleValue())));
 
     Button decrease = addChild(new Button("-"), 1);
     decrease.setMaxWidth(32f);
@@ -44,7 +43,8 @@ public class SpinnerWidget extends Container {
       @Override
       protected void controlUpdate(float updateInterval) {
         if (reference.update()) {
-          label.setText("%.02f".formatted(model.getObject()));
+          label.setText("%.02f".formatted(model.getObject().doubleValue()));
+          // holder.updateObject(model.getObject());
         }
       }
     });
