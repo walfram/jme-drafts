@@ -7,22 +7,22 @@ public class ShipDesign implements Weighted, Producible {
   private final Shields shields;
   private final Cargo cargo;
 
-  public ShipDesign(double drives, int weapons, double firepower, double shields, double cargo) {
-    if (drives == 0 && weapons == 0 && firepower == 0 && shields == 0 && cargo == 0) {
+  public ShipDesign(double drives, int guns, double caliber, double shields, double cargo) {
+    if (drives == 0 && guns == 0 && caliber == 0 && shields == 0 && cargo == 0) {
       throw new IllegalArgumentException("All arguments cannot be zero!");
     }
 
     this.drives = new Drives(new ZeroOrMoreThen<>(drives, 1).value());
 
-    if (weapons != 0 && firepower == 0) {
+    if (guns != 0 && caliber == 0) {
+      throw new IllegalArgumentException("");
+    }
+
+    if (guns == 0 && caliber != 0) {
       throw new IllegalArgumentException();
     }
 
-    if (weapons == 0 && firepower != 0) {
-      throw new IllegalArgumentException();
-    }
-
-    this.weapons = new Weapons(new ZeroOrMoreThen<>(weapons, 1).value(), new ZeroOrMoreThen<>(firepower, 1).value());
+    this.weapons = new Weapons(new ZeroOrMoreThen<>(guns, 1).value(), new ZeroOrMoreThen<>(caliber, 1).value());
     this.shields = new Shields(new ZeroOrMoreThen<>(shields, 1).value());
     this.cargo = new Cargo(new ZeroOrMoreThen<>(cargo, 1).value());
   }
@@ -35,6 +35,22 @@ public class ShipDesign implements Weighted, Producible {
   @Override
   public double requiredMaterialAmount() {
     return weight() * 10.0;
+  }
+
+  public Drives drives() {
+    return drives;
+  }
+
+  public Weapons weapons() {
+    return weapons;
+  }
+
+  public Shields shields() {
+    return shields;
+  }
+
+  public Cargo cargo() {
+    return cargo;
   }
 
 }
