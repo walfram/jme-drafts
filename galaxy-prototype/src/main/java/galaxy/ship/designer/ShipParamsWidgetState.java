@@ -11,9 +11,7 @@ import com.simsilica.lemur.core.VersionedHolder;
 import com.simsilica.lemur.core.VersionedReference;
 import com.simsilica.lemur.core.VersionedReferenceList;
 import com.simsilica.lemur.style.ElementId;
-import galaxy.ship.designer.widgets.MySpinner;
 import galaxy.ship.designer.widgets.SpinnerWidget;
-import galaxy.ship.model.Drives;
 import galaxy.ship.model.ShipDesign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +30,9 @@ public class ShipParamsWidgetState extends BaseAppState {
   private final SequenceModel<Double> modelShields = new DoubleSequenceImpl(holder.getObject().shields().power());
   private final SequenceModel<Double> modelCargo = new DoubleSequenceImpl(holder.getObject().cargo().volume());
 
+  private final VersionedReference<Integer> refGuns = modelGuns.createReference();
+  private final VersionedReference<Double> refCaliber = modelCaliber.createReference();
+  
   VersionedReferenceList reference = VersionedReferenceList.create(modelDrives, modelGuns, modelCaliber, modelShields, modelCargo);
 
   public ShipParamsWidgetState(Node guiNode) {
@@ -62,21 +63,29 @@ public class ShipParamsWidgetState extends BaseAppState {
     Container cargo = new SpinnerWidget<>(modelCargo);
     container.addChild(cargo);
 
-    SequenceModel<Drives> model = container.addChild(new MySpinner<>(new Drives(1))).model();
-    VersionedReference<Drives> ref = model.createReference();
-
     container.setLocalTranslation(10, application.getCamera().getHeight() - 10, 0);
   }
 
   @Override
   public void update(float tpf) {
+    if (refGuns.update()) {
+      if (modelCaliber.getObject() == 0) {
+        modelCaliber.setObject(1.0);
+      }
+    }
+    
+    if (refCaliber.update()) {
+      if (modelGuns.getObject() == 0) {
+        modelGuns.setObject(1);
+      }
+    }
+    
     if (reference.update()) {
-      logger.debug("design params changed = {}", reference);
-      
       try {
         ShipDesign shipDesign = new ShipDesign(modelDrives.getObject(), modelGuns.getObject(), modelCaliber.getObject(), modelShields.getObject(),
             modelCargo.getObject());
         holder.setObject(shipDesign);
+        logger.debug("ship design = {}", shipDesign);
       } catch (IllegalArgumentException e) {
         logger.error(e.getMessage(), e);
       }

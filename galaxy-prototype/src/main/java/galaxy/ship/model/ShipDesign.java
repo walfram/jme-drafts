@@ -28,6 +28,11 @@ public class ShipDesign implements Weighted, Producible {
   }
 
   @Override
+  public String toString() {
+    return "ShipDesign{%s,%s,%s,%s}".formatted(drives, weapons, shields, cargo);
+  }
+
+  @Override
   public double weight() {
     return drives.weight() + weapons.weight() + shields.weight() + cargo.weight();
   }
