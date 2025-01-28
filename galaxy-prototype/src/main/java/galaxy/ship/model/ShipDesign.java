@@ -27,6 +27,10 @@ public class ShipDesign implements Weighted, Producible {
     this.cargo = new Cargo(new ZeroOrMoreThen<>(cargo, 1).value());
   }
 
+  public static ShipDesign minimal() {
+    return new ShipDesign(1, 0, 0, 0, 0);
+  }
+
   @Override
   public String toString() {
     return "ShipDesign{%s,%s,%s,%s}".formatted(drives, weapons, shields, cargo);

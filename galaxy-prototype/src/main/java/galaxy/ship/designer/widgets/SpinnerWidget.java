@@ -20,13 +20,16 @@ import org.slf4j.LoggerFactory;
 public class SpinnerWidget<T extends Number> extends Container {
 
   private static final Logger logger = LoggerFactory.getLogger(SpinnerWidget.class);
+  
+  private final SequenceModel<T> model;
   private final VersionedReference<T> reference;
 
   public SpinnerWidget(SequenceModel<T> model) {
     super(new SpringGridLayout(Axis.Y, Axis.X, FillMode.Even, FillMode.First));
 
     this.reference = model.createReference();
-    
+    this.model = model;
+
     Label label = addChild(new Label("%.02f".formatted(model.getObject().doubleValue())));
 
     Button decrease = addChild(new Button("-"), 1);
@@ -62,5 +65,8 @@ public class SpinnerWidget<T extends Number> extends Container {
       }
     });
   }
-  
+
+  public SequenceModel<T> model() {
+    return model;
+  }
 }

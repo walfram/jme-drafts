@@ -3,15 +3,17 @@ package galaxy.ship.designer;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.scene.Node;
-import com.simsilica.lemur.Axis;
 import com.simsilica.lemur.Container;
-import com.simsilica.lemur.FillMode;
-import com.simsilica.lemur.component.SpringGridLayout;
+import com.simsilica.lemur.core.VersionedHolder;
+import com.simsilica.lemur.core.VersionedReference;
+import galaxy.ship.model.ShipDesign;
 
 public class ShipDesignUiState extends BaseAppState {
 
   private final Node gui = new Node("ship-design-ui-node");
 
+  private final VersionedHolder<ShipDesign> holder = new VersionedHolder<>(ShipDesign.minimal());
+  
   public ShipDesignUiState(Node guiNode) {
     guiNode.attachChild(gui);
   }
@@ -21,7 +23,7 @@ public class ShipDesignUiState extends BaseAppState {
     Container main = new Container();
 
     Container top = main.addChild(new Container());
-    top.addChild(new ShipBaseParametersWidget());
+    top.addChild(new ShipBaseParametersWidget(holder));
     top.addChild(new ShipCalculatedParametersWidget(), 1);
 
     main.addChild(new PlanetInfoWidget());
@@ -43,5 +45,9 @@ public class ShipDesignUiState extends BaseAppState {
   @Override
   protected void onDisable() {
 
+  }
+
+  public VersionedReference<ShipDesign> shipDesignReference() {
+    return holder.createReference();
   }
 }

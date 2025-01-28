@@ -16,13 +16,14 @@ import galaxy.ship.model.ShipDesign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Deprecated
 public class ShipParamsWidgetState extends BaseAppState {
 
   private static final Logger logger = LoggerFactory.getLogger(ShipParamsWidgetState.class);
 
   private final Node gui = new Node("ship-parameters-widget-node");
 
-  private final VersionedHolder<ShipDesign> holder = new VersionedHolder<>(new ShipDesign(1, 0, 0, 0, 0));
+  private final VersionedHolder<ShipDesign> holder = new VersionedHolder<>(ShipDesign.minimal());
 
   private final SequenceModel<Double> modelDrives = new DoubleSequenceImpl(holder.getObject().drives().size());
   private final SequenceModel<Integer> modelGuns = new IntegerSequenceImpl(holder.getObject().weapons().guns());
@@ -44,7 +45,7 @@ public class ShipParamsWidgetState extends BaseAppState {
     Container container = new Container();
     gui.attachChild(container);
 
-    Label header = container.addChild(new Label("Ship parameters", new ElementId("header")));
+    Label header = container.addChild(new Label("Ship parameters", new ElementId("title")));
     header.setMaxWidth(320f);
     container.addChild(new Button("test"));
 
