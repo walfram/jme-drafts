@@ -20,6 +20,8 @@ public class ShipDesignerMain extends SimpleApplication {
   public void simpleInitApp() {
     stateManager.attach(new DesignerInitState(rootNode));
     
-    stateManager.attach(new ShipParamsWidgetState(guiNode));
+    // stateManager.attach(new ShipParamsWidgetState(guiNode));
+    
+    stateManager.attach(new ShipDesignUiState(guiNode));
   }
 }

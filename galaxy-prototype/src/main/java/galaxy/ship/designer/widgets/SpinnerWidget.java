@@ -53,7 +53,6 @@ public class SpinnerWidget<T extends Number> extends Container {
       @Override
       public void cursorMoved(CursorMotionEvent event, Spatial target, Spatial capture) {
         if (event.getScrollDelta() != 0) {
-          logger.debug("scroll = {}", event.getScrollDelta());
           if (event.getScrollDelta() > 0) {
             model.setObject(model.getNextObject());
           } else if (event.getScrollDelta() < 0) {
