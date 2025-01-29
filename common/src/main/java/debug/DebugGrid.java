@@ -12,14 +12,20 @@ public class DebugGrid {
 
   private final AssetManager assetManager;
   private final float cellExtent;
+  private final int lines;
 
   public DebugGrid(AssetManager assetManager, float cellExtent) {
+    this(assetManager, cellExtent, 8);
+  }
+  
+  public DebugGrid(AssetManager assetManager, float cellExtent, int lines) {
     this.assetManager = assetManager;
     this.cellExtent = cellExtent;
+    this.lines = lines;
   }
 
   public void attachTo(Node node) {
-    Geometry debugGrid = new Geometry("debug-grid", new Grid(8, 8, 2f * cellExtent));
+    Geometry debugGrid = new Geometry("debug-grid", new Grid(lines, lines, 2f * cellExtent));
     debugGrid.setMaterial(new Material(assetManager, Materials.UNSHADED));
     debugGrid.getMaterial().setColor("Color", ColorRGBA.Blue);
     node.attachChild(debugGrid);
