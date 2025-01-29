@@ -1,6 +1,4 @@
-package galaxy.planet;
-
-import galaxy.ship.model.ZeroOrMoreThen;
+package galaxy.domain.planet;
 
 public record Planet(Size size, Resources resources, Population population, Industry industry) {
 

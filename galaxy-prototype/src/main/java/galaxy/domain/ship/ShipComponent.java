@@ -1,4 +1,4 @@
-package galaxy.ship.model;
+package galaxy.domain.ship;
 
 public interface ShipComponent {
 

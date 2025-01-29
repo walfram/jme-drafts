@@ -1,4 +1,4 @@
-package galaxy.ship.designer;
+package galaxy.ship.designer.widgets;
 
 import com.simsilica.lemur.Axis;
 import com.simsilica.lemur.Container;
@@ -6,7 +6,7 @@ import com.simsilica.lemur.FillMode;
 import com.simsilica.lemur.Label;
 import com.simsilica.lemur.component.SpringGridLayout;
 import com.simsilica.lemur.style.ElementId;
-import galaxy.ship.designer.widgets.SpinnerWidget;
+import galaxy.ship.designer.model.DoubleSequenceImpl;
 
 public class ShipCalculatedParametersWidget extends Container {
 

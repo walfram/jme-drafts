@@ -7,7 +7,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.simsilica.lemur.SequenceModel;
 import com.simsilica.lemur.core.VersionedHolder;
 import com.simsilica.lemur.core.VersionedReference;
-import galaxy.ship.model.Drives;
+import galaxy.ship.designer.model.DoubleSequenceImpl;
+import galaxy.domain.ship.Drives;
 import org.junit.jupiter.api.Test;
 
 public class VersionedStuffTest {

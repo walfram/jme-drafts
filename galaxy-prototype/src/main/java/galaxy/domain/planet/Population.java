@@ -1,4 +1,4 @@
-package galaxy.planet;
+package galaxy.domain.planet;
 
 public record Population(double value, double max) {
 

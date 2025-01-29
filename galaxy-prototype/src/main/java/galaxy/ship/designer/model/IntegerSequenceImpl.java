@@ -1,4 +1,4 @@
-package galaxy.ship.designer;
+package galaxy.ship.designer.model;
 
 import com.simsilica.lemur.SequenceModels.AbstractSequence;
 

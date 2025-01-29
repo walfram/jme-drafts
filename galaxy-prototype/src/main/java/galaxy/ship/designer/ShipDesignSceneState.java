@@ -7,7 +7,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Cylinder;
 import com.simsilica.lemur.core.VersionedReference;
-import galaxy.ship.model.ShipDesign;
+import galaxy.domain.ship.ShipDesign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

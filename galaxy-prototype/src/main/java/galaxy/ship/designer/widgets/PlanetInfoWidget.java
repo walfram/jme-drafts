@@ -1,4 +1,4 @@
-package galaxy.ship.designer;
+package galaxy.ship.designer.widgets;
 
 import com.simsilica.lemur.Container;
 import com.simsilica.lemur.Label;

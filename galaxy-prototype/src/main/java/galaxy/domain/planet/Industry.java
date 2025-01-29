@@ -1,4 +1,4 @@
-package galaxy.planet;
+package galaxy.domain.planet;
 
 public record Industry(double value, double max) {
 

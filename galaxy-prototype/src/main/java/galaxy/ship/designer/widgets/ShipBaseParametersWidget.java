@@ -1,4 +1,4 @@
-package galaxy.ship.designer;
+package galaxy.ship.designer.widgets;
 
 import com.simsilica.lemur.Axis;
 import com.simsilica.lemur.Container;
@@ -9,8 +9,9 @@ import com.simsilica.lemur.core.VersionedHolder;
 import com.simsilica.lemur.core.VersionedReference;
 import com.simsilica.lemur.core.VersionedReferenceList;
 import com.simsilica.lemur.style.ElementId;
-import galaxy.ship.designer.widgets.SpinnerWidget;
-import galaxy.ship.model.ShipDesign;
+import galaxy.ship.designer.model.DoubleSequenceImpl;
+import galaxy.ship.designer.model.IntegerSequenceImpl;
+import galaxy.domain.ship.ShipDesign;
 import jme3utilities.SimpleControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

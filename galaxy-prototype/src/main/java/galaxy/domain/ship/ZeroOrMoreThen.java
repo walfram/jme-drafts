@@ -1,4 +1,4 @@
-package galaxy.ship.model;
+package galaxy.domain.ship;
 
 public class ZeroOrMoreThen<T extends Number> {
 

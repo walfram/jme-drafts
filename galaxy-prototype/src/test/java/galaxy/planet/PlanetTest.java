@@ -2,6 +2,11 @@ package galaxy.planet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import galaxy.domain.planet.Industry;
+import galaxy.domain.planet.Planet;
+import galaxy.domain.planet.Population;
+import galaxy.domain.planet.Resources;
+import galaxy.domain.planet.Size;
 import org.junit.jupiter.api.Test;
 
 class PlanetTest {

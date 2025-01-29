@@ -6,7 +6,10 @@ import com.jme3.scene.Node;
 import com.simsilica.lemur.Container;
 import com.simsilica.lemur.core.VersionedHolder;
 import com.simsilica.lemur.core.VersionedReference;
-import galaxy.ship.model.ShipDesign;
+import galaxy.ship.designer.widgets.PlanetInfoWidget;
+import galaxy.ship.designer.widgets.ShipBaseParametersWidget;
+import galaxy.ship.designer.widgets.ShipCalculatedParametersWidget;
+import galaxy.domain.ship.ShipDesign;
 
 public class ShipDesignUiState extends BaseAppState {
 

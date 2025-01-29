@@ -2,6 +2,7 @@ package galaxy.ship.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import galaxy.domain.ship.ShipDesign;
 import org.junit.jupiter.api.Test;
 
 public class ShipWeightTest {

@@ -11,8 +11,10 @@ import com.simsilica.lemur.core.VersionedHolder;
 import com.simsilica.lemur.core.VersionedReference;
 import com.simsilica.lemur.core.VersionedReferenceList;
 import com.simsilica.lemur.style.ElementId;
+import galaxy.ship.designer.model.DoubleSequenceImpl;
+import galaxy.ship.designer.model.IntegerSequenceImpl;
 import galaxy.ship.designer.widgets.SpinnerWidget;
-import galaxy.ship.model.ShipDesign;
+import galaxy.domain.ship.ShipDesign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
