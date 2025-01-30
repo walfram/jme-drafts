@@ -7,6 +7,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.shape.Cylinder;
 import com.jme3.scene.shape.Torus;
 import com.jme3.system.AppSettings;
+import debug.QuickChaseCamera;
 import debug.QuickSetup;
 import mesh.FlatShadedMesh;
 
@@ -37,6 +38,8 @@ public class ShipShapeTest extends SimpleApplication {
     geometry.setMaterial(material);
     geometry.scale(0.75f, 1.25f, 1f);
     rootNode.attachChild(geometry);
+    
+    new QuickChaseCamera(cam, inputManager).init(rootNode);
   }
 
 

@@ -38,6 +38,8 @@ public class ShipDesignSceneState extends BaseAppState {
   // no shields = 
   
   // flying saucer, spindle
+  
+  // DMesh with com.simsilica.lemur.geom.Deformation's
 
   @Override
   public void update(float tpf) {
