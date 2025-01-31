@@ -40,6 +40,8 @@ public class ShipDesignSceneState extends BaseAppState {
   // flying saucer, spindle
   
   // DMesh with com.simsilica.lemur.geom.Deformation's
+  
+  // volume of 3d cells, each cell representing ship module, module is primitive shape
 
   @Override
   public void update(float tpf) {

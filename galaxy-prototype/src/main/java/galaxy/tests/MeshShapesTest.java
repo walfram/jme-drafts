@@ -89,10 +89,6 @@ public class MeshShapesTest extends SimpleApplication {
       Geometry geometry = new Geometry(mesh.getClass().getSimpleName(), new FlatShadedMesh(mesh));
       geometry.setMaterial(material);
 
-//      if ("Torus".equals(mesh.getClass().getSimpleName()) || "Cylinder".equals(mesh.getClass().getSimpleName())) {
-        geometry.scale(1, 1, 2);
-//      }
-      
       Cell c = iterator.next();
       geometry.setLocalTranslation(c.translation());
 
