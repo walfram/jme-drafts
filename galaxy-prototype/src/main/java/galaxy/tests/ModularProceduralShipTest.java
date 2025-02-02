@@ -1,6 +1,9 @@
 package galaxy.tests;
 
+import static com.jme3.math.FastMath.ZERO_TOLERANCE;
+import static com.jme3.math.FastMath.abs;
 import static com.jme3.math.FastMath.cos;
+import static com.jme3.math.FastMath.sign;
 import static com.jme3.math.FastMath.sin;
 
 import cells.Cell2d;
@@ -48,7 +51,7 @@ public class ModularProceduralShipTest extends SimpleApplication {
     new QuickSetup().applyTo(this);
 
     material = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
-//     material.getAdditionalRenderState().setWireframe(true);
+    // material.getAdditionalRenderState().setWireframe(true);
 
     mk5();
 
@@ -58,13 +61,29 @@ public class ModularProceduralShipTest extends SimpleApplication {
   private void mk5() {
     float extent = 32f;
     
-    Mesh mesh = new Cylinder(4, 6, 8, 16, 2f * extent, true, false);
+    Mesh source = new Cylinder(4, 6, 4, 16, 2f * extent, true, false);
 
-    Geometry hull = new Geometry("hull", new FlatShadedMesh(mesh));
+    Mesh mesh = new DMesh(source, (v, n) -> {
+      if (abs(v.y) > ZERO_TOLERANCE) {
+        v.y = 8f * sign(v.y);
+      }
+      
+      if (abs(v.y) < ZERO_TOLERANCE) {
+        float factor = FastMath.unInterpolateLinear(v.z, 2f * extent, -extent);
+        v.x = extent * factor * sign(v.x);
+      }
+    });
+
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(source));
     hull.setMaterial(material);
     rootNode.attachChild(hull);
-    
-    hull.scale(1, 0.5f, 1);
+    new ScaleUpTo(extent, 8, extent, hull).scale();
+
+    Geometry cargo = new Geometry("cargo", new FlatShadedMesh(new Cylinder(2, 6, extent, 2f * extent, true)));
+    cargo.setMaterial(material);
+    rootNode.attachChild(cargo);
+    new ScaleUpTo(extent, 8f, extent, cargo).scale();
+    cargo.setLocalTranslation(new Cell2d(0, -1, extent).translation());
   }
   
   private void mk4() {
