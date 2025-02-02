@@ -32,9 +32,9 @@ public class ShipDesignSceneState extends BaseAppState {
     designReference = getState(ShipDesignUiState.class).shipDesignReference();
   }
   
-  // no engines = sphere or cube
-  // no weapons = cylinder (triangle shape for cargo attachment)
-  // no cargo = cylinder
+  // no engines = orbital platform: sphere or cube
+  // no weapons = cargo ship: cylinder (triangle shape for cargo attachment)
+  // no cargo = combat ship: cylinder
   // no shields = 
   
   // flying saucer, spindle

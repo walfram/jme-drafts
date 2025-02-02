@@ -3,6 +3,7 @@ package galaxy.tests;
 import static com.jme3.math.FastMath.cos;
 import static com.jme3.math.FastMath.sin;
 
+import cells.Cell2d;
 import com.jme3.app.SimpleApplication;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.material.Material;
@@ -24,9 +25,12 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import jme3utilities.mesh.Icosphere;
 import mesh.FlatShadedMesh;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ModularProceduralShipTest extends SimpleApplication {
 
+  private static final Logger logger = LoggerFactory.getLogger(ModularProceduralShipTest.class);
   private Material material;
 
   public static void main(String[] args) {
@@ -35,43 +39,108 @@ public class ModularProceduralShipTest extends SimpleApplication {
     ModularProceduralShipTest app = new ModularProceduralShipTest();
     app.setSettings(settings);
     app.setShowSettings(false);
-    
+
     app.start();
   }
-  
+
   @Override
   public void simpleInitApp() {
     new QuickSetup().applyTo(this);
 
     material = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
+//     material.getAdditionalRenderState().setWireframe(true);
 
-    mk2();
+    mk5();
 
     new QuickChaseCamera(cam, inputManager).init(rootNode);
   }
+  
+  private void mk5() {
+    float extent = 32f;
+    
+    Mesh mesh = new Cylinder(4, 6, 8, 16, 2f * extent, true, false);
 
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(mesh));
+    hull.setMaterial(material);
+    rootNode.attachChild(hull);
+    
+    hull.scale(1, 0.5f, 1);
+  }
+  
+  private void mk4() {
+    float cellExtent = 32f;
+    
+    Geometry bridge = new Geometry("bridge", new FlatShadedMesh(new Cylinder(4, 6, 5, 10, 24, true, false)));
+    bridge.setMaterial(material);
+    rootNode.attachChild(bridge);
+    bridge.setLocalTranslation(new Cell2d(0, 1, cellExtent).translation());
+    bridge.scale(2, 1, 1);
+    bridge.move(0, 0, -20);
+
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(4, 6, 10, 2f * cellExtent, true)));
+    hull.setMaterial(material);
+    rootNode.attachChild(hull);
+    hull.setLocalTranslation(new Cell2d(0, 0, cellExtent).translation());
+    hull.scale(2, 1, 1);
+
+    Geometry left = new Geometry("left", new FlatShadedMesh(new Cylinder(4, 6, 5, cellExtent, true)));
+    left.setMaterial(material);
+    rootNode.attachChild(left);
+    left.move(24, 0, 0);
+    
+    Geometry right = new Geometry("right", new FlatShadedMesh(new Cylinder(4, 6, 5, cellExtent, true)));
+    right.setMaterial(material);
+    rootNode.attachChild(right);
+    right.move(-24, 0, 0);
+  }
+
+  // truncated pyramid
+  private void mk3() {
+    float xExtent = 8f;
+    float yExtent = 8f;
+    float zExtent = 24f;
+
+    Mesh source = new MBox(xExtent, yExtent, zExtent, 4, 4, 4);
+
+    Deformation deformation = (v, n) -> {
+      float factor = FastMath.unInterpolateLinear(v.z, 2f * zExtent, -zExtent);
+      logger.debug("z = {}, factor = {}", v.z, factor);
+      
+      v.x *= factor;
+      v.y *= factor;
+    };
+
+    Mesh mesh = new DMesh(source, deformation);
+
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(mesh));
+    hull.setMaterial(material);
+
+    rootNode.attachChild(hull);
+  }
+
+  // combination of deformed shapes and 3d primitives
   private void mk2() {
     Mesh source = new MBox(2, 2, 8, 0, 0, 0);
-    
+
     Deformation deformationPos = (v, n) -> {
       if (v.x == 2) {
         v.y *= 0.5f;
         v.z *= 0.5f;
       }
     };
-    
+
     Geometry cargoXPos = new Geometry("cargo-x-pos", new FlatShadedMesh(new DMesh(source.clone(), deformationPos)));
     cargoXPos.setMaterial(material);
     cargoXPos.move(6, 0, 0);
     rootNode.attachChild(cargoXPos);
-    
+
     Deformation deformationNeg = (v, n) -> {
       if (v.x == -2) {
         v.y *= 0.5f;
         v.z *= 0.5f;
       }
     };
-    
+
     Geometry cargoXNeg = new Geometry("cargo-x-neg", new FlatShadedMesh(new DMesh(source.clone(), deformationNeg)));
     cargoXNeg.setMaterial(material);
     cargoXNeg.move(-6, 0, 0);
@@ -80,26 +149,32 @@ public class ModularProceduralShipTest extends SimpleApplication {
     Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(2, 8, 4, 24, true)));
     hull.setMaterial(material);
     rootNode.attachChild(hull);
-    
+
     int engineCount = 8;
     float delta = FastMath.TWO_PI / engineCount;
-    
+
     Mesh engineMesh = new Cylinder(2, 6, 1f, 4f, true);
-    
-    float radius = 4f; // same as hull
+
+    float radius = 3f;
     for (int i = 0; i < engineCount; i++) {
       Geometry engine = new Geometry("engine-%s".formatted(i), engineMesh);
       engine.setMaterial(material);
-      
+
       float dx = radius * cos(i * delta);
       float dy = radius * sin(i * delta);
-      
-      engine.setLocalTranslation(new Vector3f(0, 0, -12).addLocal(dx, dy, 0));
-      
+
+      engine.setLocalTranslation(new Vector3f(0, 0, -14).addLocal(dx, dy, 0));
+
       rootNode.attachChild(engine);
     }
+
+    Geometry bridge = new Geometry("bridge", new FlatShadedMesh(new Icosphere(1, 5)));
+    bridge.setMaterial(material);
+    bridge.move(0, 0, 15);
+    rootNode.attachChild(bridge);
   }
 
+  // simple shapes in a row
   private void mk1() {
     Deque<Spatial> modules = new ArrayDeque<>();
 
@@ -118,10 +193,10 @@ public class ModularProceduralShipTest extends SimpleApplication {
     float cellExtent = 8f;
 
     float dz = 0;
-    for (Spatial spatial: modules) {
+    for (Spatial spatial : modules) {
       spatial.move(0, 0, dz);
       rootNode.attachChild(spatial);
-      
+
       BoundingBox bound = (BoundingBox) spatial.getWorldBound();
       dz -= bound.getZExtent() * 2f;
     }

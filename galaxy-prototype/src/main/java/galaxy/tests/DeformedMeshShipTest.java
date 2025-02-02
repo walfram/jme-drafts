@@ -45,6 +45,7 @@ public class DeformedMeshShipTest extends SimpleApplication {
     new QuickChaseCamera(cam, inputManager).init(rootNode);
   }
 
+  // deformed cylinder
   private void mk2(Material material) {
     Deformation deformation = (v, n) -> {
       float f = -0.0625f * v.z + 1.25f;
@@ -66,6 +67,7 @@ public class DeformedMeshShipTest extends SimpleApplication {
     rootNode.attachChild(geometry);
   }
 
+  // ellipse
   private void mk1(Material material) {
     MBox box = new MBox(extent, extent, extent, 4, 4, 8);
 
