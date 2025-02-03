@@ -2,6 +2,7 @@ package debug;
 
 import com.jme3.input.ChaseCamera;
 import com.jme3.input.InputManager;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
@@ -25,9 +26,12 @@ public class QuickChaseCamera {
     chaseCamera.setInvertVerticalAxis(true);
     chaseCamera.setUpVector(Vector3f.UNIT_Y);
     
-    chaseCamera.setDefaultDistance(32);
+    chaseCamera.setDefaultDistance(64);
     chaseCamera.setMaxDistance(256);
     
     chaseCamera.setZoomSensitivity(8);
+    
+    chaseCamera.setDefaultHorizontalRotation(FastMath.QUARTER_PI);
+    
   }
 }
