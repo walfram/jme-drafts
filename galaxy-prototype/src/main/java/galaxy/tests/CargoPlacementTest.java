@@ -33,7 +33,7 @@ public class CargoPlacementTest extends SimpleApplication {
   public void simpleInitApp() {
     new QuickSetup(4f, 32).applyTo(this);
 
-    int cargo = 147;
+    int cargo = 47;
     int groups = 3;
 
     int baseSize = cargo / groups;
@@ -48,18 +48,15 @@ public class CargoPlacementTest extends SimpleApplication {
     int to = groups - 1;
     logger.debug("x from = {}, to = {}", from, to);
 
+    List<Integer> split = new Splitted(cargo, groups).split();
+
+    int group = 0;
     for (int x = from; x <= to; x += 2) {
       logger.debug("x = {}", x);
       int zFrom = baseSize / 2;
 
-      int e = 0;
-      if (extra > 0) {
-        e++;
-        extra--;
-      }
-
       int z = zFrom;
-      while (z > (zFrom - baseSize - e)) {
+      while (z > (zFrom - split.get(group))) {
         // add container
         Geometry container = new Geometry("container-%s-%s".formatted(x, z), containerMesh);
         container.setMaterial(material);
@@ -69,6 +66,8 @@ public class CargoPlacementTest extends SimpleApplication {
 
         z--;
       }
+      
+      group++;
     }
 
     new QuickChaseCamera(cam, inputManager).init(rootNode);
