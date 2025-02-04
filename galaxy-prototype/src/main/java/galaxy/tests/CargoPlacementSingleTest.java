@@ -10,24 +10,23 @@ import com.jme3.system.AppSettings;
 import debug.QuickAppSettings;
 import debug.QuickChaseCamera;
 import debug.QuickSetup;
-import java.util.ArrayList;
 import java.util.List;
 import mesh.FlatShadedMesh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CargoPlacementTest extends SimpleApplication {
+public class CargoPlacementSingleTest extends SimpleApplication {
 
   public static void main(String[] args) {
     AppSettings settings = new QuickAppSettings().settings();
 
-    CargoPlacementTest app = new CargoPlacementTest();
+    CargoPlacementSingleTest app = new CargoPlacementSingleTest();
     app.setSettings(settings);
     app.setShowSettings(false);
     app.start();
   }
 
-  private static final Logger logger = LoggerFactory.getLogger(CargoPlacementTest.class);
+  private static final Logger logger = LoggerFactory.getLogger(CargoPlacementSingleTest.class);
 
   @Override
   public void simpleInitApp() {
