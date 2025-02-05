@@ -2,7 +2,10 @@ package galaxy.tests;
 
 import cells.Cell2d;
 import com.jme3.app.SimpleApplication;
+import com.jme3.material.Material;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.shape.Cylinder;
 import com.jme3.system.AppSettings;
 import debug.QuickAppSettings;
 import debug.QuickChaseCamera;
@@ -33,9 +36,12 @@ public class CargoPlacementBatchTest extends SimpleApplication {
     // rootNode.attachChild(new CargoBatch(assetManager));
 
     int[] xRange = IntStream.range(-1, 2).toArray();
-    int[] zRange = IntStream.range(-3, 4).toArray();
+    logger.debug("x range = {}", xRange);
     
-    int[] yRange = IntStream.range(-2, 1).toArray();
+    int[] zRange = IntStream.range(-3, 4).toArray();
+    logger.debug("z range = {}", zRange);
+    
+    int[] yRange = IntStream.range(-1, 1).toArray();
     logger.debug("y range = {}", yRange);
 
     for (int y : yRange) {
@@ -53,6 +59,14 @@ public class CargoPlacementBatchTest extends SimpleApplication {
 
     long cargoBatches = rootNode.getChildren().stream().filter(s -> Objects.equals("cargo-batch", s.getName())).count();
     logger.debug("cargo batches = {}, total containers = {}", cargoBatches, cargoBatches * 8);
+
+    Material material = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
+    
+    Geometry engines = new Geometry("engines", new Cylinder(2, 6, 8f * extent, 4f * extent, true));
+    engines.setMaterial(material);
+    rootNode.attachChild(engines);
+    engines.move(0, 0, -4f * extent * 4);
+    engines.scale(1, 0.5f, 1);
 
     new QuickChaseCamera(cam, inputManager).init(rootNode);
   }
