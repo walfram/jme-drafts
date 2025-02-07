@@ -29,7 +29,7 @@ import com.simsilica.lemur.geom.MBox;
 import com.simsilica.lemur.style.BaseStyles;
 import debug.QuickAppSettings;
 import debug.QuickChaseCamera;
-import debug.QuickSetup;
+import debug.QuickAppSetup;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import jme3utilities.mesh.Icosphere;
@@ -57,7 +57,7 @@ public class ModularProceduralShipTest extends SimpleApplication {
 
   @Override
   public void simpleInitApp() {
-    new QuickSetup().applyTo(this);
+    new QuickAppSetup().applyTo(this);
 
     GuiGlobals.initialize(this);
     BaseStyles.loadGlassStyle();

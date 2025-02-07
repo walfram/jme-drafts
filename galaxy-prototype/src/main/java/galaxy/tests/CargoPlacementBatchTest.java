@@ -9,7 +9,7 @@ import com.jme3.scene.shape.Cylinder;
 import com.jme3.system.AppSettings;
 import debug.QuickAppSettings;
 import debug.QuickChaseCamera;
-import debug.QuickSetup;
+import debug.QuickAppSetup;
 import java.util.Objects;
 import java.util.stream.IntStream;
 import org.slf4j.Logger;
@@ -31,14 +31,14 @@ public class CargoPlacementBatchTest extends SimpleApplication {
 
   @Override
   public void simpleInitApp() {
-    new QuickSetup(2f * extent, 64).applyTo(this);
+    new QuickAppSetup(2f * extent, 64).applyTo(this);
 
     // rootNode.attachChild(new CargoBatch(assetManager));
 
     int[] xRange = IntStream.range(-1, 2).toArray();
     logger.debug("x range = {}", xRange);
     
-    int[] zRange = IntStream.range(-3, 4).toArray();
+    int[] zRange = IntStream.range(-4, 4).toArray();
     logger.debug("z range = {}", zRange);
     
     int[] yRange = IntStream.range(-1, 1).toArray();

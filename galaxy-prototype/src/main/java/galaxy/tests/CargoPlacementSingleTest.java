@@ -9,7 +9,7 @@ import com.jme3.scene.shape.Cylinder;
 import com.jme3.system.AppSettings;
 import debug.QuickAppSettings;
 import debug.QuickChaseCamera;
-import debug.QuickSetup;
+import debug.QuickAppSetup;
 import java.util.List;
 import mesh.FlatShadedMesh;
 import org.slf4j.Logger;
@@ -30,7 +30,7 @@ public class CargoPlacementSingleTest extends SimpleApplication {
 
   @Override
   public void simpleInitApp() {
-    new QuickSetup(4f, 32).applyTo(this);
+    new QuickAppSetup(4f, 32).applyTo(this);
 
     int cargo = 47;
     int groups = 3;

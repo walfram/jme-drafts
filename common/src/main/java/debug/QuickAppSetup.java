@@ -5,16 +5,16 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import jme3utilities.debug.AxesVisualizer;
 
-public class QuickSetup {
+public class QuickAppSetup {
 
   private final float gridCellExtent;
   private final int gridLines;
 
-  public QuickSetup() {
+  public QuickAppSetup() {
     this(32f, 16);
   }
 
-  public QuickSetup(float gridCellExtent, int gridLines) {
+  public QuickAppSetup(float gridCellExtent, int gridLines) {
     this.gridCellExtent = gridCellExtent;
     this.gridLines = gridLines;
   }

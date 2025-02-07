@@ -15,7 +15,7 @@ import com.jme3.system.AppSettings;
 import com.simsilica.lemur.GuiGlobals;
 import com.simsilica.lemur.event.DefaultMouseListener;
 import com.simsilica.lemur.event.MouseEventControl;
-import debug.QuickSetup;
+import debug.QuickAppSetup;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -51,7 +51,7 @@ public class MeshShapesTest extends SimpleApplication {
 
   @Override
   public void simpleInitApp() {
-    new QuickSetup().applyTo(this);
+    new QuickAppSetup().applyTo(this);
     GuiGlobals.initialize(this);
 
     Material material = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");

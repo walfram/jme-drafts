@@ -7,8 +7,7 @@ import com.jme3.scene.shape.Cylinder;
 import com.jme3.scene.shape.Torus;
 import com.jme3.system.AppSettings;
 import debug.QuickChaseCamera;
-import debug.QuickSetup;
-import jme3utilities.mesh.Cone;
+import debug.QuickAppSetup;
 import jme3utilities.mesh.Octasphere;
 import jme3utilities.mesh.Prism;
 import mesh.FlatShadedMesh;
@@ -27,7 +26,7 @@ public class ShipShapeTest extends SimpleApplication {
 
   @Override
   public void simpleInitApp() {
-    new QuickSetup().applyTo(this);
+    new QuickAppSetup().applyTo(this);
 
     Material material = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
     // material.getAdditionalRenderState().setWireframe(true);

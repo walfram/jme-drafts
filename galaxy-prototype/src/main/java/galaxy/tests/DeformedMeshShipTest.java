@@ -14,7 +14,7 @@ import com.simsilica.lemur.geom.Deformation;
 import com.simsilica.lemur.geom.MBox;
 import debug.QuickAppSettings;
 import debug.QuickChaseCamera;
-import debug.QuickSetup;
+import debug.QuickAppSetup;
 import mesh.FlatShadedMesh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ public class DeformedMeshShipTest extends SimpleApplication {
   
   @Override
   public void simpleInitApp() {
-    new QuickSetup().applyTo(this);
+    new QuickAppSetup().applyTo(this);
 
     Material material = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
     // material.getAdditionalRenderState().setWireframe(true);
