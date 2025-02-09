@@ -39,7 +39,7 @@ public class ShipSizeTest extends SimpleApplication {
     Label header = container.addChild(new Label("ship size test", new ElementId("title")));
     header.setMaxWidth(320);
 
-    RangedValueModel model = new DefaultRangedValueModel(1, 1024, 1);
+    RangedValueModel model = new DefaultRangedValueModel(1, 256, 1);
     container.addChild(new Slider(model));
 
     Label value = container.addChild(new Label("%.02f".formatted(model.getValue())));
