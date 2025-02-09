@@ -1,16 +1,16 @@
 package galaxy.tests;
 
 import com.jme3.bounding.BoundingBox;
-import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
 
 public class ScaleUpTo {
 
   private final float xExtent;
   private final float yExtent;
   private final float zExtent;
-  private final Geometry target;
+  private final Spatial target;
 
-  public ScaleUpTo(float xExtent, float yExtent, float zExtent, Geometry target) {
+  public ScaleUpTo(float xExtent, float yExtent, float zExtent, Spatial target) {
     this.xExtent = xExtent;
     this.yExtent = yExtent;
     this.zExtent = zExtent;

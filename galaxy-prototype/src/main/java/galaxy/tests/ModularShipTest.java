@@ -1,5 +1,6 @@
 package galaxy.tests;
 
+import cells.Cell2d;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
 import com.jme3.math.FastMath;
@@ -31,9 +32,11 @@ public class ModularShipTest extends SimpleApplication {
 
   private static final Logger logger = LoggerFactory.getLogger(ModularShipTest.class);
 
+  private static final float cellExtent = 4f;
+  
   @Override
   public void simpleInitApp() {
-    new QuickAppSetup(4, 32).applyTo(this);
+    new QuickAppSetup(cellExtent, 32).applyTo(this);
 
     Material material = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
     // material.getAdditionalRenderState().setWireframe(true);
@@ -58,15 +61,22 @@ public class ModularShipTest extends SimpleApplication {
     //    engines.rotate(0, FastMath.HALF_PI, 0);
 
     enginesMk1(material);
+    cargoBatches();
 
     new QuickChaseCamera(cam, inputManager).init(rootNode);
   }
 
-  private void enginesMk2(Material material) {
-    Geometry base = new Geometry("engine-base", new FlatShadedMesh(new Cylinder(2, 8, 4, 8, 4, true, false)));
-    base.setMaterial(material);
-    rootNode.attachChild(base);
-    base.move(0, 0, -34);
+  private void cargoBatches() {
+    int[] xs = {-2, -1, 1, 2};
+    
+    for (int x : xs) {
+      for (int z = -3; z <= 3; z++) {
+        Node cargoBatch = new CargoBatch(assetManager);
+        rootNode.attachChild(cargoBatch);
+        new ScaleUpTo(cellExtent, cellExtent, cellExtent, cargoBatch).scale();
+        cargoBatch.setLocalTranslation(new Cell2d(x, z, cellExtent).translation());
+      }
+    }
   }
 
   private void enginesMk1(Material material) {
