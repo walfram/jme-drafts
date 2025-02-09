@@ -14,6 +14,7 @@ import com.simsilica.lemur.geom.MBox;
 import debug.QuickAppSettings;
 import debug.QuickAppSetup;
 import debug.QuickChaseCamera;
+import java.util.Objects;
 import jme3utilities.MyMesh;
 import mesh.FlatShadedMesh;
 import org.slf4j.Logger;
@@ -41,18 +42,18 @@ public class ModularShipTest extends SimpleApplication {
     Material material = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
     // material.getAdditionalRenderState().setWireframe(true);
 
-    // Geometry hull = new Geometry("hull", new MBox(2, 4, 32, 1, 2, 8));
+//     Geometry hull = new Geometry("hull", new MBox(cellExtent, cellExtent, 32, 1, 2, 8));
     // Geometry hull = new Geometry("hull", new Prism(6, 4, 32, true));
-    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(2, 6, 2, 64, true)));
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(2, 6, 4, 64, true)));
     hull.setMaterial(material);
     rootNode.attachChild(hull);
     hull.scale(1, 2, 1);
 
-    Geometry bridge = new Geometry("bridge", new FlatShadedMesh(new Cylinder(2, 8, 4, 8, 8, true, false)));
+    Geometry bridge = new Geometry("bridge", new FlatShadedMesh(new Cylinder(2, 6, 2, 4, 8, true, false)));
     bridge.setMaterial(material);
     rootNode.attachChild(bridge);
     bridge.move(0, 0, 36);
-    bridge.scale(1, 0.5f, 1);
+    bridge.scale(1, 2f, 1);
 
     //    Geometry engines = new Geometry("engines", new FlatShadedMesh(new Cylinder(2, 5, 8, 4, true)));
     //    engines.setMaterial(material);
@@ -67,16 +68,23 @@ public class ModularShipTest extends SimpleApplication {
   }
 
   private void cargoBatches() {
-    int[] xs = {-2, -1, 1, 2};
+    int[] xs = {-3, -2, -1, 1, 2, 3};
+    int[] ys = {0};
     
-    for (int x : xs) {
-      for (int z = -3; z <= 3; z++) {
-        Node cargoBatch = new CargoBatch(assetManager);
-        rootNode.attachChild(cargoBatch);
-        new ScaleUpTo(cellExtent, cellExtent, cellExtent, cargoBatch).scale();
-        cargoBatch.setLocalTranslation(new Cell2d(x, z, cellExtent).translation());
+    for (int y: ys) {
+      for (int x : xs) {
+        for (int z = -3; z <= 3; z++) {
+          Node cargoBatch = new CargoBatch(assetManager);
+          rootNode.attachChild(cargoBatch);
+          new ScaleUpTo(cellExtent, cellExtent, cellExtent, cargoBatch).scale();
+          cargoBatch.setLocalTranslation(new Cell2d(x, z, cellExtent).translation());
+          cargoBatch.move(0, y * 2f * cellExtent, 0);
+        }
       }
     }
+
+    long cargoBatchCount = rootNode.getChildren().stream().filter(s -> Objects.equals("cargo-batch", s.getName())).count();
+    logger.debug("cargo batch count = {}, container count = {}", cargoBatchCount, cargoBatchCount * 4);
   }
 
   private void enginesMk1(Material material) {
