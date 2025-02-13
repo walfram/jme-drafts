@@ -18,6 +18,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Cylinder;
+import com.jme3.scene.shape.Torus;
 import com.jme3.system.AppSettings;
 import com.simsilica.lemur.Button;
 import com.simsilica.lemur.Container;
@@ -33,6 +34,7 @@ import debug.QuickAppSetup;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import jme3utilities.mesh.Icosphere;
+import jme3utilities.mesh.Octahedron;
 import mesh.FlatShadedMesh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,8 +100,54 @@ public class ModularProceduralShipTest extends SimpleApplication {
       mk5();
     });
     
+    container.addChild(new Button("mk6")).addClickCommands(b -> {
+      clear();
+      mk6();
+    });
+    
+    container.addChild(new Button("mk7")).addClickCommands(b -> {
+      clear();
+      mk7();
+    });
+    
+    // TODO ring with 3 columns
+    
     guiNode.attachChild(container);
     container.setLocalTranslation(10, cam.getHeight() - 10, 0);
+  }
+
+  private void mk7() {
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Torus(6, 3, 5, 10)));
+    hull.setMaterial(material);
+    scene.attachChild(hull);
+    
+    for (int i = 0; i < 3; i++) {
+      Geometry geometry = new Geometry("arm", new Box(3, 1, 32));
+      geometry.setMaterial(material);
+      geometry.move(10, 0, 10);
+      
+      Node arm = new Node("arm");
+      arm.attachChild(geometry);
+      
+      scene.attachChild(arm);
+      
+      arm.rotate(0, 0, FastMath.DEG_TO_RAD * 120 * i);
+    }
+    
+  }
+
+  private void mk6() {
+    Mesh mesh = new DMesh(new Octahedron(10, true), (v, n) -> {
+      if (v.z == -10) {
+        v.z = -1f;
+      }  
+    });
+    
+    Geometry ship = new Geometry("ship", mesh);
+    ship.setMaterial(material);
+    scene.attachChild(ship);
+    
+    ship.scale(4, 2, 16);
   }
 
   private void clear() {

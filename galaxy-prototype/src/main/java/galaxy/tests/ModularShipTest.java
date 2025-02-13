@@ -14,6 +14,7 @@ import com.simsilica.lemur.geom.MBox;
 import debug.QuickAppSettings;
 import debug.QuickAppSetup;
 import debug.QuickChaseCamera;
+import galaxy.domain.ship.ShipDesign;
 import java.util.Objects;
 import jme3utilities.MyMesh;
 import mesh.FlatShadedMesh;
@@ -34,35 +35,35 @@ public class ModularShipTest extends SimpleApplication {
   private static final Logger logger = LoggerFactory.getLogger(ModularShipTest.class);
 
   private static final float cellExtent = 4f;
-  
+
   @Override
   public void simpleInitApp() {
     new QuickAppSetup(cellExtent, 32).applyTo(this);
 
+    ShipDesign design = new ShipDesign(80, 2, 2, 30, 100);
+
     Material material = new Material(assetManager, "Common/MatDefs/Misc/ShowNormals.j3md");
     // material.getAdditionalRenderState().setWireframe(true);
 
-//     Geometry hull = new Geometry("hull", new MBox(cellExtent, cellExtent, 32, 1, 2, 8));
-    // Geometry hull = new Geometry("hull", new Prism(6, 4, 32, true));
-    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(2, 6, 4, 64, true)));
+    float hullCells = 7;
+    
+    float hullExtent = hullCells * cellExtent;
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(2, 6, 4, 2f * hullExtent, true)));
     hull.setMaterial(material);
-    rootNode.attachChild(hull);
     hull.scale(1, 2, 1);
+    rootNode.attachChild(hull);
 
-    Geometry bridge = new Geometry("bridge", new FlatShadedMesh(new Cylinder(2, 6, 2, 4, 8, true, false)));
+    Geometry bridge = new Geometry("bridge", new FlatShadedMesh(new Cylinder(2, 6, 2, cellExtent, 2f * cellExtent, true, false)));
     bridge.setMaterial(material);
-    rootNode.attachChild(bridge);
-    bridge.move(0, 0, 36);
+    bridge.move(0, 0, hullExtent + cellExtent);
     bridge.scale(1, 2f, 1);
+    rootNode.attachChild(bridge);
 
-    //    Geometry engines = new Geometry("engines", new FlatShadedMesh(new Cylinder(2, 5, 8, 4, true)));
-    //    engines.setMaterial(material);
-    //    rootNode.attachChild(engines);
-    //    engines.scale(1, 2, 1);
-    //    engines.rotate(0, FastMath.HALF_PI, 0);
+    Node engines = enginesMk1(material);
+    engines.move(0, 0, -hullExtent - cellExtent);
+    rootNode.attachChild(engines);
 
-    enginesMk1(material);
-    cargoBatches();
+     cargoBatches();
 
     new QuickChaseCamera(cam, inputManager).init(rootNode);
   }
@@ -70,8 +71,8 @@ public class ModularShipTest extends SimpleApplication {
   private void cargoBatches() {
     int[] xs = {-3, -2, -1, 1, 2, 3};
     int[] ys = {0};
-    
-    for (int y: ys) {
+
+    for (int y : ys) {
       for (int x : xs) {
         for (int z = -3; z <= 3; z++) {
           Node cargoBatch = new CargoBatch(assetManager);
@@ -87,12 +88,12 @@ public class ModularShipTest extends SimpleApplication {
     logger.debug("cargo batch count = {}, container count = {}", cargoBatchCount, cargoBatchCount * 4);
   }
 
-  private void enginesMk1(Material material) {
+  private Node enginesMk1(Material material) {
     Node engines = new Node("engines");
 
     Quaternion r = new Quaternion().fromAngleNormalAxis(FastMath.DEG_TO_RAD * 30f, Vector3f.UNIT_Z);
-    
-    Geometry base = new Geometry("base", new MBox(1, 8, 4, 1, 2, 2));
+
+    Geometry base = new Geometry("base", new MBox(1, 2f * cellExtent, cellExtent, 1, 2, 2));
     base.setMaterial(material);
     engines.attachChild(base);
 
@@ -116,8 +117,9 @@ public class ModularShipTest extends SimpleApplication {
     top.scale(1, 0.2f, 1);
     engines.attachChild(top);
     top.move(0, 6, 0);
-    
-    engines.move(0, 0, -36);
-    rootNode.attachChild(engines);
+
+    //engines.move(0, 0, -36);
+    // rootNode.attachChild(engines);
+    return engines;
   }
 }
