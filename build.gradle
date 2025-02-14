@@ -16,6 +16,7 @@ subprojects {
     dependencies {
         testImplementation platform('org.junit:junit-bom:5.11.4')
         testImplementation 'org.junit.jupiter:junit-jupiter'
+        testImplementation 'org.mockito:mockito-core:5.15.2'
 
         implementation 'org.jmonkeyengine:jme3-core:3.7.0-stable'
         implementation 'org.jmonkeyengine:jme3-desktop:3.7.0-stable'

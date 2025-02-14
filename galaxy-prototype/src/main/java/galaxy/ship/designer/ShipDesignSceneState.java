@@ -3,9 +3,7 @@ package galaxy.ship.designer;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Cylinder;
 import com.simsilica.lemur.core.VersionedReference;
 import galaxy.domain.ship.ShipDesign;
 import org.slf4j.Logger;
@@ -18,36 +16,34 @@ public class ShipDesignSceneState extends BaseAppState {
   private final Node scene = new Node("ship-design-scene-node");
   private VersionedReference<ShipDesign> designReference;
 
+  private Material material;
+  
   public ShipDesignSceneState(Node rootNode) {
     rootNode.attachChild(scene);
   }
 
   @Override
   protected void initialize(Application application) {
-    Geometry geometry = new Geometry("ship", new Cylinder(5, 7, 1, 1, true));
-    geometry.setMaterial(new Material(application.getAssetManager(), "Common/MatDefs/Misc/ShowNormals.j3md"));
-    geometry.scale(10);
-    scene.attachChild(geometry);
-
+    material = new Material(application.getAssetManager(), "Common/MatDefs/Misc/ShowNormals.j3md");
     designReference = getState(ShipDesignUiState.class).shipDesignReference();
+
+    Node shipNode = new GeneratedShip(designReference.get(), material).node();
+    scene.attachChild(shipNode);
   }
   
-  // no engines = orbital platform: sphere or cube
-  // no weapons = cargo ship: cylinder (triangle shape for cargo attachment)
-  // no cargo = combat ship: cylinder
-  // no shields = 
-  
-  // flying saucer, spindle
-  
-  // DMesh with com.simsilica.lemur.geom.Deformation's
-  
-  // volume of 3d cells, each cell representing ship module, module is primitive shape
-
   @Override
   public void update(float tpf) {
     if (designReference.update()) {
       logger.debug("design ref updated {}", designReference.get());
+      updateShip();
     }
+  }
+
+  private void updateShip() {
+    scene.detachAllChildren();
+
+    Node shipNode = new GeneratedShip(designReference.get(), material).node();
+    scene.attachChild(shipNode);
   }
 
   @Override

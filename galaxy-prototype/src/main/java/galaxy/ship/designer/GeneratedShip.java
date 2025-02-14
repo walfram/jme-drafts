@@ -1,0 +1,80 @@
+package galaxy.ship.designer;
+
+import cells.Cell2d;
+import com.jme3.material.Material;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
+import com.jme3.scene.shape.Cylinder;
+import galaxy.domain.ship.ShipDesign;
+import mesh.FlatShadedMesh;
+
+public class GeneratedShip {
+
+  private static final float cellExtent = 4f;
+  private final ShipDesign design;
+  private final Material material;
+
+  public GeneratedShip(ShipDesign design, Material material) {
+    this.design = design;
+    this.material = material;
+  }
+
+  public Node node() {
+    Node root = new Node("ship-root");
+
+    if (design.drives().size() > 0) {
+      attachDrives(root);
+    }
+
+    if (design.cargo().volume() > 0) {
+      attachCargo(root);
+    } else {
+      attachHull(root);
+    }
+    
+    if (design.weapons().guns() > 0) {
+      attachWeapons(root);
+    }
+    
+    if (design.shields().power() > 0) {
+      attachShields(root);
+    }
+    
+    return root;
+  }
+
+  private void attachShields(Node root) {
+    
+  }
+
+  private void attachWeapons(Node root) {
+    
+  }
+
+  private void attachHull(Node root) {
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(2, 8, cellExtent, 2f * cellExtent, true)));
+    hull.setMaterial(material);
+    root.attachChild(hull);
+    hull.move(new Cell2d(0, 1, cellExtent).translation());
+  }
+
+  private void attachCargo(Node root) {
+    
+  }
+
+  private void attachDrives(Node root) {
+    Node engine = new Node("engine");
+    root.attachChild(engine);
+    
+    Geometry hullBase = new Geometry("hull-base", new FlatShadedMesh(new Cylinder(2, 8, 3f * cellExtent, 2f * cellExtent, true)));
+    hullBase.setMaterial(material);
+    engine.attachChild(hullBase);
+    hullBase.move(new Cell2d(0, 0, cellExtent).translation());
+    hullBase.scale(1, 0.5f, 1);
+
+    Geometry engineCenter = new Geometry("engine-center", new FlatShadedMesh(new Cylinder(2, 8, cellExtent, 0.25f * cellExtent, true)));
+    engineCenter.setMaterial(material);
+    engineCenter.setLocalTranslation(new Cell2d(0, -1, cellExtent).translation().add(0, 0, (0.75f + 0.125f) * cellExtent));
+    engine.attachChild(engineCenter);
+  }
+}
