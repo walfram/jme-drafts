@@ -1,4 +1,4 @@
-package galaxy.ship;
+package galaxy.ship.designer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -8,7 +8,6 @@ import com.jme3.material.Material;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import galaxy.domain.ship.ShipDesign;
-import galaxy.ship.designer.GeneratedShip;
 import org.junit.jupiter.api.Test;
 
 public class GeneratedShipTest {

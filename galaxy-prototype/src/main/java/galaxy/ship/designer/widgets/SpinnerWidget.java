@@ -55,6 +55,8 @@ public class SpinnerWidget<T extends Number> extends Container {
     CursorEventControl.addListenersToSpatial(this, new DefaultCursorListener() {
       @Override
       public void cursorMoved(CursorMotionEvent event, Spatial target, Spatial capture) {
+        event.setConsumed();
+        
         if (event.getScrollDelta() != 0) {
           if (event.getScrollDelta() > 0) {
             model.setObject(model.getNextObject());

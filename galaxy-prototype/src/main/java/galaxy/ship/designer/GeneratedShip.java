@@ -66,15 +66,19 @@ public class GeneratedShip {
     Node engine = new Node("engine");
     root.attachChild(engine);
     
-    Geometry hullBase = new Geometry("hull-base", new FlatShadedMesh(new Cylinder(2, 8, 3f * cellExtent, 2f * cellExtent, true)));
-    hullBase.setMaterial(material);
-    engine.attachChild(hullBase);
-    hullBase.move(new Cell2d(0, 0, cellExtent).translation());
-    hullBase.scale(1, 0.5f, 1);
+//    Geometry hullBase = new Geometry("hull-base", new FlatShadedMesh(new Cylinder(2, 8, 3f * cellExtent, 2f * cellExtent, true)));
+//    hullBase.setMaterial(material);
+//    engine.attachChild(hullBase);
+//    hullBase.move(new Cell2d(0, 0, cellExtent).translation());
+//    hullBase.scale(1, 0.5f, 1);
 
-    Geometry engineCenter = new Geometry("engine-center", new FlatShadedMesh(new Cylinder(2, 8, cellExtent, 0.25f * cellExtent, true)));
+//    Geometry engineCenter = new Geometry("engine-center", new FlatShadedMesh(new Cylinder(2, 8, cellExtent, 0.25f * cellExtent, true)));
+//    engineCenter.setMaterial(material);
+//    engineCenter.setLocalTranslation(new Cell2d(0, -1, cellExtent).translation().add(0, 0, (0.75f + 0.125f) * cellExtent));
+//    engine.attachChild(engineCenter);
+    
+    Geometry engineCenter = new Geometry("engine-center", new FlatShadedMesh(new Cylinder(2, 8, 0.5f * cellExtent, cellExtent, 2f * cellExtent, true, false)));
     engineCenter.setMaterial(material);
-    engineCenter.setLocalTranslation(new Cell2d(0, -1, cellExtent).translation().add(0, 0, (0.75f + 0.125f) * cellExtent));
     engine.attachChild(engineCenter);
   }
 }

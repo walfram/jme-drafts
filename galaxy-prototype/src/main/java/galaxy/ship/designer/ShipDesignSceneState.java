@@ -48,16 +48,13 @@ public class ShipDesignSceneState extends BaseAppState {
 
   @Override
   protected void cleanup(Application application) {
-
   }
 
   @Override
   protected void onEnable() {
-
   }
 
   @Override
   protected void onDisable() {
-
   }
 }
