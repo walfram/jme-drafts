@@ -32,14 +32,14 @@ public class ShipBaseParametersWidget extends Container {
     Label header = addChild(new Label("ship base parameters", new ElementId("title")));
     header.setMaxWidth(256f);
 
-    addChild(new Panel(10f, 2f, new ElementId("spacer"), "glass"));
+    addChild(new SpacerWidget());
 
     // drives
     addChild(new Label("drives"));
     SpinnerWidget<Double> drives = addChild(new SpinnerWidget<>(new DoubleSequenceImpl(1)));
     references.addReference(drives.model());
 
-    addChild(new Panel(10f, 2f, new ElementId("spacer"), "glass"));
+    addChild(new SpacerWidget());
 
     // guns
     addChild(new Label("guns"));
@@ -47,7 +47,7 @@ public class ShipBaseParametersWidget extends Container {
     references.addReference(guns.model());
     refGuns = guns.model().createReference();
 
-    addChild(new Panel(10f, 2f, new ElementId("spacer"), "glass"));
+    addChild(new SpacerWidget());
 
     // caliber
     addChild(new Label("caliber"));
@@ -55,21 +55,21 @@ public class ShipBaseParametersWidget extends Container {
     references.addReference(caliber.model());
     refCaliber = caliber.model().createReference();
 
-    addChild(new Panel(10f, 2f, new ElementId("spacer"), "glass"));
+    addChild(new SpacerWidget());
 
     // shields
     addChild(new Label("shields"));
     SpinnerWidget<Double> shields = addChild(new SpinnerWidget<>(new DoubleSequenceImpl(0)));
     references.addReference(shields.model());
 
-    addChild(new Panel(10f, 2f, new ElementId("spacer"), "glass"));
+    addChild(new SpacerWidget());
 
     // cargo
     addChild(new Label("cargo"));
     SpinnerWidget<Double> cargo = addChild(new SpinnerWidget<>(new DoubleSequenceImpl(0)));
     references.addReference(cargo.model());
 
-    addChild(new Panel(10f, 2f, new ElementId("spacer"), "glass"));
+    addChild(new SpacerWidget());
 
     addControl(new SimpleControl() {
       @Override

@@ -2,14 +2,18 @@ package galaxy.ship.designer;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.Container;
+import com.simsilica.lemur.Insets3f;
+import com.simsilica.lemur.component.QuadBackgroundComponent;
 import com.simsilica.lemur.core.VersionedHolder;
 import com.simsilica.lemur.core.VersionedReference;
 import galaxy.ship.designer.widgets.PlanetInfoWidget;
 import galaxy.ship.designer.widgets.ShipBaseParametersWidget;
 import galaxy.ship.designer.widgets.ShipCalculatedParametersWidget;
 import galaxy.domain.ship.ShipDesign;
+import galaxy.ship.designer.widgets.SpacerWidget;
 
 public class ShipDesignUiState extends BaseAppState {
 
@@ -26,8 +30,10 @@ public class ShipDesignUiState extends BaseAppState {
     Container main = new Container();
 
     Container top = main.addChild(new Container());
+    
     top.addChild(new ShipBaseParametersWidget(holder));
-    top.addChild(new ShipCalculatedParametersWidget(), 1);
+    top.addChild(new SpacerWidget(), 1);
+    top.addChild(new ShipCalculatedParametersWidget(holder), 2);
 
     main.addChild(new PlanetInfoWidget());
 

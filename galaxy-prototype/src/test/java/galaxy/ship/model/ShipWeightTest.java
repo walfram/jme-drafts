@@ -31,4 +31,10 @@ public class ShipWeightTest {
     assertEquals(45, cruiser.weight());
   }
   
+  @Test
+  void test_turrel_9x11() {
+    ShipDesign design = new ShipDesign(99, 9, 11, 43, 1);
+    assertEquals(198, design.weight());
+  }
+  
 }
