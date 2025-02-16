@@ -1,11 +1,11 @@
 package cells;
 
-import com.jme3.math.FastMath;
+import static com.jme3.math.FastMath.sqrt;
 
 public record CellOffset2d(int dx, int dz) implements CellOffset {
 
   @Override
   public float distance() {
-    return FastMath.sqrt(dx * dx + dz * dz);
+    return sqrt(dx * dx + dz * dz);
   }
 }

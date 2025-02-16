@@ -1,15 +1,23 @@
 package galaxy.ship.designer;
 
+import static com.jme3.math.FastMath.sqrt;
+import static java.lang.Math.ceil;
+
 import cells.Cell2d;
 import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Cylinder;
 import galaxy.domain.ship.ShipDesign;
+import jme3utilities.mesh.Icosphere;
 import mesh.FlatShadedMesh;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GeneratedShip {
 
+  private static final Logger logger = LoggerFactory.getLogger(GeneratedShip.class);
+  
   private static final float cellExtent = 4f;
   private final ShipDesign design;
   private final Material material;
@@ -22,14 +30,14 @@ public class GeneratedShip {
   public Node node() {
     Node root = new Node("ship-root");
 
+    attachHull(root);
+    
     if (design.drives().size() > 0) {
       attachDrives(root);
     }
 
     if (design.cargo().volume() > 0) {
       attachCargo(root);
-    } else {
-      attachHull(root);
     }
     
     if (design.weapons().guns() > 0) {
@@ -52,14 +60,19 @@ public class GeneratedShip {
   }
 
   private void attachHull(Node root) {
-    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(2, 8, cellExtent, 2f * cellExtent, true)));
+    // Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(2, 8, cellExtent, 2f * cellExtent, true)));
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Icosphere(1, sqrt(2 * cellExtent * cellExtent))));
     hull.setMaterial(material);
     root.attachChild(hull);
-    hull.move(new Cell2d(0, 1, cellExtent).translation());
+    // hull.move(new Cell2d(0, 1, cellExtent).translation());
   }
 
   private void attachCargo(Node root) {
-    
+    // count containers
+    int containers = (int) ceil(design.cargo().volume());
+    // create container batches
+    int batches = containers / 5;
+    logger.debug("containers = {}, batches = {}", containers, batches);
   }
 
   private void attachDrives(Node root) {
@@ -80,5 +93,7 @@ public class GeneratedShip {
     Geometry engineCenter = new Geometry("engine-center", new FlatShadedMesh(new Cylinder(2, 8, 0.5f * cellExtent, cellExtent, 2f * cellExtent, true, false)));
     engineCenter.setMaterial(material);
     engine.attachChild(engineCenter);
+    
+    engine.move(new Cell2d(0, -1, cellExtent).translation());
   }
 }
