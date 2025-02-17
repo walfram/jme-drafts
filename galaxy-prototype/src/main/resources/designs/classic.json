@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Drone",
+    "design": {
+      "engines": 1,
+      "guns": 0,
+      "caliber": 0,
+      "shields": 0,
+      "cargo": 0
+    }
+  },
+  {
+    "name": "Fighter",
+    "design": {
+      "engines": 1,
+      "guns": 1,
+      "caliber": 1,
+      "shields": 1,
+      "cargo": 0
+    }
+  },
+  {
+    "name": "Gunship",
+    "design": {
+      "engines": 4,
+      "guns": 2,
+      "caliber": 2,
+      "shields": 4,
+      "cargo": 0
+    }
+  },
+  {
+    "name": "Destroyer",
+    "design": {
+      "engines": 6,
+      "guns": 1,
+      "caliber": 8,
+      "shields": 4,
+      "cargo": 0
+    }
+  },
+  {
+    "name": "Cruiser",
+    "design": {
+      "engines": 15,
+      "guns": 1,
+      "caliber": 15,
+      "shields": 15,
+      "cargo": 0
+    }
+  },
+  {
+    "name": "Battle_Cruiser",
+    "design": {
+      "engines": 30,
+      "guns": 3,
+      "caliber": 10,
+      "shields": 30,
+      "cargo": 0
+    }
+  },
+  {
+    "name": "Battleship",
+    "design": {
+      "engines": 25,
+      "guns": 1,
+      "caliber": 30,
+      "shields": 35,
+      "cargo": 0
+    }
+  },
+  {
+    "name": "Battle_Station",
+    "design": {
+      "engines": 60,
+      "guns": 3,
+      "caliber": 30,
+      "shields": 100,
+      "cargo": 0
+    }
+  },
+  {
+    "name": "Orbital_Fort",
+    "design": {
+      "engines": 0,
+      "guns": 3,
+      "caliber": 30,
+      "shields": 100,
+      "cargo": 0
+    }
+  },
+  {
+    "name": "Space_Gun",
+    "design": {
+      "engines": 0,
+      "guns": 1,
+      "caliber": 1,
+      "shields": 0,
+      "cargo": 0
+    }
+  },
+  {
+    "name": "Freighter",
+    "design": {
+      "engines": 8,
+      "guns": 0,
+      "caliber": 0,
+      "shields": 2,
+      "cargo": 10
+    }
+  },
+  {
+    "name": "Megafreighter",
+    "design": {
+      "engines": 80,
+      "guns": 2,
+      "caliber": 2,
+      "shields": 30,
+      "cargo": 100
+    }
+  }
+]

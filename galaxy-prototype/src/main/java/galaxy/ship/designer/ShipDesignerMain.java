@@ -22,6 +22,8 @@ public class ShipDesignerMain extends SimpleApplication {
     
     // stateManager.attach(new ShipParamsWidgetState(guiNode));
     
+    stateManager.attach(new ShipDesignIOState());
+    
     stateManager.attach(new ShipDesignUiState(guiNode));
     stateManager.attach(new ShipDesignSceneState(rootNode));
   }

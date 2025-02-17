@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Interceptor",
+    "design": {
+      "engines": 2,
+      "guns": 1,
+      "caliber": 1,
+      "shields": 1,
+      "cargo": 0
+    }
+  },
+  {
+    "name": "Bomber",
+    "design": {
+      "engines": 3,
+      "guns": 2,
+      "caliber": 4,
+      "shields": 2,
+      "cargo": 0
+    }
+  },
+  {
+    "name": "Corvette",
+    "design": {
+      "engines": 5,
+      "guns": 3,
+      "caliber": 3,
+      "shields": 5,
+      "cargo": 2
+    }
+  },
+  {
+    "name": "Frigate",
+    "design": {
+      "engines": 10,
+      "guns": 4,
+      "caliber": 6,
+      "shields": 8,
+      "cargo": 5
+    }
+  },
+  {
+    "name": "Heavy_Frigate",
+    "design": {
+      "engines": 12,
+      "guns": 5,
+      "caliber": 8,
+      "shields": 12,
+      "cargo": 6
+    }
+  },
+  {
+    "name": "Dreadnought",
+    "design": {
+      "engines": 35,
+      "guns": 6,
+      "caliber": 25,
+      "shields": 40,
+      "cargo": 10
+    }
+  },
+  {
+    "name": "Carrier",
+    "design": {
+      "engines": 20,
+      "guns": 2,
+      "caliber": 10,
+      "shields": 50,
+      "cargo": 50
+    }
+  },
+  {
+    "name": "Super_Carrier",
+    "design": {
+      "engines": 50,
+      "guns": 4,
+      "caliber": 20,
+      "shields": 80,
+      "cargo": 100
+    }
+  },
+  {
+    "name": "Titan",
+    "design": {
+      "engines": 100,
+      "guns": 10,
+      "caliber": 50,
+      "shields": 200,
+      "cargo": 150
+    }
+  },
+  {
+    "name": "Mobile_Shipyard",
+    "design": {
+      "engines": 40,
+      "guns": 2,
+      "caliber": 5,
+      "shields": 60,
+      "cargo": 300
+    }
+  }
+]
