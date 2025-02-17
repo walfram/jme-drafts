@@ -34,8 +34,8 @@ public class ShipDesignUiState extends BaseAppState {
     Container main = new Container();
 
     Container top = main.addChild(new Container());
-    
-    top.addChild(new ShipBaseParametersWidget(holder));
+
+    ShipBaseParametersWidget shipBaseParametersWidget = top.addChild(new ShipBaseParametersWidget(holder));
     top.addChild(new SpacerWidget(), 1);
     top.addChild(new ShipCalculatedParametersWidget(holder), 2);
 
@@ -51,7 +51,7 @@ public class ShipDesignUiState extends BaseAppState {
 
     for (Map.Entry<String, ShipDesign> entry : getState(ShipDesignIOState.class).designs().entrySet()) {
       Button button = designs.addChild(new Button(entry.getKey()));
-      button.addClickCommands(b -> holder.setObject(entry.getValue()));
+      button.addClickCommands(b -> shipBaseParametersWidget.useShipDesign(entry.getValue()));
     }
     
     gui.attachChild(designs);

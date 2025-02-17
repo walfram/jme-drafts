@@ -4,7 +4,6 @@ import com.simsilica.lemur.Axis;
 import com.simsilica.lemur.Container;
 import com.simsilica.lemur.FillMode;
 import com.simsilica.lemur.Label;
-import com.simsilica.lemur.Panel;
 import com.simsilica.lemur.component.SpringGridLayout;
 import com.simsilica.lemur.core.VersionedHolder;
 import com.simsilica.lemur.core.VersionedReference;
@@ -25,7 +24,12 @@ public class ShipBaseParametersWidget extends Container {
 
   private final VersionedReference<Integer> refGuns;
   private final VersionedReference<Double> refCaliber;
-  
+  private final SpinnerWidget<Double> drives;
+  private final SpinnerWidget<Integer> guns;
+  private final SpinnerWidget<Double> caliber;
+  private final SpinnerWidget<Double> shields;
+  private final SpinnerWidget<Double> cargo;
+
   public ShipBaseParametersWidget(VersionedHolder<ShipDesign> holder) {
     super(new SpringGridLayout(Axis.Y, Axis.X, FillMode.None, FillMode.Even));
 
@@ -36,14 +40,14 @@ public class ShipBaseParametersWidget extends Container {
 
     // drives
     addChild(new Label("drives"));
-    SpinnerWidget<Double> drives = addChild(new SpinnerWidget<>(new DoubleSequenceImpl(1)));
+    drives = addChild(new SpinnerWidget<>(new DoubleSequenceImpl(1)));
     references.addReference(drives.model());
 
     addChild(new SpacerWidget());
 
     // guns
     addChild(new Label("guns"));
-    SpinnerWidget<Integer> guns = addChild(new SpinnerWidget<>(new IntegerSequenceImpl(0)));
+    guns = addChild(new SpinnerWidget<>(new IntegerSequenceImpl(0)));
     references.addReference(guns.model());
     refGuns = guns.model().createReference();
 
@@ -51,7 +55,7 @@ public class ShipBaseParametersWidget extends Container {
 
     // caliber
     addChild(new Label("caliber"));
-    SpinnerWidget<Double> caliber = addChild(new SpinnerWidget<>(new DoubleSequenceImpl(0)));
+    caliber = addChild(new SpinnerWidget<>(new DoubleSequenceImpl(0)));
     references.addReference(caliber.model());
     refCaliber = caliber.model().createReference();
 
@@ -59,18 +63,18 @@ public class ShipBaseParametersWidget extends Container {
 
     // shields
     addChild(new Label("shields"));
-    SpinnerWidget<Double> shields = addChild(new SpinnerWidget<>(new DoubleSequenceImpl(0)));
+    shields = addChild(new SpinnerWidget<>(new DoubleSequenceImpl(0)));
     references.addReference(shields.model());
 
     addChild(new SpacerWidget());
 
     // cargo
     addChild(new Label("cargo"));
-    SpinnerWidget<Double> cargo = addChild(new SpinnerWidget<>(new DoubleSequenceImpl(0)));
+    cargo = addChild(new SpinnerWidget<>(new DoubleSequenceImpl(0)));
     references.addReference(cargo.model());
 
     addChild(new SpacerWidget());
-
+    
     addControl(new SimpleControl() {
       @Override
       protected void controlUpdate(float updateInterval) {
@@ -114,5 +118,13 @@ public class ShipBaseParametersWidget extends Container {
         }
       }
     });
+  }
+
+  public void useShipDesign(ShipDesign design) {
+    drives.model().setObject(design.drives().size());
+    guns.model().setObject(design.weapons().guns());
+    caliber.model().setObject(design.weapons().caliber());
+    shields.model().setObject(design.shields().power());
+    cargo.model().setObject(design.cargo().volume());
   }
 }
