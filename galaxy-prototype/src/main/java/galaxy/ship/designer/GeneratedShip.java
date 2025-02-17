@@ -1,15 +1,19 @@
 package galaxy.ship.designer;
 
 import static com.jme3.math.FastMath.sqrt;
+import static galaxy.ship.designer.CargoBatchPlacement.X_NEG;
 import static java.lang.Math.ceil;
 
 import cells.Cell2d;
+import com.google.common.collect.Iterators;
 import com.jme3.material.Material;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.debug.WireBox;
 import com.jme3.scene.shape.Cylinder;
 import galaxy.domain.ship.ShipDesign;
+import java.util.Iterator;
 import jme3utilities.mesh.Icosphere;
 import mesh.FlatShadedMesh;
 import org.slf4j.Logger;
@@ -81,12 +85,31 @@ public class GeneratedShip {
     Node cargo = new Node("cargo");
     root.attachChild(cargo);
 
-    for (int z = 1; z < 1 + batches; z++) {
+    Iterator<CargoBatchPlacement> itr = Iterators.cycle(CargoBatchPlacement.values());
+
+    int z = 1;
+    while (batches > 0) {
       Geometry batch = new Geometry("batch-%s".formatted(z), new WireBox(containerBatchExtent, containerBatchExtent, containerBatchExtent));
       batch.setMaterial(material);
-      batch.setLocalTranslation(new Cell2d(0, z, cellExtent).translation());
+
+      CargoBatchPlacement cbp = itr.next();
+      Vector3f translation = cbp.translation(z, cellExtent);
+      batch.setLocalTranslation(translation);
       cargo.attachChild(batch);
+
+      if (cbp == X_NEG) {
+        z++;
+      }
+
+      batches--;
     }
+
+    //    for (int z = 1; z < 1 + batches; z++) {
+    //      Geometry batch = new Geometry("batch-%s".formatted(z), new WireBox(containerBatchExtent, containerBatchExtent, containerBatchExtent));
+    //      batch.setMaterial(material);
+    //      batch.setLocalTranslation(new Cell2d(0, z, cellExtent).translation());
+    //      cargo.attachChild(batch);
+    //    }
   }
 
   private void attachDrives(Node root) {
