@@ -1,19 +1,28 @@
 package galaxy.ship.designer;
 
+import static com.jme3.math.FastMath.PI;
+import static com.jme3.math.FastMath.cos;
+import static com.jme3.math.FastMath.sin;
 import static com.jme3.math.FastMath.sqrt;
 import static galaxy.ship.designer.CargoBatchPlacement.TShape.X_NEG;
 import static java.lang.Math.ceil;
+import static java.lang.Math.min;
 
 import cells.Cell2d;
 import com.google.common.collect.Iterators;
+import com.google.common.primitives.Floats;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.material.Material;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.debug.WireBox;
 import com.jme3.scene.shape.Cylinder;
 import galaxy.domain.ship.ShipDesign;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import jme3utilities.mesh.Icosphere;
 import mesh.FlatShadedMesh;
 import org.slf4j.Logger;
@@ -109,22 +118,49 @@ public class GeneratedShip {
   private void attachDrives(Node root) {
     Node engine = new Node("engine");
     root.attachChild(engine);
-
-    //    Geometry hullBase = new Geometry("hull-base", new FlatShadedMesh(new Cylinder(2, 8, 3f * cellExtent, 2f * cellExtent, true)));
-    //    hullBase.setMaterial(material);
-    //    engine.attachChild(hullBase);
-    //    hullBase.move(new Cell2d(0, 0, cellExtent).translation());
-    //    hullBase.scale(1, 0.5f, 1);
-
-    //    Geometry engineCenter = new Geometry("engine-center", new FlatShadedMesh(new Cylinder(2, 8, cellExtent, 0.25f * cellExtent, true)));
-    //    engineCenter.setMaterial(material);
-    //    engineCenter.setLocalTranslation(new Cell2d(0, -1, cellExtent).translation().add(0, 0, (0.75f + 0.125f) * cellExtent));
-    //    engine.attachChild(engineCenter);
-
-    Geometry engineCenter = new Geometry("engine-center", new FlatShadedMesh(new Cylinder(2, 8, 0.5f * cellExtent, cellExtent, 2f * cellExtent, true, false)));
-    engineCenter.setMaterial(material);
-    engine.attachChild(engineCenter);
-
     engine.move(new Cell2d(0, -1, cellExtent).translation());
+
+    int driveCount = (int) ceil(design.drives().size());
+    logger.debug("drives = {}", driveCount);
+
+    List<Vector3f> points = new ArrayList<>(driveCount);
+    points.add(new Vector3f(0, 0, 0));
+    
+    float r = 0.75f;
+    int placed = 1;
+    int ring = 1;
+    
+    while (placed < driveCount) {
+      int ringSize = 6 * ring;
+      int remaining = driveCount - placed;
+      float ringRadius = ring * 2 * r;
+      for (int i = 0; i < ringSize && placed < driveCount; i++) {
+        float theta = (2f * PI * i) / min(remaining, ringSize);
+        float x = ringRadius * cos(theta);
+        float y = ringRadius * sin(theta);
+        points.add(new Vector3f(x, y, 0));
+        placed++;
+      }
+      ring++;
+    }
+
+    Node drives = new Node("drives");
+    engine.attachChild(drives);
+    drives.move(0, 0, -cellExtent -1f);
+
+    Mesh driveMesh = new FlatShadedMesh(new Cylinder(2, 6, 0.25f, 0.65f, 2f, true, false));
+    for (Vector3f v: points) {
+      Geometry drive = new Geometry("drive", driveMesh);
+      drive.setMaterial(material);
+      drive.setLocalTranslation(v);
+      drives.attachChild(drive);
+    }
+
+    BoundingBox bound = (BoundingBox) drives.getWorldBound();
+    float baseRadius = Floats.max(bound.getXExtent(), bound.getYExtent());
+    
+    Geometry base = new Geometry("engine-base", new FlatShadedMesh(new Cylinder(2, 8, cellExtent, baseRadius, 2f * cellExtent, true, false)));
+    base.setMaterial(material);
+    engine.attachChild(base);
   }
 }
