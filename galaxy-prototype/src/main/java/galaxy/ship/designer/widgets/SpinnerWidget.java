@@ -1,10 +1,10 @@
 package galaxy.ship.designer.widgets;
 
+import com.jme3.input.KeyInput;
 import com.jme3.input.event.MouseButtonEvent;
 import com.jme3.scene.Spatial;
 import com.simsilica.lemur.Axis;
 import com.simsilica.lemur.Button;
-import com.simsilica.lemur.Button.ButtonAction;
 import com.simsilica.lemur.Container;
 import com.simsilica.lemur.FillMode;
 import com.simsilica.lemur.GuiGlobals;
@@ -19,7 +19,10 @@ import com.simsilica.lemur.event.CursorEventControl;
 import com.simsilica.lemur.event.CursorMotionEvent;
 import com.simsilica.lemur.event.DefaultCursorListener;
 import com.simsilica.lemur.event.DefaultMouseListener;
+import com.simsilica.lemur.input.FunctionId;
+import com.simsilica.lemur.input.InputState;
 import com.simsilica.lemur.value.TextFieldValueEditor;
+import galaxy.ship.designer.model.AbstractSequenceExt;
 import jme3utilities.SimpleControl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,13 +31,17 @@ public class SpinnerWidget<T extends Number> extends Container {
 
   private static final Logger logger = LoggerFactory.getLogger(SpinnerWidget.class);
   
-  private final SequenceModel<T> model;
+  private static final FunctionId F_SHIFT = new FunctionId("shift");
+  
+  private final AbstractSequenceExt<T> model;
   private final VersionedReference<T> reference;
   private final Label label;
   
   private TextFieldValueEditor<Double> editor;
+  
+  private boolean isShift = false;
 
-  public SpinnerWidget(SequenceModel<T> model) {
+  public SpinnerWidget(AbstractSequenceExt<T> model) {
     super(new SpringGridLayout(Axis.Y, Axis.X, FillMode.ForcedEven, FillMode.First));
 
     this.reference = model.createReference();
@@ -45,13 +52,30 @@ public class SpinnerWidget<T extends Number> extends Container {
     Button decrease = addChild(new Button("-"), 1);
     decrease.setMaxWidth(32f);
     decrease.setTextHAlignment(HAlignment.Center);
-    decrease.addClickCommands(b -> model.setObject(model.getPreviousObject()));
+    decrease.addClickCommands(b -> {
+      if (isShift) {
+        model.updateBy(-10);
+      } else {
+        model.setObject(model.getPreviousObject());
+      }
+    });
 
     Button increase = addChild(new Button("+"), 2);
     increase.setMaxWidth(32f);
     increase.setTextHAlignment(HAlignment.Center);
-    increase.addClickCommands(b -> model.setObject(model.getNextObject()));
+    increase.addClickCommands(b -> {
+      if (isShift) {
+        model.updateBy(10);
+      } else {
+        model.setObject(model.getNextObject());
+      }
+    });
     
+    GuiGlobals.getInstance().getInputMapper().map(F_SHIFT, KeyInput.KEY_LSHIFT);
+    GuiGlobals.getInstance().getInputMapper().addStateListener((func, value, tpf) -> {
+      isShift = value != InputState.Off;
+    }, F_SHIFT);
+
     addControl(new SimpleControl() {
       @Override
       protected void controlUpdate(float updateInterval) {

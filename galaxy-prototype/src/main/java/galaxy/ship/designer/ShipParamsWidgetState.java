@@ -6,15 +6,15 @@ import com.jme3.scene.Node;
 import com.simsilica.lemur.Button;
 import com.simsilica.lemur.Container;
 import com.simsilica.lemur.Label;
-import com.simsilica.lemur.SequenceModel;
 import com.simsilica.lemur.core.VersionedHolder;
 import com.simsilica.lemur.core.VersionedReference;
 import com.simsilica.lemur.core.VersionedReferenceList;
 import com.simsilica.lemur.style.ElementId;
+import galaxy.domain.ship.ShipDesign;
+import galaxy.ship.designer.model.AbstractSequenceExt;
 import galaxy.ship.designer.model.DoubleSequenceImpl;
 import galaxy.ship.designer.model.IntegerSequenceImpl;
 import galaxy.ship.designer.widgets.SpinnerWidget;
-import galaxy.domain.ship.ShipDesign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,11 +27,11 @@ public class ShipParamsWidgetState extends BaseAppState {
 
   private final VersionedHolder<ShipDesign> holder = new VersionedHolder<>(ShipDesign.minimal());
 
-  private final SequenceModel<Double> modelDrives = new DoubleSequenceImpl(holder.getObject().drives().size());
-  private final SequenceModel<Integer> modelGuns = new IntegerSequenceImpl(holder.getObject().weapons().guns());
-  private final SequenceModel<Double> modelCaliber = new DoubleSequenceImpl(holder.getObject().weapons().caliber());
-  private final SequenceModel<Double> modelShields = new DoubleSequenceImpl(holder.getObject().shields().power());
-  private final SequenceModel<Double> modelCargo = new DoubleSequenceImpl(holder.getObject().cargo().volume());
+  private final AbstractSequenceExt<Double> modelDrives = new DoubleSequenceImpl(holder.getObject().drives().size());
+  private final AbstractSequenceExt<Integer> modelGuns = new IntegerSequenceImpl(holder.getObject().weapons().guns());
+  private final AbstractSequenceExt<Double> modelCaliber = new DoubleSequenceImpl(holder.getObject().weapons().caliber());
+  private final AbstractSequenceExt<Double> modelShields = new DoubleSequenceImpl(holder.getObject().shields().power());
+  private final AbstractSequenceExt<Double> modelCargo = new DoubleSequenceImpl(holder.getObject().cargo().volume());
 
   private final VersionedReference<Integer> refGuns = modelGuns.createReference();
   private final VersionedReference<Double> refCaliber = modelCaliber.createReference();

@@ -1,8 +1,6 @@
 package galaxy.ship.designer.model;
 
-import com.simsilica.lemur.SequenceModels.AbstractSequence;
-
-public class IntegerSequenceImpl extends AbstractSequence<Integer> {
+public class IntegerSequenceImpl extends AbstractSequenceExt<Integer> {
 
   private int value;
   
@@ -37,5 +35,10 @@ public class IntegerSequenceImpl extends AbstractSequence<Integer> {
       return 0;
     
     return value - 1;
+  }
+
+  @Override
+  public void updateBy(int delta) {
+    setObject(value + delta);
   }
 }

@@ -1,8 +1,6 @@
 package galaxy.ship.designer.model;
 
-import com.simsilica.lemur.SequenceModels.AbstractSequence;
-
-public class DoubleSequenceImpl extends AbstractSequence<Double> {
+public class DoubleSequenceImpl extends AbstractSequenceExt<Double> {
 
   private double value = 0;
 
@@ -47,5 +45,10 @@ public class DoubleSequenceImpl extends AbstractSequence<Double> {
     }
 
     return value - 0.01;
+  }
+
+  @Override
+  public void updateBy(int delta) {
+    setObject(value + delta);
   }
 }
