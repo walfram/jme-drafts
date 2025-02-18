@@ -21,7 +21,7 @@ public class ShipDesignIOState extends BaseAppState {
 
   @Override
   protected void initialize(Application app) {
-    try (InputStream is = Resources.getResourceAsStream("designs/classic.json")) {
+    try (InputStream is = Resources.getResourceAsStream("designs/ai-0.json")) {
 
       JsonNode root = mapper.readTree(is);
 

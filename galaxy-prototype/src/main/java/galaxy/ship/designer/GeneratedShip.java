@@ -1,7 +1,7 @@
 package galaxy.ship.designer;
 
 import static com.jme3.math.FastMath.sqrt;
-import static galaxy.ship.designer.CargoBatchPlacement.X_NEG;
+import static galaxy.ship.designer.CargoBatchPlacement.TShape.X_NEG;
 import static java.lang.Math.ceil;
 
 import cells.Cell2d;
@@ -77,7 +77,8 @@ public class GeneratedShip {
   private void attachCargo(Node root) {
     // count containers
     int containers = (int) ceil(design.cargo().volume());
-    // create container batches
+    
+    // containers to batches
     int batches = (int) ceil(containers * 0.2f);
 
     logger.debug("containers = {}, batches = {}", containers, batches);
@@ -85,7 +86,7 @@ public class GeneratedShip {
     Node cargo = new Node("cargo");
     root.attachChild(cargo);
 
-    Iterator<CargoBatchPlacement> itr = Iterators.cycle(CargoBatchPlacement.values());
+    Iterator<CargoBatchPlacement> itr = Iterators.cycle(CargoBatchPlacement.TShape.values());
 
     int z = 1;
     while (batches > 0) {
@@ -103,13 +104,6 @@ public class GeneratedShip {
 
       batches--;
     }
-
-    //    for (int z = 1; z < 1 + batches; z++) {
-    //      Geometry batch = new Geometry("batch-%s".formatted(z), new WireBox(containerBatchExtent, containerBatchExtent, containerBatchExtent));
-    //      batch.setMaterial(material);
-    //      batch.setLocalTranslation(new Cell2d(0, z, cellExtent).translation());
-    //      cargo.attachChild(batch);
-    //    }
   }
 
   private void attachDrives(Node root) {
