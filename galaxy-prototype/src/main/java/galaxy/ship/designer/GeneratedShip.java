@@ -33,6 +33,7 @@ public class GeneratedShip {
   private static final Logger logger = LoggerFactory.getLogger(GeneratedShip.class);
 
   private static final float cellExtent = 4f;
+  private static final float halfExtent = cellExtent * 0.5f;
   private static final float containerBatchExtent = 0.95f * cellExtent;
 
   private final ShipDesign design;
@@ -84,10 +85,10 @@ public class GeneratedShip {
   }
 
   private void attachCargo(Node root) {
-    // count containers
+    // count containers, rounded up
     int containers = (int) ceil(design.cargo().volume());
-    
-    // containers to batches
+
+    // containers to batches, 5 containers per batch
     int batches = (int) ceil(containers * 0.2f);
 
     logger.debug("containers = {}, batches = {}", containers, batches);
@@ -97,15 +98,37 @@ public class GeneratedShip {
 
     Iterator<CargoBatchPlacement> itr = Iterators.cycle(CargoBatchPlacement.TShape.values());
 
+    Mesh containerMesh = new FlatShadedMesh(new Cylinder(2, 6, 0.75f * halfExtent, containerBatchExtent, true));
+
+    Vector3f[] containerOffsets = {
+        new Vector3f(-halfExtent, -halfExtent, 0), new Vector3f(-halfExtent, halfExtent, 0),
+        new Vector3f(halfExtent, -halfExtent, 0), new Vector3f(halfExtent, halfExtent, 0),
+        new Vector3f(0, 0, 0)
+    };
+    
     int z = 1;
+    int container = 0;
     while (batches > 0) {
-      Geometry batch = new Geometry("batch-%s".formatted(z), new WireBox(containerBatchExtent, containerBatchExtent, containerBatchExtent));
-      batch.setMaterial(material);
+      Node batch = new Node("batch");
+      cargo.attachChild(batch);
 
       CargoBatchPlacement cbp = itr.next();
       Vector3f translation = cbp.translation(z, cellExtent);
       batch.setLocalTranslation(translation);
-      cargo.attachChild(batch);
+
+      Geometry batchBound = new Geometry("batch-%s".formatted(z), new WireBox(containerBatchExtent, containerBatchExtent, containerBatchExtent));
+      batchBound.setMaterial(material);
+      batch.attachChild(batchBound);
+
+      for (Vector3f offset : containerOffsets) {
+        Geometry g = new Geometry("container-%s".formatted(container), containerMesh);
+        g.setLocalTranslation(offset);
+        g.setMaterial(material);
+        batch.attachChild(g);
+        
+        if (container++ > containers)
+          break;
+      }
 
       if (cbp == X_NEG) {
         z++;
@@ -125,11 +148,11 @@ public class GeneratedShip {
 
     List<Vector3f> points = new ArrayList<>(driveCount);
     points.add(new Vector3f(0, 0, 0));
-    
+
     float r = 0.75f;
     int placed = 1;
     int ring = 1;
-    
+
     while (placed < driveCount) {
       int ringSize = 6 * ring;
       int remaining = driveCount - placed;
@@ -146,10 +169,10 @@ public class GeneratedShip {
 
     Node drives = new Node("drives");
     engine.attachChild(drives);
-    drives.move(0, 0, -cellExtent -1f);
+    drives.move(0, 0, -cellExtent - 1f); // -1 == half drive mesh height
 
     Mesh driveMesh = new FlatShadedMesh(new Cylinder(2, 6, 0.25f, 0.65f, 2f, true, false));
-    for (Vector3f v: points) {
+    for (Vector3f v : points) {
       Geometry drive = new Geometry("drive", driveMesh);
       drive.setMaterial(material);
       drive.setLocalTranslation(v);
@@ -157,8 +180,8 @@ public class GeneratedShip {
     }
 
     BoundingBox bound = (BoundingBox) drives.getWorldBound();
-    float baseRadius = Floats.max(bound.getXExtent(), bound.getYExtent());
-    
+    float baseRadius = Floats.max(bound.getXExtent(), bound.getYExtent(), 0.5f * cellExtent);
+
     Geometry base = new Geometry("engine-base", new FlatShadedMesh(new Cylinder(2, 8, cellExtent, baseRadius, 2f * cellExtent, true, false)));
     base.setMaterial(material);
     engine.attachChild(base);
