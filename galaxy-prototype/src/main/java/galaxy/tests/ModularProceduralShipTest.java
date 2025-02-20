@@ -110,10 +110,20 @@ public class ModularProceduralShipTest extends SimpleApplication {
       mk7();
     });
     
-    // TODO ring with 3 columns
+    container.addChild(new Button("mk8")).addClickCommands(b -> {
+      clear();
+      mk8();
+    });
     
     guiNode.attachChild(container);
     container.setLocalTranslation(10, cam.getHeight() - 10, 0);
+  }
+
+  private void mk8() {
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(2, 6, 1f, 1f, true)));
+    hull.setMaterial(material);
+    hull.scale(16f, 4f, 64f);
+    scene.attachChild(hull);
   }
 
   private void mk7() {
