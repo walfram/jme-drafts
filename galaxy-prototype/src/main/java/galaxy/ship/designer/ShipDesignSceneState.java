@@ -2,7 +2,6 @@ package galaxy.ship.designer;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
-import com.jme3.material.Material;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.core.VersionedReference;
 import galaxy.domain.ship.ShipDesign;
@@ -16,19 +15,15 @@ public class ShipDesignSceneState extends BaseAppState {
   private final Node scene = new Node("ship-design-scene-node");
   private VersionedReference<ShipDesign> designReference;
 
-  private Material material;
-  
   public ShipDesignSceneState(Node rootNode) {
     rootNode.attachChild(scene);
   }
 
   @Override
   protected void initialize(Application application) {
-    material = new Material(application.getAssetManager(), "Common/MatDefs/Misc/ShowNormals.j3md");
     designReference = getState(ShipDesignUiState.class).shipDesignReference();
 
-    Node shipNode = new GeneratedShip(designReference.get(), material).node();
-    scene.attachChild(shipNode);
+    updateShip();
   }
   
   @Override
@@ -42,8 +37,9 @@ public class ShipDesignSceneState extends BaseAppState {
   private void updateShip() {
     scene.detachAllChildren();
 
-    Node shipNode = new GeneratedShip(designReference.get(), material).node();
+    Node shipNode = getState(GeneratedShipState.class).generate(designReference.get());
     scene.attachChild(shipNode);
+    logger.debug("ship node bound = {}", shipNode.getWorldBound());
   }
 
   @Override

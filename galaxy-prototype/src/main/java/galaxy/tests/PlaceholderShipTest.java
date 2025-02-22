@@ -98,14 +98,14 @@ public class PlaceholderShipTest extends SimpleApplication {
   private Node advancedShip(Material material) {
     Node ship = new Node("advanced-ship");
 
-    Geometry hullFront = new Geometry("hull-front", new FlatShadedMesh(new Cylinder(2, 4, 0.125f, 1f, 1f, true, false)));
+    Geometry hullFront = new Geometry("hull-front", new FlatShadedMesh(new Cylinder(2, 6, 0.125f, 1f, 1f, true, false)));
     hullFront.setMaterial(material);
     hullFront.scale(8f, 4f, 24f);
     hullFront.move(0, 0, 12f);
     
     ship.attachChild(hullFront);
 
-    Geometry hullBack = new Geometry("hull-back", new FlatShadedMesh(new Cylinder(2, 4, 0.25f, 1f, 1f, true, false)));
+    Geometry hullBack = new Geometry("hull-back", new FlatShadedMesh(new Cylinder(2, 6, 0.25f, 1f, 1f, true, false)));
     MyMesh.rotate(hullBack.getMesh(), new Quaternion().fromAngleNormalAxis(PI, UNIT_X.negate()));
     hullBack.setMaterial(material);
     hullBack.scale(8f, 4f, 4f);

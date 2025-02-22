@@ -33,5 +33,6 @@ public class QuickChaseCamera {
     
     chaseCamera.setDefaultHorizontalRotation(FastMath.QUARTER_PI);
     
+    chaseCamera.setMinVerticalRotation(-FastMath.QUARTER_PI);
   }
 }

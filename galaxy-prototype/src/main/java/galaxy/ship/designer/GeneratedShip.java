@@ -7,6 +7,7 @@ import static com.jme3.math.FastMath.sqrt;
 import static galaxy.ship.designer.CargoBatchPlacement.TShape.X_NEG;
 import static java.lang.Math.ceil;
 import static java.lang.Math.min;
+import static jme3utilities.math.MyMath.max;
 
 import cells.Cell2d;
 import com.google.common.collect.Iterators;
@@ -28,6 +29,10 @@ import mesh.FlatShadedMesh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @deprecated this is "god" class, must be refactored
+ */
+@Deprecated
 public class GeneratedShip {
 
   private static final Logger logger = LoggerFactory.getLogger(GeneratedShip.class);
@@ -180,7 +185,7 @@ public class GeneratedShip {
     }
 
     BoundingBox bound = (BoundingBox) drives.getWorldBound();
-    float baseRadius = Floats.max(bound.getXExtent(), bound.getYExtent(), 0.5f * cellExtent);
+    float baseRadius = max(bound.getXExtent(), bound.getYExtent(), 0.5f * cellExtent);
 
     Geometry base = new Geometry("engine-base", new FlatShadedMesh(new Cylinder(2, 8, cellExtent, baseRadius, 2f * cellExtent, true, false)));
     base.setMaterial(material);
