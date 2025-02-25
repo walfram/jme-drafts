@@ -1,23 +1,21 @@
 package galaxy.ship.designer;
 
-import static com.jme3.math.FastMath.PI;
-import static com.jme3.math.FastMath.log;
-import static com.jme3.math.FastMath.pow;
-import static com.jme3.math.Vector3f.UNIT_X;
-import static jme3utilities.math.MyMath.max;
+import static java.lang.Math.ceil;
 
+import cells.Cell2d;
+import com.google.common.collect.Iterators;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
-import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.debug.WireBox;
 import com.jme3.scene.shape.Cylinder;
 import galaxy.domain.ship.ShipDesign;
-import jme3utilities.MyMesh;
+import galaxy.ship.designer.CargoBatchPlacement.YShape;
+import java.util.Iterator;
 import mesh.FlatShadedMesh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,25 +24,18 @@ public class GeneratedShipState extends BaseAppState {
 
   private static final Logger logger = LoggerFactory.getLogger(GeneratedShipState.class);
   
+  private static final int batchesSingleRowThreshold = 6;
+  
+  private static final float cellExt = 4f;
+  
   private Material material;
-  private Mesh hullFrontMesh;
-  private Vector3f baseHullFrontScale;
-  private Mesh hullBackMesh;
-  private Vector3f baseHullBackScale;
-
+  private Mesh cargoBatchMesh;
+  
   @Override
   protected void initialize(Application app) {
     material = new Material(app.getAssetManager(), "Common/MatDefs/Misc/ShowNormals.j3md");
-
-    hullFrontMesh = new FlatShadedMesh(new Cylinder(2, 6, 0.125f, 1f, 1f, true, false));
-    MyMesh.translate(hullFrontMesh, new Vector3f(0, 0, 0.5f));
-    baseHullFrontScale = new Vector3f(2f, 1f, 6f);
-
-    hullBackMesh = new FlatShadedMesh(new Cylinder(2, 6, 0.25f, 1f, 1f, true, false));
-    MyMesh.rotate(hullBackMesh, new Quaternion().fromAngleNormalAxis(PI, UNIT_X.negate()));
-    MyMesh.translate(hullBackMesh, new Vector3f(0, 0, -0.5f));
-
-    baseHullBackScale = new Vector3f(2f, 1f, 1f);
+    
+    cargoBatchMesh = new WireBox(cellExt * 0.95f, cellExt * 0.95f, cellExt * 0.95f);
   }
 
   @Override
@@ -65,34 +56,74 @@ public class GeneratedShipState extends BaseAppState {
   public Node generate(ShipDesign shipDesign) {
     Node ship = new Node("generated-ship");
 
-    double weight = shipDesign.weight();
-    float height = (float) calculateHeight(weight, 0.125, 1);
-    logger.debug("height = {}, log(height) = {}", height, log(height));
+//    Spatial hull = hull(shipDesign);
+//    ship.attachChild(hull);
 
-    Geometry front = new Geometry("hull-front", hullFrontMesh);
-    ship.attachChild(front);
-    
-    front.setMaterial(material);
-    front.setLocalScale(baseHullFrontScale);
+    Spatial cargo = cargo(shipDesign);
+    ship.attachChild(cargo);
 
-    Geometry back = new Geometry("hull-back", hullBackMesh);
-    ship.attachChild(back);
-    
-    back.setMaterial(material);
-    back.setLocalScale(baseHullBackScale);
-    
-    ship.scale(max(1f, log(height)));
+    Spatial drives = drives(shipDesign);
+    ship.attachChild(drives);
+
+    Spatial bridge = bridge(shipDesign);
+    ship.attachChild(bridge);
+
+    Spatial shields = shields(shipDesign);
+    ship.attachChild(shields);
     
     return ship;
   }
 
-  private double calculateHeight(double volume, double minorRadius, double majorRadius) {
-    double v3 = 3 * volume;
+  private Spatial hull(ShipDesign shipDesign) {
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(2, 3, 4f, 32f, true)));
+
+    hull.setMaterial(material);
     
-    double minRR = minorRadius * minorRadius;
-    double majRR = majorRadius * majorRadius;
-    double rr = minorRadius * majorRadius;
+    return hull;
+  }
+
+  private Spatial shields(ShipDesign shipDesign) {
+    return new Node("shields");
+  }
+
+  private Spatial bridge(ShipDesign shipDesign) {
+    return new Node("bridge");
+  }
+
+  private Spatial drives(ShipDesign shipDesign) {
+    return new Node("drives");
+  }
+
+  private Spatial cargo(ShipDesign shipDesign) {
+    int containers = (int) ceil(shipDesign.cargo().volume());
+    int batches = (int) ceil(containers * 0.2f);
+    logger.debug("cargo volume = {}, containers = {}, batches (x5) = {}", shipDesign.cargo().volume(), containers, batches);
+
+    Node node = new Node("cargo");
     
-    return v3 / PI * (minRR + majRR + rr);
+    if (batches == 0) {
+      return node;
+    }
+    
+    if (batches <= batchesSingleRowThreshold) {
+      for (int z = 0; z < batches; z++) {
+        Geometry batch = new Geometry("batch-%s".formatted(z), cargoBatchMesh);
+        batch.setMaterial(material);
+        batch.setLocalTranslation(new Cell2d(0, z, cellExt).translation());
+        node.attachChild(batch);
+      }
+      
+      return node;
+    }
+
+    Iterator<YShape> it = Iterators.cycle(YShape.values());
+    
+    int z = 0;
+    int placed = 0;
+    while (placed < batches) {
+      
+    }
+
+    return node;
   }
 }
