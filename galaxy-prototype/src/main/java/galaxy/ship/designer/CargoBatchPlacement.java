@@ -6,13 +6,11 @@ import static com.jme3.math.Vector3f.UNIT_Z;
 import cells.Cell2d;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import java.util.List;
 
+@Deprecated
 public interface CargoBatchPlacement {
 
   Vector3f translation(int z, float cellExtent);
-  
-  static List<List<CargoBatchPlacement>> arrange(int batches);
   
   enum Cross implements CargoBatchPlacement {
     CENTER, Y_POS, Y_NEG, X_POS, X_NEG;

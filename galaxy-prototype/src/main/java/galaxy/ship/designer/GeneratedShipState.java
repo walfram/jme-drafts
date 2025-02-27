@@ -16,6 +16,11 @@ import com.jme3.scene.shape.Cylinder;
 import galaxy.domain.ship.ShipDesign;
 import galaxy.ship.designer.CargoBatchPlacement.YShape;
 import java.util.Iterator;
+import java.util.List;
+
+import galaxy.ship.generated.BatchPlacement;
+import galaxy.ship.generated.BatchPosition;
+import galaxy.ship.generated.YShapePlacement;
 import mesh.FlatShadedMesh;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,15 +120,20 @@ public class GeneratedShipState extends BaseAppState {
       
       return node;
     }
-
-    Iterator<YShape> it = Iterators.cycle(YShape.values());
     
-    int z = 0;
-    int placed = 0;
-    while (placed < batches) {
-      
+    BatchPlacement placement = new YShapePlacement();
+    List<List<BatchPosition>> arranged = placement.arrange(batches);
+    logger.debug("arranged = {}", arranged);
+    
+    for (int z = 0; z < arranged.size(); z++) {
+      for (BatchPosition batchPosition: arranged.get(z)) {
+        Geometry batch = new Geometry("batch-%s-%s".formatted(z, batchPosition.toString()), cargoBatchMesh);
+        batch.setMaterial(material);
+        batch.setLocalTranslation(batchPosition.translation(z, cellExt));
+        node.attachChild(batch);
+      }
     }
-
+    
     return node;
   }
 }
