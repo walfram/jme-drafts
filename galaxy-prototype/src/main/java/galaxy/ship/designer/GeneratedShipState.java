@@ -1,5 +1,6 @@
 package galaxy.ship.designer;
 
+import static com.jme3.math.Vector3f.UNIT_Y;
 import static java.lang.Math.ceil;
 
 import cells.Cell2d;
@@ -7,6 +8,7 @@ import com.google.common.collect.Iterators;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
@@ -123,13 +125,14 @@ public class GeneratedShipState extends BaseAppState {
     
     BatchPlacement placement = new YShapePlacement();
     List<List<BatchPosition>> arranged = placement.arrange(batches);
-    logger.debug("arranged = {}", arranged);
+    logger.debug("arranged batches = {}", arranged);
     
     for (int z = 0; z < arranged.size(); z++) {
       for (BatchPosition batchPosition: arranged.get(z)) {
         Geometry batch = new Geometry("batch-%s-%s".formatted(z, batchPosition.toString()), cargoBatchMesh);
         batch.setMaterial(material);
         batch.setLocalTranslation(batchPosition.translation(z, cellExt));
+        batch.lookAt(new Vector3f(0, 0, z * 2f * cellExt), UNIT_Y);
         node.attachChild(batch);
       }
     }
