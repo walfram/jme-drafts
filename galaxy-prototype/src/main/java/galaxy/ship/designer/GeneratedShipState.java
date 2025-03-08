@@ -1,10 +1,10 @@
 package galaxy.ship.designer;
 
+import static com.jme3.math.FastMath.HALF_PI;
 import static com.jme3.math.Vector3f.UNIT_Y;
 import static java.lang.Math.ceil;
 
 import cells.Cell2d;
-import com.google.common.collect.Iterators;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
@@ -16,8 +16,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.debug.WireBox;
 import com.jme3.scene.shape.Cylinder;
 import galaxy.domain.ship.ShipDesign;
-import galaxy.ship.designer.CargoBatchPlacement.YShape;
-import java.util.Iterator;
+
 import java.util.List;
 
 import galaxy.ship.generated.BatchPlacement;
@@ -38,11 +37,17 @@ public class GeneratedShipState extends BaseAppState {
   private Material material;
   private Mesh cargoBatchMesh;
   
+  private Mesh cylinder3Sides;
+  private Mesh cylinder5Sides;
+  
   @Override
   protected void initialize(Application app) {
     material = new Material(app.getAssetManager(), "Common/MatDefs/Misc/ShowNormals.j3md");
     
     cargoBatchMesh = new WireBox(cellExt * 0.95f, cellExt * 0.95f, cellExt * 0.95f);
+    
+    cylinder3Sides = new FlatShadedMesh(new Cylinder(2, 3, 1, 1, true));
+    cylinder5Sides = new FlatShadedMesh(new Cylinder(2, 5, 1, 1, true));
   }
 
   @Override
@@ -63,11 +68,13 @@ public class GeneratedShipState extends BaseAppState {
   public Node generate(ShipDesign shipDesign) {
     Node ship = new Node("generated-ship");
 
-//    Spatial hull = hull(shipDesign);
-//    ship.attachChild(hull);
-
-    Spatial cargo = cargo(shipDesign);
-    ship.attachChild(cargo);
+    if (shipDesign.hasCargo()) {
+      Spatial cargo = cargo(shipDesign);
+      ship.attachChild(cargo);
+    } else {
+      Spatial hull = hull(shipDesign);
+      ship.attachChild(hull);
+    }
 
     Spatial drives = drives(shipDesign);
     ship.attachChild(drives);
@@ -82,9 +89,12 @@ public class GeneratedShipState extends BaseAppState {
   }
 
   private Spatial hull(ShipDesign shipDesign) {
-    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(2, 3, 4f, 32f, true)));
-
+    Geometry hull = new Geometry("hull", cylinder3Sides);
+    
     hull.setMaterial(material);
+    hull.rotate(0, 0, HALF_PI);
+//    hull.scale(cellExt, cellExt, 2f * cargoBound.getZExtent());
+//    hull.move(0, 0, cargoBound.getZExtent() - cellExt);
     
     return hull;
   }

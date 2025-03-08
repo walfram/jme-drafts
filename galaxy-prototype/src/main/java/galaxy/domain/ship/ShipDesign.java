@@ -61,5 +61,8 @@ public class ShipDesign implements Weighted, Producible {
   public Cargo cargo() {
     return cargo;
   }
-
+  
+  public boolean hasCargo() {
+    return cargo().volume() > 0;
+  }
 }
