@@ -1,4 +1,4 @@
-package galaxy.tests;
+package tests;
 
 import static com.jme3.math.FastMath.ZERO_TOLERANCE;
 import static com.jme3.math.FastMath.abs;

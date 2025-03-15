@@ -1,4 +1,4 @@
-package galaxy.tests;
+package tests;
 
 import cells.Cell;
 import cells.Cell2d;

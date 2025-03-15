@@ -1,24 +1,17 @@
-package galaxy.tests;
+package tests;
 
 import cells.Cell2d;
 import com.jme3.app.SimpleApplication;
 import com.jme3.material.Material;
-import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.debug.WireBox;
-import com.jme3.scene.debug.WireSphere;
 import com.jme3.scene.shape.Cylinder;
 import com.jme3.system.AppSettings;
-import com.simsilica.lemur.geom.MBox;
 import debug.QuickAppSettings;
 import debug.QuickAppSetup;
 import debug.QuickChaseCamera;
-import java.util.List;
-import jme3utilities.MyMesh;
 import jme3utilities.mesh.Octasphere;
 import mesh.FlatShadedMesh;
 

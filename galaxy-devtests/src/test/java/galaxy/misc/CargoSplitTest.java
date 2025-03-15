@@ -2,11 +2,11 @@ package galaxy.misc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import galaxy.tests.Splitted;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tests.Splitted;
 
 public class CargoSplitTest {
 

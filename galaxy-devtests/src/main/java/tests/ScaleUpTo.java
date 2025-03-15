@@ -1,4 +1,4 @@
-package galaxy.tests;
+package tests;
 
 import com.jme3.bounding.BoundingBox;
 import com.jme3.scene.Spatial;

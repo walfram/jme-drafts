@@ -1,4 +1,4 @@
-package galaxy.tests;
+package tests;
 
 import cells.Cell2d;
 import com.jme3.app.SimpleApplication;

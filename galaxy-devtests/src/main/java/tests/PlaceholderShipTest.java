@@ -1,4 +1,4 @@
-package galaxy.tests;
+package tests;
 
 import static com.jme3.math.FastMath.HALF_PI;
 import static com.jme3.math.FastMath.PI;

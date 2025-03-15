@@ -1,4 +1,4 @@
-package galaxy.tests;
+package tests;
 
 import static java.util.stream.Collectors.toCollection;
 
