@@ -65,7 +65,7 @@ public class ModularShipTest extends SimpleApplication {
 
      cargoBatches();
 
-    new QuickChaseCamera(cam, inputManager).init(rootNode);
+    new QuickChaseCamera(cam, inputManager).attachTo(rootNode);
   }
 
   private void cargoBatches() {

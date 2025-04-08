@@ -70,6 +70,6 @@ public class ShipSizeTest extends SimpleApplication {
       }
     });
 
-    new QuickChaseCamera(cam, inputManager).init(rootNode);
+    new QuickChaseCamera(cam, inputManager).attachTo(rootNode);
   }
 }

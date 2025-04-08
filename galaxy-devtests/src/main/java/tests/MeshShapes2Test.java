@@ -62,6 +62,6 @@ public class MeshShapes2Test extends SimpleApplication {
     rounded.scale(10);
     rootNode.attachChild(rounded);
     
-    new QuickChaseCamera(cam, inputManager).init(rootNode);
+    new QuickChaseCamera(cam, inputManager).attachTo(rootNode);
   }
 }

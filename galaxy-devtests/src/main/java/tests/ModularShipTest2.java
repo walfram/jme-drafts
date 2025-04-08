@@ -55,7 +55,7 @@ public class ModularShipTest2 extends SimpleApplication {
     
     containers(hullExtent);
 
-    new QuickChaseCamera(cam, inputManager).init(rootNode);
+    new QuickChaseCamera(cam, inputManager).attachTo(rootNode);
   }
 
   private void containers(int hullExtent) {

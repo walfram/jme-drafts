@@ -1,4 +1,4 @@
-package tests;
+package materials;
 
 import com.jme3.material.Material;
 

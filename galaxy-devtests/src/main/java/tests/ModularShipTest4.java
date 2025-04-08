@@ -112,7 +112,7 @@ public class ModularShipTest4 extends SimpleApplication {
     engineXPos.setLocalTranslation(new Cell2d(1, -1, cellExtent).translation().add(0, 0, (0.75f + 0.125f) * cellExtent));
     rootNode.attachChild(engineXPos);
 
-    new QuickChaseCamera(cam, inputManager).init(rootNode);
+    new QuickChaseCamera(cam, inputManager).attachTo(rootNode);
   }
 
   private void tube() {

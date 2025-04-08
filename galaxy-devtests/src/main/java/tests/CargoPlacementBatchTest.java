@@ -68,6 +68,6 @@ public class CargoPlacementBatchTest extends SimpleApplication {
     engines.move(0, 0, -4f * extent * 4);
     engines.scale(1, 0.5f, 1);
 
-    new QuickChaseCamera(cam, inputManager).init(rootNode);
+    new QuickChaseCamera(cam, inputManager).attachTo(rootNode);
   }
 }

@@ -33,7 +33,7 @@ public class ShipShapeTest extends SimpleApplication {
 
     mk5(material);
 
-    new QuickChaseCamera(cam, inputManager).init(rootNode);
+    new QuickChaseCamera(cam, inputManager).attachTo(rootNode);
   }
   
   private void mk5(Material material) {

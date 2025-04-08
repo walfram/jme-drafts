@@ -72,7 +72,7 @@ public class ModularProceduralShipTest extends SimpleApplication {
 
     rootNode.attachChild(scene);
 
-    new QuickChaseCamera(cam, inputManager).init(scene);
+    new QuickChaseCamera(cam, inputManager).attachTo(scene);
   }
 
   private void initGui() {

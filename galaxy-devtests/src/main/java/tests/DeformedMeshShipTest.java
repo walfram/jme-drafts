@@ -42,7 +42,7 @@ public class DeformedMeshShipTest extends SimpleApplication {
 
     mk2(material);
 
-    new QuickChaseCamera(cam, inputManager).init(rootNode);
+    new QuickChaseCamera(cam, inputManager).attachTo(rootNode);
   }
 
   // deformed cylinder

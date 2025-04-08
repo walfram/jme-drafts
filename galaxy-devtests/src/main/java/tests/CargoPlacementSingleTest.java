@@ -69,7 +69,7 @@ public class CargoPlacementSingleTest extends SimpleApplication {
       group++;
     }
 
-    new QuickChaseCamera(cam, inputManager).init(rootNode);
+    new QuickChaseCamera(cam, inputManager).attachTo(rootNode);
 
     long count = rootNode.getChildren().stream().filter(c -> c.getName() != null).filter(c -> c.getName().startsWith("container-")).count();
     logger.debug("containers in root node = {}", count);

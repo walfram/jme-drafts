@@ -49,7 +49,7 @@ public class ModularShipTest3 extends SimpleApplication {
     rootNode.attachChild(hullChunk2);
     hullChunk2.move(0, 0, 2f * cellExtent);
     
-    new QuickChaseCamera(cam, inputManager).init(rootNode);
+    new QuickChaseCamera(cam, inputManager).attachTo(rootNode);
   }
 
   private Node hullChunk() {

@@ -22,7 +22,7 @@ public class DesignerInitState extends BaseAppState {
 
     new QuickLemurSetup().applyTo(application);
     
-    new QuickChaseCamera(application.getCamera(), application.getInputManager()).init(rootNode);
+    new QuickChaseCamera(application.getCamera(), application.getInputManager()).attachTo(rootNode);
   }
 
   @Override

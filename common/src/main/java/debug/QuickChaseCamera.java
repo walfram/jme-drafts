@@ -19,7 +19,7 @@ public class QuickChaseCamera {
     this.inputManager = inputManager;
   }
 
-  public void init(Node target) {
+  public void attachTo(Node target) {
     chaseCamera = new ChaseCamera(camera, target, inputManager);
     chaseCamera.setDragToRotate(true);
     

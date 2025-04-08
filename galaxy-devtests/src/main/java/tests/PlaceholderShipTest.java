@@ -66,7 +66,7 @@ public class PlaceholderShipTest extends SimpleApplication {
     Node pyramidShip = pyramidShip(material);
     rootNode.attachChild(pyramidShip);
     
-    new QuickChaseCamera(cam, inputManager).init(rootNode);
+    new QuickChaseCamera(cam, inputManager).attachTo(rootNode);
   }
 
   private Node pyramidShip(Material material) {
