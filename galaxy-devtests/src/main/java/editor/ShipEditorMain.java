@@ -27,12 +27,11 @@ public class ShipEditorMain extends SimpleApplication {
     
     stateManager.attach(new EditorLemurState());
     
-    stateManager.attach(new CollisionState());
+//    stateManager.attach(new CollisionState());
+//    stateManager.attach(new ClickState());
+//    stateManager.attach(new MenuState(guiNode));
     
-    stateManager.attach(new ClickState());
-    
-    stateManager.attach(new MenuState(guiNode));
-    
-    
+    stateManager.attach(new ContainerState(rootNode, cellExtent));
+    stateManager.attach(new ContainerUiState(guiNode));
   }
 }
