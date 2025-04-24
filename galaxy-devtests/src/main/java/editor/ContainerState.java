@@ -3,14 +3,18 @@ package editor;
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.geom.MBox;
 import materials.ShowNormalsMaterial;
 
+import static java.lang.Math.cbrt;
+import static java.lang.Math.pow;
+
 public class ContainerState extends BaseAppState {
+  
+  private static final double PHI = 1.61803398875;
   
   private final Node scene = new Node("scene");
   private final float cellExtent;
@@ -24,32 +28,34 @@ public class ContainerState extends BaseAppState {
   
   @Override
   protected void initialize(Application application) {
-    updateContainers();
   }
   
   private void updateContainers() {
     scene.detachAllChildren();
     
-    Mesh mesh = new MBox(cellExtent, cellExtent, cellExtent, 2, 2, 2);
     Material material = new ShowNormalsMaterial(getApplication().getAssetManager());
     
-    ContainerVolume volume = new ContainerVolume(containerCount);
-    Dimensions dimensions = volume.dimensions();
+    double volume = 0.5 * containerCount;
     
-    for (int ox: dimensions.x()) {
-      for (int oy: dimensions.y()) {
-        for (int oz: dimensions.z()) {
-          Geometry geometry = new Geometry("container.%s.%s.%s".formatted(ox, oy, oz), mesh);
-          geometry.setMaterial(material);
-          
-          Vector3f translation = new Vector3f(ox, oy, oz).multLocal(2f * cellExtent);
-          geometry.setLocalTranslation(translation);
-          
-          geometry.scale(0.95f);
-          scene.attachChild(geometry);
-        }
-      }
-    }
+    double width = cbrt(volume / pow(PHI, 3));
+    double height = PHI * width;
+    double depth = pow(PHI, 2) * width;
+    
+    float xExtent = (float) width;
+    float yExtent = (float) height;
+    float zExtent = (float) depth;
+    
+    Mesh mesh = new MBox(xExtent, yExtent, zExtent, 2, 2, 2);
+    
+    Geometry left = new Geometry("left-container", mesh);
+    left.setMaterial(material);
+    left.move(-cellExtent - xExtent, 0, 0);
+    scene.attachChild(left);
+    
+    Geometry right = new Geometry("right-container", mesh);
+    right.setMaterial(material);
+    right.move(cellExtent + xExtent, 0, 0);
+    scene.attachChild(right);
   }
   
   @Override
@@ -66,5 +72,6 @@ public class ContainerState extends BaseAppState {
   
   public void updateContainerCount(int containerCount) {
     this.containerCount = containerCount;
+    updateContainers();
   }
 }
