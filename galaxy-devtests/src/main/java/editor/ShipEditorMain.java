@@ -19,7 +19,7 @@ public class ShipEditorMain extends SimpleApplication {
   
   @Override
   public void simpleInitApp() {
-    final float cellExtent = 8f;
+    final float cellExtent = 4f;
     
     stateManager.attach(new DebugGridState(rootNode, cellExtent));
     stateManager.attach(new DebugAxesState(rootNode));
@@ -31,6 +31,9 @@ public class ShipEditorMain extends SimpleApplication {
 //    stateManager.attach(new ClickState());
 //    stateManager.attach(new MenuState(guiNode));
     
+    stateManager.attach(new ShipState());
+    
+    stateManager.attach(new HullState(rootNode, cellExtent));
     stateManager.attach(new ContainerState(rootNode, cellExtent));
     stateManager.attach(new ContainerUiState(guiNode));
   }

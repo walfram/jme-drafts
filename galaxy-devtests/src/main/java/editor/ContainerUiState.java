@@ -49,7 +49,13 @@ public class ContainerUiState extends BaseAppState {
       @Override
       protected void controlUpdate(float updateInterval) {
         if (containerCountRef.update()) {
-          getState(ContainerState.class).updateContainerCount(
+//          getState(ContainerState.class).updateContainerCount(
+//              Integer.parseInt(containerCountRef.get().getText())
+//          );
+//          getState(HullState.class).updateContainerCount(
+//              Integer.parseInt(containerCountRef.get().getText())
+//          );
+          getState(ShipState.class).updateContainerCount(
               Integer.parseInt(containerCountRef.get().getText())
           );
         }
