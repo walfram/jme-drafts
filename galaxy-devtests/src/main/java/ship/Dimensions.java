@@ -1,4 +1,4 @@
-package editor;
+package ship;
 
 import java.util.stream.IntStream;
 

@@ -8,12 +8,15 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.simsilica.lemur.geom.MBox;
 import materials.ShowNormalsMaterial;
+import org.slf4j.Logger;
 
 import static java.lang.Math.cbrt;
 import static java.lang.Math.pow;
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class ContainerState extends BaseAppState {
   
+  private static final Logger logger = getLogger(ContainerState.class);
   private static final double PHI = 1.61803398875;
   
   private final Node scene = new Node("scene");
@@ -35,7 +38,8 @@ public class ContainerState extends BaseAppState {
     
     Material material = new ShowNormalsMaterial(getApplication().getAssetManager());
     
-    double volume = 0.5 * containerCount;
+    double volume = 0.5 * containerCount; // * pow(cellExtent, 3);
+    logger.debug("container count = {}, volume = {}", containerCount, volume);
     
     double width = cbrt(volume / pow(PHI, 3));
     double height = PHI * width;
@@ -44,6 +48,7 @@ public class ContainerState extends BaseAppState {
     float xExtent = (float) width;
     float yExtent = (float) height;
     float zExtent = (float) depth;
+    logger.debug("container extent = x={} y={} z={}", xExtent, yExtent, zExtent);
     
     Mesh mesh = new MBox(xExtent, yExtent, zExtent, 2, 2, 2);
     

@@ -1,4 +1,4 @@
-package editor;
+package ship;
 
 public class ContainerVolume {
   private final int containerCount;
