@@ -48,7 +48,7 @@ public class HullState extends BaseAppState {
   public void updateContainers(float xExtent, float yExtent, float zExtent) {
     scene.detachAllChildren();
     
-    Mesh mesh = new Cylinder(2, 6, cellExtent, 1.5f * 2f * zExtent, true);
+    Mesh mesh = new Cylinder(2, 8, cellExtent, 1.5f * 2f * zExtent, true);
     Geometry geometry = new Geometry("hull", mesh);
     geometry.setMaterial(new ShowNormalsMaterial(getApplication().getAssetManager()));
     
