@@ -1,4 +1,4 @@
-package editor;
+package ship.lab;
 
 import com.google.common.base.Function;
 import com.jme3.app.Application;

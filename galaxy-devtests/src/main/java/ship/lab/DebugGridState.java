@@ -1,8 +1,7 @@
-package editor;
+package ship.lab;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import debug.DebugGrid;
 

@@ -1,16 +1,15 @@
-package editor;
+package ship.lab;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
-import com.simsilica.state.CameraState;
 import debug.QuickAppSettings;
 
-public class ShipEditorMain extends SimpleApplication {
+public class ShipLabMain extends SimpleApplication {
   
   public static void main(String[] args) {
     AppSettings settings = new QuickAppSettings().settings();
     
-    ShipEditorMain app = new ShipEditorMain();
+    ShipLabMain app = new ShipLabMain();
     app.setSettings(settings);
     app.setShowSettings(false);
     

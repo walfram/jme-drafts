@@ -1,7 +1,6 @@
-package editor;
+package ship.lab;
 
 import com.jme3.app.Application;
-import com.jme3.app.state.AppState;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
@@ -9,7 +8,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Cylinder;
 import materials.ShowNormalsMaterial;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static org.slf4j.LoggerFactory.getLogger;
 

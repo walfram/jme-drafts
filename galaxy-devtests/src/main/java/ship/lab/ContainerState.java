@@ -1,4 +1,4 @@
-package editor;
+package ship.lab;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
@@ -10,7 +10,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.shape.Cylinder;
 import com.simsilica.lemur.geom.DMesh;
 import com.simsilica.lemur.geom.Deformation;
-import com.simsilica.lemur.geom.MBox;
 import materials.ShowNormalsMaterial;
 import mesh.FlatShadedMesh;
 import org.slf4j.Logger;

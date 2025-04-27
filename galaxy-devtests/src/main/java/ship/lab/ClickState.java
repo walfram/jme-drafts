@@ -1,19 +1,13 @@
-package editor;
+package ship.lab;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
-import com.jme3.bounding.BoundingBox;
 import com.jme3.collision.CollisionResult;
-import com.jme3.collision.CollisionResults;
-import com.jme3.math.Ray;
-import com.jme3.math.Vector2f;
-import com.jme3.math.Vector3f;
 import com.simsilica.lemur.GuiGlobals;
 import com.simsilica.lemur.input.Button;
 import com.simsilica.lemur.input.FunctionId;
 import com.simsilica.lemur.input.InputMapper;
 import com.simsilica.lemur.input.InputState;
-import com.simsilica.state.CameraState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

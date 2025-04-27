@@ -1,4 +1,4 @@
-package editor;
+package ship.lab;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
