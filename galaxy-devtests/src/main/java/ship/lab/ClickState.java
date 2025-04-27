@@ -10,6 +10,7 @@ import com.simsilica.lemur.input.InputMapper;
 import com.simsilica.lemur.input.InputState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ship.common.CameraState;
 
 import java.util.Optional;
 
@@ -34,7 +35,7 @@ public class ClickState extends BaseAppState {
     
     collision.ifPresent(collisionResult -> {
       logger.debug("right click @{}", collisionResult.getContactPoint());
-      getState(EditorCameraState.class).centerOn(collisionResult.getContactPoint());
+      getState(CameraState.class).centerOn(collisionResult.getContactPoint());
       getState(MenuState.class).showMenuAt(collisionResult.getContactPoint());
     });
   }

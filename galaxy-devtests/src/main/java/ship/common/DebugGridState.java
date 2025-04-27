@@ -1,23 +1,23 @@
-package ship.lab;
+package ship.common;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.scene.Node;
-import jme3utilities.debug.AxesVisualizer;
+import debug.DebugGrid;
 
-public class DebugAxesState extends BaseAppState {
+public class DebugGridState extends BaseAppState {
   
-  private final Node scene = new Node("debug-axes-scene");
+  private final Node scene = new Node("debug-grid-scene");
+  private final float cellExtent;
   
-  public DebugAxesState(Node rootNode) {
+  public DebugGridState(Node rootNode, float cellExtent) {
     rootNode.attachChild(scene);
+    this.cellExtent = cellExtent;
   }
   
   @Override
   protected void initialize(Application app) {
-    AxesVisualizer axesVisualizer = new AxesVisualizer(app.getAssetManager(), 128, 1);
-    scene.addControl(axesVisualizer);
-    axesVisualizer.setEnabled(true);
+    new DebugGrid(app.getAssetManager(), cellExtent, 32).attachTo(scene);
   }
   
   @Override

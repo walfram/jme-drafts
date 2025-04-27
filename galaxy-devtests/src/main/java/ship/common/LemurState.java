@@ -1,11 +1,11 @@
-package ship.lab;
+package ship.common;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.simsilica.lemur.GuiGlobals;
 import com.simsilica.lemur.style.BaseStyles;
 
-public class EditorLemurState extends BaseAppState {
+public class LemurState extends BaseAppState {
   @Override
   protected void initialize(Application app) {
     GuiGlobals.initialize(app);

@@ -1,19 +1,19 @@
-package ship.lab;
+package ship.deromed;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
 import debug.QuickAppSettings;
+import ship.common.CameraState;
 import ship.common.DebugAxesState;
 import ship.common.DebugGridState;
-import ship.common.CameraState;
 import ship.common.LemurState;
 
-public class ShipLabMain extends SimpleApplication {
+public class ShipDeformedMain extends SimpleApplication {
   
   public static void main(String[] args) {
     AppSettings settings = new QuickAppSettings().settings();
     
-    ShipLabMain app = new ShipLabMain();
+    ShipDeformedMain app = new ShipDeformedMain();
     app.setSettings(settings);
     app.setShowSettings(false);
     
@@ -30,14 +30,6 @@ public class ShipLabMain extends SimpleApplication {
     
     stateManager.attach(new LemurState());
     
-//    stateManager.attach(new CollisionState());
-//    stateManager.attach(new ClickState());
-//    stateManager.attach(new MenuState(guiNode));
-    
-    stateManager.attach(new ShipState());
-    
-    stateManager.attach(new HullState(rootNode, cellExtent));
-    stateManager.attach(new ContainerState(rootNode, cellExtent));
-    stateManager.attach(new ContainerUiState(guiNode));
+    stateManager.attach(new DeformedTorusState(rootNode, cellExtent));
   }
 }
