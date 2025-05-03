@@ -1,4 +1,4 @@
-package ship.sboat;
+package shapes;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
@@ -8,12 +8,12 @@ import ship.common.DebugAxesState;
 import ship.common.DebugGridState;
 import ship.common.LemurState;
 
-public class SBoatMain extends SimpleApplication {
+public class ShapesMain extends SimpleApplication {
   
   public static void main(String[] args) {
     AppSettings settings = new QuickAppSettings().settings();
     
-    SBoatMain app = new SBoatMain();
+    ShapesMain app = new ShapesMain();
     app.setSettings(settings);
     app.setShowSettings(false);
     
@@ -30,7 +30,7 @@ public class SBoatMain extends SimpleApplication {
     
     stateManager.attach(new LemurState());
     
-//    stateManager.attach(new SBoatMk1State(rootNode));
-    stateManager.attach(new SBoatMk2State(rootNode));
+//    stateManager.attach(new RoundedCubeState(rootNode));
+    stateManager.attach(new TubeState(rootNode));
   }
 }

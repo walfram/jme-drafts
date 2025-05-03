@@ -11,6 +11,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Cylinder;
 import com.jme3.scene.shape.Dome;
+import com.simsilica.lemur.geom.MBox;
 import jme3utilities.MyMesh;
 import materials.ShowNormalsMaterial;
 import mesh.FlatShadedMesh;
@@ -18,13 +19,13 @@ import org.slf4j.Logger;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class SBoatState extends BaseAppState {
+public class SBoatMk1State extends BaseAppState {
   
-  private static final Logger logger = getLogger(SBoatState.class);
+  private static final Logger logger = getLogger(SBoatMk1State.class);
   private final Node scene = new Node("scene");
   private Material material;
   
-  public SBoatState(Node rootNode) {
+  public SBoatMk1State(Node rootNode) {
     rootNode.attachChild(scene);
   }
   
@@ -36,7 +37,15 @@ public class SBoatState extends BaseAppState {
     front();
     back();
     
-    scene.scale(1, 0.5f, 1);
+    bridge();
+  }
+  
+  private void bridge() {
+    Mesh mesh = new MBox(4, 4, 8, 2, 2, 2);
+    Geometry bridge = new Geometry("bridge", mesh);
+    bridge.setMaterial(material);
+    scene.attachChild(bridge);
+    bridge.move(0, 10, 0);
   }
   
   private void back() {
