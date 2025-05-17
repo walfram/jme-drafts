@@ -1,7 +1,6 @@
 package shapes;
 
 import com.jme3.app.Application;
-import com.jme3.app.state.AppState;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
 import com.jme3.material.Materials;
@@ -15,11 +14,10 @@ import com.jme3.scene.Node;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
 import materials.ShowNormalsMaterial;
-import mesh.Face;
+import mesh.QuadFace;
 import mesh.FlatShadedMesh;
 import misc.DebugPointMesh;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -42,7 +40,7 @@ public class TubeState extends BaseAppState {
   
   @Override
   protected void initialize(Application app) {
-    float height = 20f;
+    float height = 2.5f;
     float ri = 5f;
     float ro = 10f;
     int radialSamples = 8;
@@ -54,7 +52,7 @@ public class TubeState extends BaseAppState {
     List<Vector3f> positions = new ArrayList<>(radialSamples * 4 * 2);
     logger.debug("estimated positions size = {}", radialSamples * 4 * 2);
     
-    List<Face> faces = new ArrayList<>(radialSamples * 4);
+    List<QuadFace> quadFaces = new ArrayList<>(radialSamples * 4);
     logger.debug("estimated faces size = {}", radialSamples * 4);
     
     for (int i = 0; i < radialSamples; i++) {
@@ -80,19 +78,19 @@ public class TubeState extends BaseAppState {
       positions.add(v3);
       positions.add(v3Neg);
       
-      Face front = new Face(v0, v1, v2, v3);
-      Face back = new Face(v0Neg, v3Neg, v2Neg, v1Neg);
-      Face outer = new Face(v1, v1Neg, v2Neg, v2);
-      Face inner = new Face(v0Neg, v0, v3, v3Neg);
+      QuadFace front = new QuadFace(v0, v1, v2, v3);
+      QuadFace back = new QuadFace(v0Neg, v3Neg, v2Neg, v1Neg);
+      QuadFace outer = new QuadFace(v1, v1Neg, v2Neg, v2);
+      QuadFace inner = new QuadFace(v0Neg, v0, v3, v3Neg);
       
-      faces.add(front);
-      faces.add(back);
-      faces.add(outer);
-      faces.add(inner);
+      quadFaces.add(front);
+      quadFaces.add(back);
+      quadFaces.add(outer);
+      quadFaces.add(inner);
     }
     
     logger.debug("actual positions size = {}", positions.size());
-    logger.debug("actual faces size = {}", faces.size());
+    logger.debug("actual faces size = {}", quadFaces.size());
     
     Mesh debug = new DebugPointMesh(positions);
     Geometry geometry = new Geometry("debug", debug);
@@ -104,7 +102,7 @@ public class TubeState extends BaseAppState {
     Mesh mesh = new Mesh();
     mesh.setMode(Mesh.Mode.Triangles);
     
-    Vector3f[] vertices = faces
+    Vector3f[] vertices = quadFaces
         .stream()
         .flatMap(f -> f.triangles().stream())
         .flatMap(t -> Stream.of(t.get1(), t.get2(), t.get3()))

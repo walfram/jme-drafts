@@ -1,4 +1,4 @@
-package ship.deromed;
+package ship.deformed;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;

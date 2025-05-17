@@ -1,4 +1,4 @@
-package ship.deromed;
+package ship.deformed;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;

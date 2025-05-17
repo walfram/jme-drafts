@@ -3,10 +3,9 @@ package mesh;
 import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
 
-import java.util.Collection;
 import java.util.List;
 
-public record Face(
+public record QuadFace(
     Vector3f v0,
     Vector3f v1,
     Vector3f v2,
