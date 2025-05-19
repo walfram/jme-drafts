@@ -10,7 +10,6 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
-import jme3utilities.mesh.RoundedRectangle;
 import materials.ShowNormalsMaterial;
 import mesh.Face;
 import mesh.FlatShadedMesh;
@@ -39,30 +38,8 @@ public class SBoatMk4State extends BaseAppState {
   
   @Override
   protected void initialize(Application app) {
-//    roundedRectTest();
-
-//    float[] vertices = {
-//        -4.5f, -7.5f, 0.0f,   // v0
-//        4.5f, -7.5f, 0.0f,   // v1
-//        7.5f, -4.5f, 0.0f,   // v2
-//        7.5f, 4.5f, 0.0f,   // v3
-//        4.5f, 7.5f, 0.0f,   // v4
-//        -4.5f, 7.5f, 0.0f,   // v5
-//        -7.5f, 4.5f, 0.0f,   // v6
-//        -7.5f, -4.5f, 0.0f,   // v7
-//        0.0f, 0.0f, 0.0f    // v8 (center)
-//    };
-//    int[] indices = {
-//        8, 0, 1,
-//        8, 1, 2,
-//        8, 2, 3,
-//        8, 3, 4,
-//        8, 4, 5,
-//        8, 5, 6,
-//        8, 6, 7,
-//        8, 7, 0
-//    };
     Vector3f[] frontVertices = createSymmetricBeveledRect(10, 4, 4, 8, 10f);
+    
     Vector3f[] backVertices = createSymmetricBeveledRect(10, 4, 4, 8, -10f);
     for (Vector3f v : backVertices) {
       v.multLocal(2, 2, 1);
@@ -113,9 +90,6 @@ public class SBoatMk4State extends BaseAppState {
     
     Mesh mesh = new Mesh();
     mesh.setMode(Mesh.Mode.Triangles);
-
-//    mesh.setBuffer(VertexBuffer.Type.Position, 3, BufferUtils.createFloatBuffer(vertices));
-//    mesh.setBuffer(VertexBuffer.Type.Index, 3, BufferUtils.createIntBuffer(indices));
     
     Vector3f[] positions = faces
         .stream()
@@ -188,19 +162,6 @@ public class SBoatMk4State extends BaseAppState {
         // Center
         new Vector3f(0f, 0f, z)                   // v8
     };
-  }
-  
-  private void roundedRectTest() {
-    Mesh mesh = new RoundedRectangle();
-    
-    Geometry geometry = new Geometry("rounded-rect", mesh);
-    Material material = new ShowNormalsMaterial(getApplication().getAssetManager());
-    material.getAdditionalRenderState().setWireframe(true);
-    geometry.setMaterial(material);
-    scene.attachChild(geometry);
-    
-    geometry.scale(10);
-    geometry.center();
   }
   
   @Override
