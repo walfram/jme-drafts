@@ -4,6 +4,7 @@ import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
 import com.jme3.material.Materials;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
@@ -11,11 +12,25 @@ import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
 import jme3utilities.mesh.RoundedRectangle;
 import materials.ShowNormalsMaterial;
+import mesh.Face;
 import mesh.FlatShadedMesh;
+import mesh.QuadFace;
+import mesh.TriangleFace;
 import misc.DebugPointMesh;
+import org.slf4j.Logger;
+
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 public class SBoatMk4State extends BaseAppState {
   
+  private static final Logger logger = getLogger(SBoatMk4State.class);
   private final Node scene = new Node("scene");
   
   public SBoatMk4State(Node rootNode) {
@@ -25,7 +40,7 @@ public class SBoatMk4State extends BaseAppState {
   @Override
   protected void initialize(Application app) {
 //    roundedRectTest();
-    
+
 //    float[] vertices = {
 //        -4.5f, -7.5f, 0.0f,   // v0
 //        4.5f, -7.5f, 0.0f,   // v1
@@ -47,10 +62,14 @@ public class SBoatMk4State extends BaseAppState {
 //        8, 6, 7,
 //        8, 7, 0
 //    };
-    float[] vertices = createSymmetricBeveledRect(10, 4, 4, 8);
-    int[] indices = createOctagonFanIndices();
+    Vector3f[] frontVertices = createSymmetricBeveledRect(10, 4, 4, 8, 10f);
+    Vector3f[] backVertices = createSymmetricBeveledRect(10, 4, 4, 8, -10f);
+    for (Vector3f v : backVertices) {
+      v.multLocal(2, 2, 1);
+    }
+//    int[] indices = createOctagonFanIndices();
     
-    Mesh debugPointMesh = new DebugPointMesh(vertices);
+    Mesh debugPointMesh = new DebugPointMesh(frontVertices);
     
     Geometry debugPoints = new Geometry("debug-points", debugPointMesh);
     Material material = new Material(app.getAssetManager(), Materials.UNSHADED);
@@ -58,17 +77,57 @@ public class SBoatMk4State extends BaseAppState {
     debugPoints.setMaterial(material);
     scene.attachChild(debugPoints);
     
+    logger.debug("estimates faces size = {}", 2 * 8 + 8);
+    List<Face> faces = new ArrayList<>(2 * 8 + 8);
+    int centerIdx = 8;
+    
+    for (int idx = 0; idx < 8; idx++) {
+      Face face = new TriangleFace(
+          frontVertices[centerIdx],
+          frontVertices[idx],
+          frontVertices[(idx + 1) % 8]
+      );
+      faces.add(face);
+    }
+    
+    for (int idx = 0; idx < 8; idx++) {
+      Face face = new TriangleFace(
+          backVertices[centerIdx],
+          backVertices[(idx + 1) % 8],
+          backVertices[idx]
+      );
+      faces.add(face);
+    }
+    
+    for (int idx = 0; idx < 8; idx++) {
+      Face face = new QuadFace(
+          frontVertices[idx],
+          backVertices[idx],
+          backVertices[idx + 1],
+          frontVertices[idx + 1]
+      );
+      faces.add(face);
+    }
+    
+    logger.debug("faces = {}", faces.size());
+    
     Mesh mesh = new Mesh();
     mesh.setMode(Mesh.Mode.Triangles);
+
+//    mesh.setBuffer(VertexBuffer.Type.Position, 3, BufferUtils.createFloatBuffer(vertices));
+//    mesh.setBuffer(VertexBuffer.Type.Index, 3, BufferUtils.createIntBuffer(indices));
     
-    mesh.setBuffer(VertexBuffer.Type.Position, 3, BufferUtils.createFloatBuffer(vertices));
-    mesh.setBuffer(VertexBuffer.Type.Index, 3, BufferUtils.createIntBuffer(indices));
+    Vector3f[] positions = faces
+        .stream()
+        .flatMap(f -> f.triangles().stream())
+        .flatMap(t -> Stream.of(t.get1(), t.get2(), t.get3()))
+        .toArray(Vector3f[]::new);
+    FloatBuffer positionBuffer = BufferUtils.createFloatBuffer(positions);
+    mesh.setBuffer(VertexBuffer.Type.Position, 3, positionBuffer);
     
-//    Vector3f[] normals = IntStream
-//        .range(0, indices.length / 3)
-//        .mapToObj(idx -> new Vector3f(0, 0, 1))
-//        .toArray(Vector3f[]::new);
-//    mesh.setBuffer(VertexBuffer.Type.Normal, 3, BufferUtils.createFloatBuffer(normals));
+    int[] indices = IntStream.range(0, positions.length).toArray();
+    IntBuffer indexBuffer = BufferUtils.createIntBuffer(indices);
+    mesh.setBuffer(VertexBuffer.Type.Index, 3, indexBuffer);
     
     mesh.updateBound();
     mesh.updateCounts();
@@ -90,12 +149,12 @@ public class SBoatMk4State extends BaseAppState {
     return indices;
   }
   
-  private float[] createSymmetricBeveledRect(
+  private Vector3f[] createSymmetricBeveledRect(
       float topEdgeWidth,
       float topEdgeY,
       float sideEdgeHeight,
-      float sideEdgeX
-  ) {
+      float sideEdgeX,
+      float z) {
     float halfTopWidth = topEdgeWidth / 2f;
     float halfSideHeight = sideEdgeHeight / 2f;
     
@@ -109,25 +168,25 @@ public class SBoatMk4State extends BaseAppState {
     float yTopInner = halfSideHeight;
     float yTop = topEdgeY;
     
-    return new float[] {
+    return new Vector3f[]{
         // Bottom edge
-        xLeftInner, yBottom, 0f,     // v0
-        xRightInner, yBottom, 0f,    // v1
+        new Vector3f(xLeftInner, yBottom, z),     // v0
+        new Vector3f(xRightInner, yBottom, z),    // v1
         
         // Right edge
-        xRight, yBottomInner, 0f,    // v2
-        xRight, yTopInner, 0f,       // v3
+        new Vector3f(xRight, yBottomInner, z),    // v2
+        new Vector3f(xRight, yTopInner, z),       // v3
         
         // Top edge
-        xRightInner, yTop, 0f,       // v4
-        xLeftInner, yTop, 0f,        // v5
+        new Vector3f(xRightInner, yTop, z),       // v4
+        new Vector3f(xLeftInner, yTop, z),        // v5
         
         // Left edge
-        xLeft, yTopInner, 0f,        // v6
-        xLeft, yBottomInner, 0f,     // v7
+        new Vector3f(xLeft, yTopInner, z),        // v6
+        new Vector3f(xLeft, yBottomInner, z),     // v7
         
         // Center
-        0f, 0f, 0f                   // v8
+        new Vector3f(0f, 0f, z)                   // v8
     };
   }
   
