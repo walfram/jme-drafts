@@ -38,9 +38,9 @@ public class SBoatMk4State extends BaseAppState {
   
   @Override
   protected void initialize(Application app) {
-    Vector3f[] frontVertices = createSymmetricBeveledRect(10, 4, 4, 8, 10f);
+    Vector3f[] frontVertices = createSymmetricBeveledRect(10, 4, 4, 8, 20f);
     
-    Vector3f[] backVertices = createSymmetricBeveledRect(10, 4, 4, 8, -10f);
+    Vector3f[] backVertices = createSymmetricBeveledRect(20, 8, 8, 16, -20f);
     for (Vector3f v : backVertices) {
       v.multLocal(2, 2, 1);
     }
@@ -80,8 +80,8 @@ public class SBoatMk4State extends BaseAppState {
       Face face = new QuadFace(
           frontVertices[idx],
           backVertices[idx],
-          backVertices[idx + 1],
-          frontVertices[idx + 1]
+          backVertices[(idx + 1) % 8],
+          frontVertices[(idx + 1) % 8]
       );
       faces.add(face);
     }
@@ -108,7 +108,7 @@ public class SBoatMk4State extends BaseAppState {
     
     Geometry geometry = new Geometry("octa-quad", new FlatShadedMesh(mesh));
     geometry.setMaterial(new ShowNormalsMaterial(app.getAssetManager()));
-//    geometry.getMaterial().getAdditionalRenderState().setWireframe(true);
+    geometry.getMaterial().getAdditionalRenderState().setWireframe(true);
     scene.attachChild(geometry);
   }
   
