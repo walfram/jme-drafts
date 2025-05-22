@@ -27,33 +27,33 @@ public class SBoatMk4State extends BaseAppState {
     
     Mesh frontOctaCone = new OctaCone(
         new OctaCone.Base(10, 4, 4, 8),
-        new OctaCone.Base(20, 8, 8, 16),
+        new OctaCone.Base(40, 8, 8, 24),
         20f
     );
     Geometry front = new Geometry("front", new FlatShadedMesh(frontOctaCone));
     front.setMaterial(material);
     scene.attachChild(front);
-    front.move(0, 0, 40f);
+    front.move(0, 0, 60f);
     
     Mesh middleOctaCone = new OctaCone(
-        new OctaCone.Base(20, 8, 8, 16),
-        new OctaCone.Base(20, 8, 8, 16),
-        20f
+        new OctaCone.Base(40, 8, 8, 24),
+        new OctaCone.Base(40, 8, 8, 24),
+        40f
     );
     Geometry middle = new Geometry("middle", new FlatShadedMesh(middleOctaCone));
     middle.setMaterial(material);
     scene.attachChild(middle);
     
     Mesh backOctaCone = new OctaCone(
-        new OctaCone.Base(20, 8, 8, 16),
-        new OctaCone.Base(10, 4, 4, 8),
+        new OctaCone.Base(40, 8, 8, 24),
+        new OctaCone.Base(20, 4, 4, 12),
         10f
     );
-    
+
     Geometry back = new Geometry("back", new FlatShadedMesh(backOctaCone));
     back.setMaterial(material);
     scene.attachChild(back);
-    back.move(0, 0, -30f);
+    back.move(0, 0, -50f);
   }
   
   @Override
