@@ -22,6 +22,10 @@ public class OctaCone extends Mesh {
                      float sideEdgeX) {
   }
   
+  public OctaCone(Base base, float extent) {
+    this(base, base, extent);
+  }
+  
   public OctaCone(Base front, Base back, float extent) {
     Vector3f[] frontVertices = createSymmetricBeveledRect(front, extent);
     Vector3f[] backVertices = createSymmetricBeveledRect(back, -extent);

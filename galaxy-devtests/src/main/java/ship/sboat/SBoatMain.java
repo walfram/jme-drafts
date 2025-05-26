@@ -34,7 +34,9 @@ public class SBoatMain extends SimpleApplication {
 //    stateManager.attach(new SBoatMk2State(rootNode));
 //    stateManager.attach(new SBoatMk3State(rootNode));
     
-    stateManager.attach(new SBoatMk4State(rootNode));
+//    stateManager.attach(new SBoatMk4State(rootNode));
     
+//    stateManager.attach(new SBoatMk5State(rootNode));
+    stateManager.attach(new SBoatMk6State(rootNode));
   }
 }
