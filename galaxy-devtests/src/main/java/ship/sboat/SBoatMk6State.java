@@ -1,7 +1,6 @@
 package ship.sboat;
 
 import com.jme3.app.Application;
-import com.jme3.app.state.AppState;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
 import com.jme3.math.FastMath;
@@ -15,7 +14,6 @@ import com.jme3.scene.shape.Cylinder;
 import com.simsilica.lemur.geom.DMesh;
 import com.simsilica.lemur.geom.Deformation;
 import jme3utilities.MyMesh;
-import jme3utilities.mesh.Dodecahedron;
 import materials.ShowNormalsMaterial;
 import mesh.FlatShadedMesh;
 

@@ -3,6 +3,7 @@ package debug;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.material.Materials;
+import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
@@ -24,12 +25,14 @@ public class DebugGrid {
     this.lines = lines;
   }
 
-  public void attachTo(Node node) {
+  public Geometry attachTo(Node node) {
     Geometry debugGrid = new Geometry("debug-grid", new Grid(lines, lines, 2f * cellExtent));
     debugGrid.setMaterial(new Material(assetManager, Materials.UNSHADED));
     debugGrid.getMaterial().setColor("Color", ColorRGBA.Blue);
+    // debugGrid.getMaterial().getAdditionalRenderState().setDepthTest(false);
     node.attachChild(debugGrid);
     debugGrid.center();
+    return debugGrid;
   }
   
 }
