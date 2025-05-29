@@ -42,7 +42,7 @@ public class SBoatMk9State extends BaseAppState {
       float frontRadius, float backRadius, float height,
       int numRadialSamples,
       boolean generateFrontCircle, boolean generateBackCircle,
-      float adjustFactor
+      float bevelFactor
   ) {
     List<Triangle> triangles = new ArrayList<>();
     float halfHeight = height / 2f;
@@ -52,11 +52,11 @@ public class SBoatMk9State extends BaseAppState {
     float theta = FastMath.TWO_PI / numRadialSamples;
     
     for (int i = 0; i < numRadialSamples; i++) {
-      if (adjustFactor > 0) {
+      if (bevelFactor > 0) {
         if (i % 2 == 0) {
-          angles[i] = theta * i + theta * adjustFactor;
+          angles[i] = theta * i + theta * bevelFactor;
         } else {
-          angles[i] = theta * i + theta * (1f - adjustFactor);
+          angles[i] = theta * i + theta * (1f - bevelFactor);
         }
       } else {
         angles[i] = theta * i;
