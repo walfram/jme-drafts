@@ -21,11 +21,11 @@ public class DebugGridState extends BaseAppState {
   protected void initialize(Application app) {
     new DebugGrid(app.getAssetManager(), cellExtent, 32).attachTo(scene);
     
-    Geometry top = new DebugGrid(app.getAssetManager(), cellExtent, 32).attachTo(scene);
+    Geometry top = new DebugGrid(app.getAssetManager(), cellExtent, 8).attachTo(scene);
     top.move(0, 2f * cellExtent, 0);
     top.getMaterial().setColor("Color", ColorRGBA.Red);
     
-    Geometry bottom = new DebugGrid(app.getAssetManager(), cellExtent, 32).attachTo(scene);
+    Geometry bottom = new DebugGrid(app.getAssetManager(), cellExtent, 8).attachTo(scene);
     bottom.move(0, -2f * cellExtent, 0);
     bottom.getMaterial().setColor("Color", ColorRGBA.Green);
   }

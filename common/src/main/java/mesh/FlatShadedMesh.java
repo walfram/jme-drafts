@@ -19,7 +19,7 @@ public class FlatShadedMesh extends Mesh {
     this(trianglesOf(source));
   }
 
-  FlatShadedMesh(List<Triangle> triangles) {
+  public FlatShadedMesh(List<Triangle> triangles) {
     setMode(Mode.Triangles);
     setBuffer(Type.Position, 3,
         floatBuffer(
