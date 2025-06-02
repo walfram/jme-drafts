@@ -8,6 +8,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import materials.ShowNormalsMaterial;
+import mesh.CustomCylinder;
 
 public class SBoatMk9State extends BaseAppState {
   

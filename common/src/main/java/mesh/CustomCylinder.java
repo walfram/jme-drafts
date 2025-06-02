@@ -1,9 +1,8 @@
-package ship.sboat;
+package mesh;
 
 import com.jme3.math.FastMath;
 import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
-import mesh.FlatShadedMesh;
 
 import java.util.ArrayList;
 import java.util.List;

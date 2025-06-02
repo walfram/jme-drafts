@@ -1,9 +1,8 @@
-package ship.sboat;
+package mesh;
 
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
-import jme3utilities.MyMesh;
 
 // adapted from https://stackoverflow.com/questions/68696415/three-js-how-to-make-a-fully-beveled-cube
 public class BeveledBox extends Mesh {

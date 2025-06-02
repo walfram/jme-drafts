@@ -30,19 +30,9 @@ public class SBoatMain extends SimpleApplication {
     
     stateManager.attach(new LemurState());
     
-//    stateManager.attach(new SBoatMk1State(rootNode));
-//    stateManager.attach(new SBoatMk2State(rootNode));
-//    stateManager.attach(new SBoatMk3State(rootNode));
-    
-//    stateManager.attach(new SBoatMk4State(rootNode));
-    
 //    stateManager.attach(new SBoatMk5State(rootNode));
-//    stateManager.attach(new SBoatMk6State(rootNode));
-
 //    stateManager.attach(new SBoatMk7State(rootNode));
-
-//    stateManager.attach(new SBoatMk8State(rootNode));
-    stateManager.attach(new SBoatMk9State(rootNode));
+//    stateManager.attach(new SBoatMk9State(rootNode));
     
   }
 }
