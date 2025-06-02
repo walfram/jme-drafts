@@ -4,17 +4,10 @@ import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
-import com.jme3.math.FastMath;
-import com.jme3.math.Triangle;
-import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import materials.ShowNormalsMaterial;
-import mesh.FlatShadedMesh;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SBoatMk9State extends BaseAppState {
   
