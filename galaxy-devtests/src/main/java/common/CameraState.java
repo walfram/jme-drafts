@@ -1,14 +1,11 @@
-package ship.common;
+package common;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
-import com.jme3.collision.CollisionResult;
 import com.jme3.input.FlyByCamera;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-
-import java.util.Optional;
 
 public class CameraState extends BaseAppState {
   @Override
@@ -36,17 +33,5 @@ public class CameraState extends BaseAppState {
   @Override
   protected void onDisable() {
   
-  }
-  
-  public void centerOn(Vector3f centerOn) {
-//    Optional<CollisionResult> collision = getState(CollisionState.class).cameraCollision();
-//
-//    if (collision.isEmpty())
-//      return;
-//
-//    Vector3f offset = centerOn.subtract(collision.get().getContactPoint());
-//
-//    Vector3f updated = getApplication().getCamera().getLocation().add(offset);
-//    getApplication().getCamera().setLocation(updated);
   }
 }

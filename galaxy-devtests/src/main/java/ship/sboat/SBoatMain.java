@@ -3,10 +3,10 @@ package ship.sboat;
 import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
 import debug.QuickAppSettings;
-import ship.common.CameraState;
-import ship.common.DebugAxesState;
-import ship.common.DebugGridState;
-import ship.common.LemurState;
+import common.CameraState;
+import common.DebugAxesState;
+import common.DebugGridState;
+import common.LemurState;
 
 public class SBoatMain extends SimpleApplication {
   

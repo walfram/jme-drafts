@@ -1,4 +1,4 @@
-package ship.common;
+package common;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.BaseAppState;
