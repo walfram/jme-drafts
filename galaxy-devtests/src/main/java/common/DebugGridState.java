@@ -1,6 +1,7 @@
 package common;
 
 import com.jme3.app.Application;
+import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
@@ -11,23 +12,28 @@ public class DebugGridState extends BaseAppState {
   
   private final Node scene = new Node("debug-grid-scene");
   private final float cellExtent;
+  private final boolean additionalGrids;
   
-  public DebugGridState(Node rootNode, float cellExtent) {
-    rootNode.attachChild(scene);
+  public DebugGridState(float cellExtent, boolean additionalGrids) {
     this.cellExtent = cellExtent;
+    this.additionalGrids = additionalGrids;
   }
   
   @Override
   protected void initialize(Application app) {
+    ((SimpleApplication) app).getRootNode().attachChild(scene);
+    
     new DebugGrid(app.getAssetManager(), cellExtent, 32).attachTo(scene);
     
-    Geometry top = new DebugGrid(app.getAssetManager(), cellExtent, 8).attachTo(scene);
-    top.move(0, 2f * cellExtent, 0);
-    top.getMaterial().setColor("Color", ColorRGBA.Red);
-    
-    Geometry bottom = new DebugGrid(app.getAssetManager(), cellExtent, 8).attachTo(scene);
-    bottom.move(0, -2f * cellExtent, 0);
-    bottom.getMaterial().setColor("Color", ColorRGBA.Green);
+    if (additionalGrids) {
+      Geometry top = new DebugGrid(app.getAssetManager(), cellExtent, 8).attachTo(scene);
+      top.move(0, 2f * cellExtent, 0);
+      top.getMaterial().setColor("Color", ColorRGBA.Red);
+      
+      Geometry bottom = new DebugGrid(app.getAssetManager(), cellExtent, 8).attachTo(scene);
+      bottom.move(0, -2f * cellExtent, 0);
+      bottom.getMaterial().setColor("Color", ColorRGBA.Green);
+    }
   }
   
   @Override

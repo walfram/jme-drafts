@@ -24,15 +24,14 @@ public class SBoatMain extends SimpleApplication {
   public void simpleInitApp() {
     final float cellExtent = 4f;
     
-    stateManager.attach(new DebugGridState(rootNode, cellExtent));
-    stateManager.attach(new DebugAxesState(rootNode));
+    stateManager.attach(new DebugGridState(cellExtent, false));
+    stateManager.attach(new DebugAxesState());
     stateManager.attach(new CameraState());
     
     stateManager.attach(new LemurState());
     
 //    stateManager.attach(new SBoatMk5State(rootNode));
 //    stateManager.attach(new SBoatMk7State(rootNode));
-//    stateManager.attach(new SBoatMk9State(rootNode));
-    
+    stateManager.attach(new SBoatMk9State(rootNode));
   }
 }
