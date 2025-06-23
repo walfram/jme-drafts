@@ -19,7 +19,6 @@ import common.DebugAxesState;
 import common.DebugGridState;
 import common.LemurState;
 import jme3utilities.MyMesh;
-import jme3utilities.SimpleControl;
 import jme3utilities.mesh.DomeMesh;
 import materials.ShowNormalsMaterial;
 import mesh.FlatShadedMesh;
