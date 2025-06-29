@@ -8,6 +8,7 @@ import com.jme3.app.state.ConstantVerifierState;
 import com.jme3.audio.AudioListenerState;
 import com.jme3.material.Material;
 import com.jme3.math.FastMath;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import common.CameraState;
 import common.DebugAxesState;
@@ -15,13 +16,9 @@ import common.DebugGridState;
 import common.LemurState;
 import materials.ShowNormalsMaterial;
 import mesh.IrregularCylinder;
-import org.slf4j.Logger;
-
-import static org.slf4j.LoggerFactory.getLogger;
 
 public class CylinderShipTest extends SimpleApplication {
   
-  private static final Logger logger = getLogger(CylinderShipTest.class);
   private static final float cellExtent = 4f;
   
   public static void main(String[] args) {
@@ -48,12 +45,14 @@ public class CylinderShipTest extends SimpleApplication {
     float radius = 8f;
     float height = 40f;
     
-    // must add up to 120 degrees
-    float thetaMinor = 30f * FastMath.DEG_TO_RAD;
-    float thetaMajor = 90f * FastMath.DEG_TO_RAD;
+    float thetaMinor = 20f * FastMath.DEG_TO_RAD;
+    float thetaMajor = 100f * FastMath.DEG_TO_RAD;
     
     Geometry test = new Geometry("test", new IrregularCylinder(height, radius, 2f * radius, thetaMajor, thetaMinor));
     test.setMaterial(material);
     rootNode.attachChild(test);
+    
+    stateManager.getState(CameraState.class).updateLocation(new Vector3f(0, 0, 150));
+    stateManager.getState(CameraState.class).lookAt(new Vector3f(), Vector3f.UNIT_Y);
   }
 }

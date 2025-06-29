@@ -29,20 +29,24 @@ public class IrregularCylinder extends FlatShadedMesh {
     Vector3f frontOrigin = new Vector3f(frontRadius, 0, 0);
     Vector3f backOrigin = new Vector3f(backRadius, 0, 0);
     
-    Quaternion initial = new Quaternion().fromAngleAxis(15f * FastMath.DEG_TO_RAD, Vector3f.UNIT_Z);
+    float initialAngle = (thetaMinor + thetaMajor) > FastMath.QUARTER_PI ? -0.5f * thetaMinor + 30f * FastMath.DEG_TO_RAD : 0.5f * thetaMinor;
+    
+    Quaternion initial = new Quaternion().fromAngleAxis(initialAngle, Vector3f.UNIT_Z);
     initial.multLocal(frontOrigin);
     initial.multLocal(backOrigin);
     
     Quaternion minor = new Quaternion().fromAngleAxis(thetaMinor, Vector3f.UNIT_Z);
     Quaternion major = new Quaternion().fromAngleAxis(thetaMajor, Vector3f.UNIT_Z);
     
-    List<Vector3f> frontPoints = new ArrayList<>(6);
-    List<Vector3f> backPoints = new ArrayList<>(6);
+    int faceCount = 2 * (int) (FastMath.TWO_PI / (thetaMajor + thetaMinor));
     
-    // TODO 3 and 6 should be parameters
-    List<Face> faces = new ArrayList<>(3 * 6);
+    List<Vector3f> frontPoints = new ArrayList<>(faceCount);
+    List<Vector3f> backPoints = new ArrayList<>(faceCount);
     
-    for (int i = 0; i < 6; i++) {
+    // 3 - front + back + side -> max number of faces
+    List<Face> faces = new ArrayList<>(3 * faceCount);
+    
+    for (int i = 0; i < faceCount; i++) {
       if (i % 2 == 0) {
         minor.multLocal(frontOrigin);
         minor.multLocal(backOrigin);
@@ -56,21 +60,21 @@ public class IrregularCylinder extends FlatShadedMesh {
     }
     
     if (frontClosed) {
-      for (int i = 0; i < 6; i++) {
-        Face face = new TriangleFace(new Vector3f(frontOffset), frontPoints.get(i), frontPoints.get((i + 1) % 6));
+      for (int i = 0; i < faceCount; i++) {
+        Face face = new TriangleFace(new Vector3f(frontOffset), frontPoints.get(i), frontPoints.get((i + 1) % faceCount));
         faces.add(face);
       }
     }
     
     if (backClosed) {
-      for (int i = 0; i < 6; i++) {
-        Face face = new TriangleFace(new Vector3f(backOffset), backPoints.get((i + 1) % 6), backPoints.get(i));
+      for (int i = 0; i < faceCount; i++) {
+        Face face = new TriangleFace(new Vector3f(backOffset), backPoints.get((i + 1) % faceCount), backPoints.get(i));
         faces.add(face);
       }
     }
     
-    for (int i = 0; i < 6; i++) {
-      Face face = new QuadFace(frontPoints.get(i), backPoints.get(i), backPoints.get((i + 1) % 6), frontPoints.get((i + 1) % 6));
+    for (int i = 0; i < faceCount; i++) {
+      Face face = new QuadFace(frontPoints.get(i), backPoints.get(i), backPoints.get((i + 1) % faceCount), frontPoints.get((i + 1) % faceCount));
       faces.add(face);
     }
     
