@@ -12,7 +12,7 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class CameraState extends BaseAppState {
   private static final Logger logger = getLogger(CameraState.class);
   
-  private final Vector3f location = new Vector3f();
+  private final Vector3f location = new Vector3f(33.137505f, 35.385365f, 89.41703f);
   private final Vector3f viewTarget = new Vector3f();
   private final Vector3f up = new Vector3f(Vector3f.UNIT_Y);
   
@@ -26,7 +26,6 @@ public class CameraState extends BaseAppState {
     
     app.getCamera().setLocation(this.location);
     app.getCamera().lookAt(this.viewTarget, this.up);
-//    app.getCamera().setRotation(new Quaternion(-0.030913286f, 0.9689057f, -0.18284884f, -0.16380624f));
     
     logger.debug("initialized camera");
   }
