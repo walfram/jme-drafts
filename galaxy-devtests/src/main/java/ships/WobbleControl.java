@@ -1,7 +1,6 @@
 package ships;
 
 import com.jme3.math.FastMath;
-import com.jme3.scene.control.Control;
 import jme3utilities.SimpleControl;
 
 public class WobbleControl extends SimpleControl {

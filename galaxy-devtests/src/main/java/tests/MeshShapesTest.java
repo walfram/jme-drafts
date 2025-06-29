@@ -16,24 +16,18 @@ import com.simsilica.lemur.GuiGlobals;
 import com.simsilica.lemur.event.DefaultMouseListener;
 import com.simsilica.lemur.event.MouseEventControl;
 import debug.QuickAppSetup;
+import jme3utilities.MyMesh;
+import jme3utilities.mesh.*;
+import mesh.FlatShadedMesh;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import jme3utilities.MyMesh;
-import jme3utilities.mesh.Cone;
-import jme3utilities.mesh.Dodecahedron;
-import jme3utilities.mesh.Icosahedron;
-import jme3utilities.mesh.Icosphere;
-import jme3utilities.mesh.Octahedron;
-import jme3utilities.mesh.Octasphere;
-import jme3utilities.mesh.Prism;
-import jme3utilities.mesh.Tetrahedron;
-import mesh.FlatShadedMesh;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class MeshShapesTest extends SimpleApplication {
 

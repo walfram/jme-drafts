@@ -1,7 +1,6 @@
 package ship.sboat;
 
 import com.jme3.app.Application;
-import com.jme3.app.state.AppState;
 import com.jme3.app.state.BaseAppState;
 import com.jme3.material.Material;
 import com.jme3.scene.Geometry;

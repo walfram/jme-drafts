@@ -7,7 +7,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Cylinder;
 import jme3utilities.mesh.Icosphere;
-import jme3utilities.mesh.Octasphere;
 import materials.ShowNormalsMaterial;
 import mesh.FlatShadedMesh;
 

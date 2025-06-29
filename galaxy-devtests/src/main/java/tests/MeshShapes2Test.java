@@ -6,13 +6,9 @@ import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.system.AppSettings;
 import debug.QuickAppSettings;
-import debug.QuickChaseCamera;
 import debug.QuickAppSetup;
-import jme3utilities.mesh.CapsuleMesh;
-import jme3utilities.mesh.DiscMesh;
-import jme3utilities.mesh.RectangleMesh;
-import jme3utilities.mesh.RectangleOutlineMesh;
-import jme3utilities.mesh.RoundedRectangle;
+import debug.QuickChaseCamera;
+import jme3utilities.mesh.*;
 import mesh.FlatShadedMesh;
 
 public class MeshShapes2Test extends SimpleApplication {
