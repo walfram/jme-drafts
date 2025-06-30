@@ -7,7 +7,6 @@ import com.jme3.app.StatsAppState;
 import com.jme3.app.state.ConstantVerifierState;
 import com.jme3.audio.AudioListenerState;
 import com.jme3.material.Material;
-import com.jme3.math.FastMath;
 import com.jme3.scene.Geometry;
 import common.CameraState;
 import common.DebugAxesState;
@@ -16,7 +15,7 @@ import common.LemurState;
 import jme3utilities.mesh.Icosphere;
 import materials.ShowNormalsMaterial;
 import mesh.FlatShadedMesh;
-import mesh.TubeMesh;
+import mesh.RingMesh;
 
 public class Saucer2ShipTest extends SimpleApplication {
 
@@ -47,9 +46,8 @@ public class Saucer2ShipTest extends SimpleApplication {
     core.setMaterial(material);
     rootNode.attachChild(core);
     
-    Geometry hull = new Geometry("hull", new TubeMesh(16, 4f * cellExtent, 8f * cellExtent, cellExtent));
+    Geometry hull = new Geometry("hull", new RingMesh(16, 3f * cellExtent, 4f * cellExtent, 8f * cellExtent));
     hull.setMaterial(material);
-    hull.rotate(-FastMath.HALF_PI, 0, 0);
     rootNode.attachChild(hull);
   }
 }
