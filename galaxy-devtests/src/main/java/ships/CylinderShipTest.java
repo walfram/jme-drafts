@@ -52,7 +52,7 @@ public class CylinderShipTest extends SimpleApplication {
     Geometry hull = new Geometry("hull", new IrregularCylinder(3f * 2f * cellExtent, 2f * cellExtent, 2f * cellExtent, thetaMajor, thetaMinor, false, false));
     hull.setMaterial(material);
     rootNode.attachChild(hull);
-    
+
 //    Geometry engine = new Geometry("engine", new FlatShadedMesh(new Cylinder(2, 8, 2.5f * cellExtent, 2f * 2f * cellExtent, true)));
     Geometry engine = new Geometry("engine", new IrregularCylinder(2f * 2f * cellExtent, 2.5f * cellExtent, 80f * FastMath.DEG_TO_RAD, 40f * FastMath.DEG_TO_RAD));
     engine.setMaterial(material);
