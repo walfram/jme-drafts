@@ -46,7 +46,7 @@ public class Cylinder2ShipTest extends SimpleApplication {
     float thetaMajor = 90f * FastMath.DEG_TO_RAD;
     float thetaMinor = 30f * FastMath.DEG_TO_RAD;
     
-    Geometry hull = new Geometry("hull", new IrregularCylinder(5 * 2f * cellExtent, 3f * cellExtent, thetaMajor, thetaMinor));
+    Geometry hull = new Geometry("hull", new IrregularCylinder(5 * 2f * cellExtent, 2f * cellExtent, 3f * cellExtent, thetaMajor, thetaMinor));
     hull.setMaterial(material);
     hull.rotate(0, 0, FastMath.DEG_TO_RAD * 60f);
     rootNode.attachChild(hull);
@@ -56,9 +56,9 @@ public class Cylinder2ShipTest extends SimpleApplication {
     aux.move(0, 0, -5f * cellExtent -cellExtent);
     rootNode.attachChild(aux);
     
-    Geometry engine = new Geometry("engine", new FlatShadedMesh(new Cylinder(2, 6, cellExtent, 3f * cellExtent, 4f * cellExtent, true, false)));
+    Geometry engine = new Geometry("engine", new FlatShadedMesh(new Cylinder(2, 8, cellExtent, 2.5f * cellExtent, 2f * cellExtent, true, false)));
     engine.setMaterial(material);
-    engine.move(0, 0, -5f * cellExtent - cellExtent -3f * cellExtent);
+    engine.move(0, 0, -5f * cellExtent - cellExtent - 2f * cellExtent);
     rootNode.attachChild(engine);
   }
 }
