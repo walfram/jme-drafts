@@ -1,4 +1,4 @@
-package ships;
+package ships.mk1;
 
 import com.jme3.app.DebugKeysAppState;
 import com.jme3.app.FlyCamAppState;
