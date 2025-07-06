@@ -10,22 +10,16 @@ import com.jme3.material.Material;
 import com.jme3.material.Materials;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Mesh;
-import com.simsilica.lemur.geom.DMesh;
-import com.simsilica.lemur.geom.Deformation;
-import com.simsilica.lemur.geom.MBox;
 import common.ChaseCameraState;
 import common.DebugAxesState;
 import common.DebugGridState;
 import common.LemurState;
 import materials.ShowNormalsMaterial;
-import mesh.FlatShadedMesh;
 import misc.DebugPointMesh;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -68,15 +62,27 @@ public class CigarShipTest extends SimpleApplication {
     int numberOfPoints = 14; // The desired number of points on the ellipse
     
     int slices = 10;
-    List<Vector3f> points = new ArrayList<>(slices * numberOfPoints);
     
-    float step = (-zExtent - zExtent) / (slices - 1);
+    List<Vector3f> points = new ArrayList<>();
+    
+    Ellipse xz = new EllipseXZ(zExtent, xExtent, numberOfPoints);
+//    points.addAll(xz.points());
+    
+    Ellipse yz = new EllipseYZ(zExtent, yExtent, numberOfPoints);
+//    points.addAll(yz.points());
+    
     for (int i = 0; i < slices; i++) {
-      float z = zExtent + i * step;
-      List<Vector3f> positions = generateEllipsePoints(0, 0, semiMajorAxisA, semiMinorAxisB, numberOfPoints);
-      positions.forEach(p -> p.addLocal(0, 0, z));
-      points.addAll(positions);
+      float major = xz.points().get(i).x;
+      float minor = yz.points().get(i).y;
+      
+      float z = xz.points().get(i).z;
+      
+      Ellipse xy = new EllipseXY(major, minor, numberOfPoints);
+      List<Vector3f> slice = xy.points();
+      slice.forEach(p -> p.z = z);
+      points.addAll(slice);
     }
+    
     
     Geometry debug = new Geometry("debug", new DebugPointMesh(points));
     debug.setMaterial(new Material(assetManager, Materials.UNSHADED));
