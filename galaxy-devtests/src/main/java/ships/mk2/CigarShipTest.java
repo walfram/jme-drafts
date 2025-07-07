@@ -12,6 +12,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.shape.Cylinder;
 import common.ChaseCameraState;
 import common.DebugAxesState;
 import common.DebugGridState;
@@ -54,7 +55,7 @@ public class CigarShipTest extends SimpleApplication {
 
     float zExtent = cellExtent * 16;
     float xExtent = cellExtent * 8f;
-    float yExtent = cellExtent * 8f;
+    float yExtent = cellExtent * 4f;
 
     int numberOfPoints = 14; // The desired number of slices on the ellipse
 
@@ -89,12 +90,15 @@ public class CigarShipTest extends SimpleApplication {
     List<List<Vector3f>> slices = new ArrayList<>(xExtents.size());
 
     for (int i = 0; i < xExtents.size(); i++) {
+      boolean isLast = i == xExtents.size() - 1;
+
       float major = xExtents.get(i).x;
       float minor = yExtents.get(i).y;
 
       float z = xExtents.get(i).z;
 
-      Ellipse xy = new EllipseXY(major, minor, numberOfPoints);
+      Ellipse xy = new EllipseXY(isLast ? minor : major, minor, numberOfPoints);
+
       List<Vector3f> slice = xy.points();
 
       slice.forEach(p -> p.z = z);
@@ -141,20 +145,20 @@ public class CigarShipTest extends SimpleApplication {
     }
 
     // flatten top and bottom, sides
-    float yThreshold = 0.5f * yExtent;
-    float xThreshold = 0.75f * xExtent;
-
-    for (Face face : faces) {
-      for (Vector3f v : face.points()) {
-        if (Math.abs(v.y) >= (yThreshold)) {
-          v.y = yThreshold * Math.signum(v.y);
-        }
-
-        if (Math.abs(v.x) >= (xThreshold)) {
-          v.x = xThreshold * Math.signum(v.x);
-        }
-      }
-    }
+//    float yThreshold = 0.5f * yExtent;
+//    float xThreshold = 0.75f * xExtent;
+//
+//    for (Face face : faces) {
+//      for (Vector3f v : face.points()) {
+//        if (Math.abs(v.y) >= (yThreshold)) {
+//          v.y = yThreshold * Math.signum(v.y);
+//        }
+//
+//        if (Math.abs(v.x) >= (xThreshold)) {
+//          v.x = xThreshold * Math.signum(v.x);
+//        }
+//      }
+//    }
 
     Material material = new ShowNormalsMaterial(assetManager);
 
@@ -164,6 +168,12 @@ public class CigarShipTest extends SimpleApplication {
         .toList()));
     hull.setMaterial(material);
     rootNode.attachChild(hull);
+
+
+    Geometry engine = new Geometry("engine", new FlatShadedMesh(new Cylinder(2, numberOfPoints, 1.5f * cellExtent, 3f * cellExtent, 4f * cellExtent, true, false)));
+    engine.setMaterial(material);
+    engine.move(0, 0, -7.5f * 2f * cellExtent - 2f * cellExtent);
+    rootNode.attachChild(engine);
   }
 
 }
