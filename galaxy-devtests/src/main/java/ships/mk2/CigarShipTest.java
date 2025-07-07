@@ -8,6 +8,7 @@ import com.jme3.app.state.ConstantVerifierState;
 import com.jme3.audio.AudioListenerState;
 import com.jme3.material.Material;
 import com.jme3.material.Materials;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import common.ChaseCameraState;
@@ -63,14 +64,29 @@ public class CigarShipTest extends SimpleApplication {
     
     int slices = 10;
     
-    List<Vector3f> points = new ArrayList<>();
+    List<List<Vector3f>> points = new ArrayList<>(slices);
     
-    Ellipse xz = new EllipseXZ(zExtent, xExtent, numberOfPoints);
+    Ellipse xz = new EllipseXZ(zExtent, xExtent, numberOfPoints + 2);
 //    points.addAll(xz.points());
-    
-    Ellipse yz = new EllipseYZ(zExtent, yExtent, numberOfPoints);
+    logger.debug("xz points = {}", xz.points());
+
+    Geometry debugXz = new Geometry("debug-xz", new DebugPointMesh(xz.points()));
+    debugXz.setMaterial(new Material(assetManager, Materials.UNSHADED));
+    debugXz.getMaterial().setFloat("PointSize", 8f);
+    debugXz.getMaterial().setColor("Color", ColorRGBA.Red);
+    rootNode.attachChild(debugXz);
+
+    Ellipse yz = new EllipseYZ(zExtent, yExtent, numberOfPoints + 2);
 //    points.addAll(yz.points());
-    
+    logger.debug("yz points = {}", yz.points());
+
+    Geometry debugYz = new Geometry("debug-yz", new DebugPointMesh(yz.points()));
+    debugYz.setMaterial(new Material(assetManager, Materials.UNSHADED));
+    debugYz.getMaterial().setFloat("PointSize", 8f);
+    debugYz.getMaterial().setColor("Color", ColorRGBA.Green);
+//    rootNode.attachChild(debugYz);
+
+
     for (int i = 0; i < slices; i++) {
       float major = xz.points().get(i).x;
       float minor = yz.points().get(i).y;
@@ -79,38 +95,22 @@ public class CigarShipTest extends SimpleApplication {
       
       Ellipse xy = new EllipseXY(major, minor, numberOfPoints);
       List<Vector3f> slice = xy.points();
+      logger.debug("slice[{}].size() = {}", i, slice.size());
+      logger.debug("slice = {}", slice);
+
       slice.forEach(p -> p.z = z);
-      points.addAll(slice);
+      points.add(slice);
     }
+
+    logger.debug("points.size() = {}", points.size());
+
+    logger.debug("points[0].size() = {}", points.get(0));
+    logger.debug("points[last].size() = {}", points.get(points.size() - 1));
     
-    
-    Geometry debug = new Geometry("debug", new DebugPointMesh(points));
+    Geometry debug = new Geometry("debug", new DebugPointMesh(points.stream().flatMap(List::stream).toArray(Vector3f[]::new)));
     debug.setMaterial(new Material(assetManager, Materials.UNSHADED));
     debug.getMaterial().setFloat("PointSize", 4f);
     rootNode.attachChild(debug);
   }
-  
-  private List<Vector3f> generateEllipsePoints(float centerX, float centerY,
-                                       float semiMajorAxisA, float semiMinorAxisB,
-                                       int numPoints) {
-    List<Vector3f> points = new ArrayList<>(numPoints);
-    
-    for (int i = 0; i < numPoints; i++) {
-      // Calculate the angle for the current point, distributing evenly around the ellipse
-      // The angle ranges from 0 to 2*PI radians (a full circle)
-      float theta = (float) (2 * Math.PI * i / numPoints);
-      
-      // Parametric equations for an ellipse:
-      // x = h + a * cos(theta)
-      // y = k + b * sin(theta)
-      // where (h,k) is the center, 'a' is semi-major axis, 'b' is semi-minor axis
-      float x = centerX + semiMajorAxisA * (float) Math.cos(theta);
-      float y = centerY + semiMinorAxisB * (float) Math.sin(theta);
-      
-      // In JMonkeyEngine, points are Vector3f. Since we are in the X-Y plane, Z is 0.
-      points.add(new Vector3f(x, y, 0f));
-    }
-    
-    return points;
-  }
+
 }
