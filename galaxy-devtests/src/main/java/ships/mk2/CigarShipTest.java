@@ -17,10 +17,7 @@ import common.DebugAxesState;
 import common.DebugGridState;
 import common.LemurState;
 import materials.ShowNormalsMaterial;
-import mesh.Face;
-import mesh.FlatShadedMesh;
-import mesh.QuadFace;
-import mesh.TriangleFace;
+import mesh.*;
 import misc.DebugPointMesh;
 import org.slf4j.Logger;
 
@@ -57,7 +54,7 @@ public class CigarShipTest extends SimpleApplication {
 
     float zExtent = cellExtent * 16;
     float xExtent = cellExtent * 8f;
-    float yExtent = cellExtent * 4f;
+    float yExtent = cellExtent * 8f;
 
     int numberOfPoints = 14; // The desired number of slices on the ellipse
 
@@ -118,7 +115,7 @@ public class CigarShipTest extends SimpleApplication {
       List<Vector3f> next = slices.get(i + 1);
 
       for (int j = 0; j < numberOfPoints; j++) {
-        Face face = new QuadFace(current.get(j), next.get(j), next.get((j + 1) % numberOfPoints), current.get((j + 1) % numberOfPoints));
+        Face face = new SymmetricQuadFace(current.get(j), next.get(j), next.get((j + 1) % numberOfPoints), current.get((j + 1) % numberOfPoints));
         faces.add(face);
       }
     }
