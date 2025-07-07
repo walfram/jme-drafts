@@ -1,16 +1,16 @@
-package ships.mk2;
+package math.ellipse;
 
 import com.jme3.math.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EllipseXY implements Ellipse {
+public class EllipseYZ implements Ellipse {
   private final float majorAxis;
   private final float minorAxis;
   private final int numberOfPoints;
   
-  public EllipseXY(float majorAxis, float minorAxis, int numberOfPoints) {
+  public EllipseYZ(float majorAxis, float minorAxis, int numberOfPoints) {
     this.majorAxis = majorAxis;
     this.minorAxis = minorAxis;
     this.numberOfPoints = numberOfPoints;
@@ -27,10 +27,10 @@ public class EllipseXY implements Ellipse {
       // x = h + a * cos(theta)
       // y = k + b * sin(theta)
       // where (h,k) is the center, 'a' is semi-major axis, 'b' is semi-minor axis
-      float x = majorAxis * (float) Math.cos(theta);
+      float z = majorAxis * (float) Math.cos(theta);
       float y = minorAxis * (float) Math.sin(theta);
       
-      points.add(new Vector3f(x, y, 0));
+      points.add(new Vector3f(0, y, z));
     }
     
     return points;

@@ -1,4 +1,4 @@
-package ships.mk2;
+package math.ellipse;
 
 import com.jme3.math.Vector3f;
 

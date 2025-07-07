@@ -1,8 +1,7 @@
-package ships.mk2;
+package math.ellipse;
 
 import com.jme3.math.Vector3f;
 
-import java.util.Collection;
 import java.util.List;
 
 public interface Ellipse {
