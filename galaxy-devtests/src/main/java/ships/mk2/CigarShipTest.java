@@ -9,6 +9,7 @@ import com.jme3.audio.AudioListenerState;
 import com.jme3.material.Material;
 import com.jme3.material.Materials;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import common.ChaseCameraState;
@@ -16,6 +17,9 @@ import common.DebugAxesState;
 import common.DebugGridState;
 import common.LemurState;
 import materials.ShowNormalsMaterial;
+import mesh.Face;
+import mesh.FlatShadedMesh;
+import mesh.QuadFace;
 import misc.DebugPointMesh;
 import org.slf4j.Logger;
 
@@ -49,68 +53,85 @@ public class CigarShipTest extends SimpleApplication {
   
   @Override
   public void simpleInitApp() {
-    Material material = new ShowNormalsMaterial(assetManager);
-    
+
     float zExtent = cellExtent * 16;
     float xExtent = cellExtent * 8f;
     float yExtent = cellExtent * 4f;
-//    int axisSamples = 16;
-    
-    float centerX = 0f; // X-coordinate of the ellipse center
-    float centerY = 0f; // Y-coordinate of the ellipse center
-    float semiMajorAxisA = 5f; // Half-width along X-axis (or major axis if aligned with X)
-    float semiMinorAxisB = 3f; // Half-height along Y-axis (or minor axis if aligned with Y)
-    int numberOfPoints = 14; // The desired number of points on the ellipse
-    
-    int slices = 10;
-    
-    List<List<Vector3f>> points = new ArrayList<>(slices);
-    
-    Ellipse xz = new EllipseXZ(zExtent, xExtent, numberOfPoints + 2);
-//    points.addAll(xz.points());
-    logger.debug("xz points = {}", xz.points());
 
-    Geometry debugXz = new Geometry("debug-xz", new DebugPointMesh(xz.points()));
-    debugXz.setMaterial(new Material(assetManager, Materials.UNSHADED));
-    debugXz.getMaterial().setFloat("PointSize", 8f);
-    debugXz.getMaterial().setColor("Color", ColorRGBA.Red);
-    rootNode.attachChild(debugXz);
+    int numberOfPoints = 14; // The desired number of slices on the ellipse
+
+    Ellipse xz = new EllipseXZ(zExtent, xExtent, numberOfPoints + 2);
+    logger.debug("xz slices = {}", xz.points());
+    List<Vector3f> xExtents = xz.points().stream().filter(v -> (v.x > 0)).filter(v -> (Math.abs(v.x) > FastMath.ZERO_TOLERANCE)).toList();
+    logger.debug("xExtents = {}", xExtents);
+    logger.debug("xExtents.size() = {}", xExtents.size());
 
     Ellipse yz = new EllipseYZ(zExtent, yExtent, numberOfPoints + 2);
-//    points.addAll(yz.points());
-    logger.debug("yz points = {}", yz.points());
+    logger.debug("yz slices = {}", yz.points());
+    List<Vector3f> yExtents = yz.points().stream().filter(v -> (v.y > 0)).filter(v -> (Math.abs(v.y) > FastMath.ZERO_TOLERANCE)).toList();
+    logger.debug("yExtents = {}", yExtents);
+    logger.debug("yExtents.size() = {}", yExtents.size());
 
-    Geometry debugYz = new Geometry("debug-yz", new DebugPointMesh(yz.points()));
-    debugYz.setMaterial(new Material(assetManager, Materials.UNSHADED));
-    debugYz.getMaterial().setFloat("PointSize", 8f);
-    debugYz.getMaterial().setColor("Color", ColorRGBA.Green);
-//    rootNode.attachChild(debugYz);
-
-
-    for (int i = 0; i < slices; i++) {
-      float major = xz.points().get(i).x;
-      float minor = yz.points().get(i).y;
-      
-      float z = xz.points().get(i).z;
-      
-      Ellipse xy = new EllipseXY(major, minor, numberOfPoints);
-      List<Vector3f> slice = xy.points();
-      logger.debug("slice[{}].size() = {}", i, slice.size());
-      logger.debug("slice = {}", slice);
-
-      slice.forEach(p -> p.z = z);
-      points.add(slice);
+    if (xExtents.size() != yExtents.size()) {
+      throw new RuntimeException("xExtents.size() != yExtents.size()");
     }
 
-    logger.debug("points.size() = {}", points.size());
+    Geometry debugXz = new Geometry("debug-xz", new DebugPointMesh(xExtents));
+    debugXz.setMaterial(new Material(assetManager, Materials.UNSHADED));
+    debugXz.getMaterial().setFloat("PointSize", 8f);
+    debugXz.getMaterial().setColor("Color", ColorRGBA.Yellow);
+    rootNode.attachChild(debugXz);
 
-    logger.debug("points[0].size() = {}", points.get(0));
-    logger.debug("points[last].size() = {}", points.get(points.size() - 1));
-    
-    Geometry debug = new Geometry("debug", new DebugPointMesh(points.stream().flatMap(List::stream).toArray(Vector3f[]::new)));
+    Geometry debugYz = new Geometry("debug-yz", new DebugPointMesh(yExtents));
+    debugYz.setMaterial(new Material(assetManager, Materials.UNSHADED));
+    debugYz.getMaterial().setFloat("PointSize", 8f);
+    debugYz.getMaterial().setColor("Color", ColorRGBA.Blue);
+    rootNode.attachChild(debugYz);
+
+    List<List<Vector3f>> slices = new ArrayList<>(xExtents.size());
+
+    for (int i = 0; i < xExtents.size(); i++) {
+      float major = xExtents.get(i).x;
+      float minor = yExtents.get(i).y;
+
+      float z = xExtents.get(i).z;
+
+      Ellipse xy = new EllipseXY(major, minor, numberOfPoints);
+      List<Vector3f> slice = xy.points();
+
+      slice.forEach(p -> p.z = z);
+      slices.add(slice);
+    }
+
+    logger.debug("slices.size() = {}", slices.size());
+
+    Geometry debug = new Geometry("debug", new DebugPointMesh(slices.stream().flatMap(List::stream).toArray(Vector3f[]::new)));
     debug.setMaterial(new Material(assetManager, Materials.UNSHADED));
     debug.getMaterial().setFloat("PointSize", 4f);
     rootNode.attachChild(debug);
+
+    List<Face> faces = new ArrayList<>(slices.size() * numberOfPoints);
+
+    for (int i = 0; i < slices.size() - 1; i++) {
+      List<Vector3f> current = slices.get(i);
+      List<Vector3f> next = slices.get(i + 1);
+
+      for (int j = 0; j < numberOfPoints; j++) {
+        Face face = new QuadFace(current.get(j), next.get(j), next.get((j + 1) % numberOfPoints), current.get((j + 1) % numberOfPoints));
+        faces.add(face);
+      }
+    }
+
+    // TODO front and back faces
+
+    Material material = new ShowNormalsMaterial(assetManager);
+
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(faces
+        .stream()
+        .flatMap(f -> f.triangles().stream())
+        .toList()));
+    hull.setMaterial(material);
+    rootNode.attachChild(hull);
   }
 
 }
