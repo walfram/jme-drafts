@@ -64,15 +64,16 @@ public class CigarShipTest extends SimpleApplication {
     float xExtent = cellExtent * 8f;
     float yExtent = cellExtent * 4f;
 
-    int numberOfPoints = 14; // The desired number of slices on the ellipse
+    int numberOfPoints = 6;
+    int numberOfFrames = 12;
 
-    Ellipse xz = new EllipseXZ(zExtent, xExtent, numberOfPoints + 2);
+    Ellipse xz = new EllipseXZ(zExtent, xExtent, numberOfFrames);
     logger.debug("xz slices = {}", xz.points());
     List<Vector3f> xExtents = xz.points().stream().filter(v -> (v.x > 0)).filter(v -> (Math.abs(v.x) > FastMath.ZERO_TOLERANCE)).toList();
     logger.debug("xExtents = {}", xExtents);
     logger.debug("xExtents.size() = {}", xExtents.size());
 
-    Ellipse yz = new EllipseYZ(zExtent, yExtent, numberOfPoints + 2);
+    Ellipse yz = new EllipseYZ(zExtent, yExtent, numberOfFrames);
     logger.debug("yz slices = {}", yz.points());
     List<Vector3f> yExtents = yz.points().stream().filter(v -> (v.y > 0)).filter(v -> (Math.abs(v.y) > FastMath.ZERO_TOLERANCE)).toList();
     logger.debug("yExtents = {}", yExtents);
