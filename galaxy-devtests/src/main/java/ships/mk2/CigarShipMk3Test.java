@@ -14,53 +14,41 @@ import common.DebugAxesState;
 import common.DebugGridState;
 import common.LemurState;
 import materials.ShowNormalsMaterial;
+import mesh.BeveledBox;
+import mesh.CustomCylinder;
 import mesh.FlatShadedMesh;
-import org.slf4j.Logger;
+import ships.ExtentZOf;
 
-import static org.slf4j.LoggerFactory.getLogger;
+public class CigarShipMk3Test extends SimpleApplication {
 
-public class CigarShipMk1Test extends SimpleApplication {
-  
-  private static final Logger logger = getLogger(CigarShipMk1Test.class);
-  
   private static final float cellExtent = 4f;
-  
+  private static final float cellSize = 2f * cellExtent;
+
   public static void main(String[] args) {
-    CigarShipMk1Test app = new CigarShipMk1Test();
+    CigarShipMk3Test app = new CigarShipMk3Test();
     app.start();
   }
-  
-  public CigarShipMk1Test() {
+
+  public CigarShipMk3Test() {
     super(
         new StatsAppState(), new FlyCamAppState(), new AudioListenerState(), new DebugKeysAppState(),
         new ConstantVerifierState(),
-        
+
         new DebugGridState(cellExtent, false),
         new DebugAxesState(),
         new ChaseCameraState(),
         new LemurState()
     );
   }
-  
+
   @Override
   public void simpleInitApp() {
-    float zExtent = cellExtent * 16;
-    float xExtent = cellExtent * 8f;
-    float yExtent = cellExtent * 4f;
-
-    int numberOfPoints = 6;
-    int numberOfFrames = 12;
-
     Material material = new ShowNormalsMaterial(assetManager);
+    // material.getAdditionalRenderState().setWireframe(true);
 
-    Geometry hull = new Geometry("hull", new Ellipse3d(xExtent, yExtent, zExtent, numberOfFrames, numberOfPoints, true));
+    Geometry hull = new Geometry("hull", new FlatShadedMesh(new Cylinder(2, 6, 2f * cellExtent, 5 * cellSize, true)));
     hull.setMaterial(material);
+    hull.scale(1, 2, 1);
     rootNode.attachChild(hull);
-
-    Geometry engine = new Geometry("engine", new FlatShadedMesh(new Cylinder(2, numberOfPoints, 1.5f * cellExtent, 3f * cellExtent, 4f * cellExtent, true, false)));
-    engine.setMaterial(material);
-    engine.move(0, 0, -7.5f * 2f * cellExtent - 2f * cellExtent);
-    rootNode.attachChild(engine);
   }
-
 }

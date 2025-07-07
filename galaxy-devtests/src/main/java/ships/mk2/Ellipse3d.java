@@ -21,11 +21,11 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class Ellipse3d extends FlatShadedMesh {
   private static final Logger logger = getLogger(Ellipse3d.class);
 
-  public Ellipse3d(float xExtent, float yExtent, float zExtent, int numberOfFrames, int numberOfPoints) {
-    super(ellipse3dTriangles(xExtent, yExtent, zExtent, numberOfFrames, numberOfPoints));
+  public Ellipse3d(float xExtent, float yExtent, float zExtent, int numberOfFrames, int numberOfPoints, boolean roundedBack) {
+    super(ellipse3dTriangles(xExtent, yExtent, zExtent, numberOfFrames, numberOfPoints, roundedBack));
   }
 
-  private static List<Triangle> ellipse3dTriangles(float xExtent, float yExtent, float zExtent, int numberOfFrames, int numberOfPoints) {
+  private static List<Triangle> ellipse3dTriangles(float xExtent, float yExtent, float zExtent, int numberOfFrames, int numberOfPoints, boolean roundedBack) {
     Ellipse xz = new EllipseXZ(zExtent, xExtent, numberOfFrames);
     logger.debug("xz slices = {}", xz.points());
     List<Vector3f> xExtents = xz.points().stream().filter(v -> (v.x > 0)).filter(v -> (Math.abs(v.x) > FastMath.ZERO_TOLERANCE)).toList();
@@ -52,7 +52,7 @@ public class Ellipse3d extends FlatShadedMesh {
 
       float z = xExtents.get(i).z;
 
-      Ellipse xy = new EllipseXY(isLast ? minor : major, minor, numberOfPoints);
+      Ellipse xy = new EllipseXY(isLast && roundedBack ? minor : major, minor, numberOfPoints);
 
       List<Vector3f> slice = xy.points();
 

@@ -6,7 +6,6 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.app.StatsAppState;
 import com.jme3.app.state.ConstantVerifierState;
 import com.jme3.audio.AudioListenerState;
-import com.jme3.bounding.BoundingBox;
 import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Cylinder;
@@ -16,6 +15,7 @@ import common.DebugGridState;
 import common.LemurState;
 import materials.ShowNormalsMaterial;
 import mesh.FlatShadedMesh;
+import ships.ExtentZOf;
 
 public class SimpleShapeShipTest extends SimpleApplication {
 

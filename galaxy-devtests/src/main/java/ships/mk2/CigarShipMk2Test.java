@@ -8,59 +8,46 @@ import com.jme3.app.state.ConstantVerifierState;
 import com.jme3.audio.AudioListenerState;
 import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.shape.Cylinder;
 import common.ChaseCameraState;
 import common.DebugAxesState;
 import common.DebugGridState;
 import common.LemurState;
 import materials.ShowNormalsMaterial;
-import mesh.FlatShadedMesh;
-import org.slf4j.Logger;
 
-import static org.slf4j.LoggerFactory.getLogger;
+public class CigarShipMk2Test extends SimpleApplication {
 
-public class CigarShipMk1Test extends SimpleApplication {
-  
-  private static final Logger logger = getLogger(CigarShipMk1Test.class);
-  
   private static final float cellExtent = 4f;
-  
+
   public static void main(String[] args) {
-    CigarShipMk1Test app = new CigarShipMk1Test();
+    CigarShipMk2Test app = new CigarShipMk2Test();
     app.start();
   }
-  
-  public CigarShipMk1Test() {
+
+  public CigarShipMk2Test() {
     super(
         new StatsAppState(), new FlyCamAppState(), new AudioListenerState(), new DebugKeysAppState(),
         new ConstantVerifierState(),
-        
+
         new DebugGridState(cellExtent, false),
         new DebugAxesState(),
         new ChaseCameraState(),
         new LemurState()
     );
   }
-  
+
   @Override
   public void simpleInitApp() {
-    float zExtent = cellExtent * 16;
-    float xExtent = cellExtent * 8f;
+    float xExtent = cellExtent * 4f;
     float yExtent = cellExtent * 4f;
+    float zExtent = cellExtent * 16f;
 
-    int numberOfPoints = 6;
+    int numberOfPoints = 8;
     int numberOfFrames = 12;
 
     Material material = new ShowNormalsMaterial(assetManager);
 
-    Geometry hull = new Geometry("hull", new Ellipse3d(xExtent, yExtent, zExtent, numberOfFrames, numberOfPoints, true));
+    Geometry hull = new Geometry("hull", new Ellipse3d(xExtent, yExtent, zExtent, numberOfFrames, numberOfPoints, false));
     hull.setMaterial(material);
     rootNode.attachChild(hull);
-
-    Geometry engine = new Geometry("engine", new FlatShadedMesh(new Cylinder(2, numberOfPoints, 1.5f * cellExtent, 3f * cellExtent, 4f * cellExtent, true, false)));
-    engine.setMaterial(material);
-    engine.move(0, 0, -7.5f * 2f * cellExtent - 2f * cellExtent);
-    rootNode.attachChild(engine);
   }
-
 }
