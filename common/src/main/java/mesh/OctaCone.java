@@ -4,6 +4,9 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer;
 import com.jme3.util.BufferUtils;
+import mesh.face.Face;
+import mesh.face.QuadFace;
+import mesh.face.TriangleFace;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;

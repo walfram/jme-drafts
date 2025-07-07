@@ -1,4 +1,4 @@
-package mesh;
+package mesh.face;
 
 import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;

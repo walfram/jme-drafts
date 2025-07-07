@@ -4,6 +4,8 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
+import mesh.face.Face;
+import mesh.face.QuadFace;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;

@@ -19,6 +19,9 @@ import common.DebugGridState;
 import common.LemurState;
 import materials.ShowNormalsMaterial;
 import mesh.*;
+import mesh.face.Face;
+import mesh.face.SymmetricQuadFace;
+import mesh.face.TriangleFace;
 import misc.DebugPointMesh;
 import org.slf4j.Logger;
 
