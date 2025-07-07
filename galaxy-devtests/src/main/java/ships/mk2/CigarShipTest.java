@@ -20,6 +20,7 @@ import materials.ShowNormalsMaterial;
 import mesh.Face;
 import mesh.FlatShadedMesh;
 import mesh.QuadFace;
+import mesh.TriangleFace;
 import misc.DebugPointMesh;
 import org.slf4j.Logger;
 
@@ -122,7 +123,41 @@ public class CigarShipTest extends SimpleApplication {
       }
     }
 
-    // TODO front and back faces
+    // AI generated internal tube - might be interesting
+//    for (int i = 0; i < numberOfPoints; i++) {
+//      Face face = new QuadFace(slices.get(slices.size() - 1).get(i), slices.get(0).get(i), slices.get(0).get((i + 1) % numberOfPoints), slices.get(slices.size() - 1).get((i + 1) % numberOfPoints));
+//      faces.add(face);
+//      face = new QuadFace(slices.get(slices.size() - 1).get(i), slices.get(slices.size() - 2).get(i), slices.get(slices.size() - 2).get((i + 1) % numberOfPoints), slices.get(slices.size() - 1).get((i + 1) % numberOfPoints));
+//      faces.add(face);
+//    }
+
+    float zFront = xExtents.stream().max((l, r) -> Float.compare(l.z, r.z)).get().z;
+    for (int i = 0; i < numberOfPoints; i++) {
+      Face face = new TriangleFace(new Vector3f(0, 0, zFront), slices.get(0).get(i), slices.get(0).get((i + 1) % numberOfPoints));
+      faces.add(face);
+    }
+
+    float zBack = xExtents.stream().min((l, r) -> Float.compare(l.z, r.z)).get().z;
+    for (int i = 0; i < numberOfPoints; i++) {
+      Face face = new TriangleFace(new Vector3f(0, 0, zBack), slices.get(slices.size() - 1).get((i + 1) % numberOfPoints), slices.get(slices.size() - 1).get(i));
+      faces.add(face);
+    }
+
+    // flatten top and bottom, sides
+    float yThreshold = 0.5f * yExtent;
+    float xThreshold = 0.75f * xExtent;
+
+    for (Face face : faces) {
+      for (Vector3f v : face.points()) {
+        if (Math.abs(v.y) >= (yThreshold)) {
+          v.y = yThreshold * Math.signum(v.y);
+        }
+
+        if (Math.abs(v.x) >= (xThreshold)) {
+          v.x = xThreshold * Math.signum(v.x);
+        }
+      }
+    }
 
     Material material = new ShowNormalsMaterial(assetManager);
 

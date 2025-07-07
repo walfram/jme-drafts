@@ -19,4 +19,9 @@ public record QuadFace (
         new Triangle(v0, v2, v3)
     );
   }
+
+  @Override
+  public List<Vector3f> points() {
+    return List.of(v0, v1, v2, v3);
+  }
 }

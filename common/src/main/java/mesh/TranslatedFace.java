@@ -22,4 +22,9 @@ public class TranslatedFace implements Face {
         .map(t -> new Triangle(t.get1().add(translation), t.get2().add(translation), t.get3().add(translation)))
         .toList();
   }
+
+  @Override
+  public List<Vector3f> points() {
+    return source.points().stream().map(p -> p.add(translation)).toList();
+  }
 }
