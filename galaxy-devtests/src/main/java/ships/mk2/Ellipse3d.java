@@ -1,32 +1,16 @@
 package ships.mk2;
 
-import com.jme3.app.DebugKeysAppState;
-import com.jme3.app.FlyCamAppState;
-import com.jme3.app.SimpleApplication;
-import com.jme3.app.StatsAppState;
-import com.jme3.app.state.ConstantVerifierState;
-import com.jme3.audio.AudioListenerState;
-import com.jme3.material.Material;
-import com.jme3.material.Materials;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
+import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.shape.Cylinder;
-import common.ChaseCameraState;
-import common.DebugAxesState;
-import common.DebugGridState;
-import common.LemurState;
-import materials.ShowNormalsMaterial;
 import math.ellipse.Ellipse;
 import math.ellipse.EllipseXY;
 import math.ellipse.EllipseXZ;
 import math.ellipse.EllipseYZ;
-import mesh.*;
+import mesh.FlatShadedMesh;
 import mesh.face.Face;
 import mesh.face.SymmetricQuadFace;
 import mesh.face.TriangleFace;
-import misc.DebugPointMesh;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
@@ -34,39 +18,14 @@ import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class CigarShipTest extends SimpleApplication {
-  
-  private static final Logger logger = getLogger(CigarShipTest.class);
-  
-  private static final float cellExtent = 4f;
-  
-  public static void main(String[] args) {
-    CigarShipTest app = new CigarShipTest();
-    app.start();
+public class Ellipse3d extends FlatShadedMesh {
+  private static final Logger logger = getLogger(Ellipse3d.class);
+
+  public Ellipse3d(float xExtent, float yExtent, float zExtent, int numberOfFrames, int numberOfPoints) {
+    super(ellipse3dTriangles(xExtent, yExtent, zExtent, numberOfFrames, numberOfPoints));
   }
-  
-  public CigarShipTest() {
-    super(
-        new StatsAppState(), new FlyCamAppState(), new AudioListenerState(), new DebugKeysAppState(),
-        new ConstantVerifierState(),
-        
-        new DebugGridState(cellExtent, false),
-        new DebugAxesState(),
-        new ChaseCameraState(),
-        new LemurState()
-    );
-  }
-  
-  @Override
-  public void simpleInitApp() {
 
-    float zExtent = cellExtent * 16;
-    float xExtent = cellExtent * 8f;
-    float yExtent = cellExtent * 4f;
-
-    int numberOfPoints = 6;
-    int numberOfFrames = 12;
-
+  private static List<Triangle> ellipse3dTriangles(float xExtent, float yExtent, float zExtent, int numberOfFrames, int numberOfPoints) {
     Ellipse xz = new EllipseXZ(zExtent, xExtent, numberOfFrames);
     logger.debug("xz slices = {}", xz.points());
     List<Vector3f> xExtents = xz.points().stream().filter(v -> (v.x > 0)).filter(v -> (Math.abs(v.x) > FastMath.ZERO_TOLERANCE)).toList();
@@ -82,18 +41,6 @@ public class CigarShipTest extends SimpleApplication {
     if (xExtents.size() != yExtents.size()) {
       throw new RuntimeException("xExtents.size() != yExtents.size()");
     }
-
-    Geometry debugXz = new Geometry("debug-xz", new DebugPointMesh(xExtents));
-    debugXz.setMaterial(new Material(assetManager, Materials.UNSHADED));
-    debugXz.getMaterial().setFloat("PointSize", 8f);
-    debugXz.getMaterial().setColor("Color", ColorRGBA.Yellow);
-    rootNode.attachChild(debugXz);
-
-    Geometry debugYz = new Geometry("debug-yz", new DebugPointMesh(yExtents));
-    debugYz.setMaterial(new Material(assetManager, Materials.UNSHADED));
-    debugYz.getMaterial().setFloat("PointSize", 8f);
-    debugYz.getMaterial().setColor("Color", ColorRGBA.Blue);
-    rootNode.attachChild(debugYz);
 
     List<List<Vector3f>> slices = new ArrayList<>(xExtents.size());
 
@@ -115,11 +62,7 @@ public class CigarShipTest extends SimpleApplication {
 
     logger.debug("slices.size() = {}", slices.size());
 
-    Geometry debug = new Geometry("debug", new DebugPointMesh(slices.stream().flatMap(List::stream).toArray(Vector3f[]::new)));
-    debug.setMaterial(new Material(assetManager, Materials.UNSHADED));
-    debug.getMaterial().setFloat("PointSize", 4f);
-    rootNode.attachChild(debug);
-
+    // TODO check faces size
     List<Face> faces = new ArrayList<>(slices.size() * numberOfPoints);
 
     for (int i = 0; i < slices.size() - 1; i++) {
@@ -168,20 +111,9 @@ public class CigarShipTest extends SimpleApplication {
 //      }
 //    }
 
-    Material material = new ShowNormalsMaterial(assetManager);
-
-    Geometry hull = new Geometry("hull", new FlatShadedMesh(faces
+    return faces
         .stream()
         .flatMap(f -> f.triangles().stream())
-        .toList()));
-    hull.setMaterial(material);
-    rootNode.attachChild(hull);
-
-
-    Geometry engine = new Geometry("engine", new FlatShadedMesh(new Cylinder(2, numberOfPoints, 1.5f * cellExtent, 3f * cellExtent, 4f * cellExtent, true, false)));
-    engine.setMaterial(material);
-    engine.move(0, 0, -7.5f * 2f * cellExtent - 2f * cellExtent);
-    rootNode.attachChild(engine);
+        .toList();
   }
-
 }
