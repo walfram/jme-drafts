@@ -2,7 +2,6 @@ package mesh;
 
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
-import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
 import mesh.face.Face;
 import mesh.face.QuadFace;
@@ -25,7 +24,7 @@ public class IrregularCylinder extends FlatShadedMesh {
     super(trianglesOf(height, frontRadius, backRadius, thetaMajor, thetaMinor, frontClosed, backClosed));
   }
   
-  private static List<Triangle> trianglesOf(float height, float frontRadius, float backRadius, float thetaMajor, float thetaMinor, boolean frontClosed, boolean backClosed) {
+  private static List<Face> trianglesOf(float height, float frontRadius, float backRadius, float thetaMajor, float thetaMinor, boolean frontClosed, boolean backClosed) {
     Vector3f frontOffset = new Vector3f(0, 0, 0.5f * height);
     Vector3f backOffset = new Vector3f(0, 0, -0.5f * height);
     
@@ -81,10 +80,10 @@ public class IrregularCylinder extends FlatShadedMesh {
       faces.add(face);
     }
     
-    return faces
-        .stream()
-        .flatMap(f -> f.triangles().stream())
-        .toList();
+    return faces;
+//        .stream()
+//        .flatMap(f -> f.triangles().stream())
+//        .toList();
   }
   
 }

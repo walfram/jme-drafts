@@ -1,8 +1,9 @@
 package mesh;
 
 import com.jme3.math.FastMath;
-import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
+import mesh.face.Face;
+import mesh.face.TriangleFace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +19,12 @@ public class CustomCylinder extends FlatShadedMesh {
     super(trianglesOf(frontRadius, backRadius, height, numRadialSamples, generateFrontCircle, generateBackCircle, bevelFactor));
   }
   
-  private static List<Triangle> trianglesOf(
+  private static List<Face> trianglesOf(
       float frontRadius, float backRadius, float height,
       int numRadialSamples,
       boolean generateFrontCircle, boolean generateBackCircle,
       float bevelFactor) {
-    List<Triangle> triangles = new ArrayList<>();
+    List<Face> triangles = new ArrayList<>();
     float halfHeight = height / 2f;
     
     // Angles for radial segments
@@ -61,7 +62,7 @@ public class CustomCylinder extends FlatShadedMesh {
     if (generateBackCircle) {
       for (int i = 0; i < numRadialSamples; i++) {
         int next = (i + 1) % numRadialSamples;
-        triangles.add(new Triangle(backCenter, backCircle[next], backCircle[i]));
+        triangles.add(new TriangleFace(backCenter, backCircle[next], backCircle[i]));
       }
     }
     
@@ -69,7 +70,7 @@ public class CustomCylinder extends FlatShadedMesh {
     if (generateFrontCircle) {
       for (int i = 0; i < numRadialSamples; i++) {
         int next = (i + 1) % numRadialSamples;
-        triangles.add(new Triangle(frontCenter, frontCircle[i], frontCircle[next]));
+        triangles.add(new TriangleFace(frontCenter, frontCircle[i], frontCircle[next]));
       }
     }
     
@@ -84,14 +85,14 @@ public class CustomCylinder extends FlatShadedMesh {
       
       if (frontRadius == 0f) {
         // Cone tip at front
-        triangles.add(new Triangle(b0, b1, frontCenter));
+        triangles.add(new TriangleFace(b0, b1, frontCenter));
       } else if (backRadius == 0f) {
         // Cone tip at back
-        triangles.add(new Triangle(backCenter, f1, f0));
+        triangles.add(new TriangleFace(backCenter, f1, f0));
       } else {
         // Frustum/cylinder
-        triangles.add(new Triangle(b0, b1, f0));
-        triangles.add(new Triangle(f0, b1, f1));
+        triangles.add(new TriangleFace(b0, b1, f0));
+        triangles.add(new TriangleFace(f0, b1, f1));
       }
     }
     

@@ -1,6 +1,7 @@
 package mesh.face;
 
 import com.jme3.math.Triangle;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
 import java.util.List;
@@ -26,5 +27,20 @@ public class TranslatedFace implements Face {
   @Override
   public List<Vector3f> points() {
     return source.points().stream().map(p -> p.add(translation)).toList();
+  }
+
+  @Override
+  public List<Vector3f> normals() {
+    return List.of();
+  }
+
+  @Override
+  public int triangleCount() {
+    return 0;
+  }
+
+  @Override
+  public List<Vector2f> texCoords() {
+    return List.of();
   }
 }

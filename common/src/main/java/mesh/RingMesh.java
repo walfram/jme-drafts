@@ -2,7 +2,6 @@ package mesh;
 
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
-import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
 import mesh.face.Face;
 import mesh.face.QuadFace;
@@ -20,7 +19,7 @@ public class RingMesh extends FlatShadedMesh {
     super(trianglesOf(radialSamples, height, innerRadius, outerRadius));
   }
   
-  private static List<Triangle> trianglesOf(int radialSamples, float height, float innerRadius, float outerRadius) {
+  private static List<Face> trianglesOf(int radialSamples, float height, float innerRadius, float outerRadius) {
     float theta = FastMath.TWO_PI / radialSamples;
     
     Vector3f top = new Vector3f(innerRadius, 0, 0);
@@ -55,10 +54,10 @@ public class RingMesh extends FlatShadedMesh {
       faces.add(down);
     }
     
-    return faces
-        .stream()
-        .flatMap(f -> f.triangles().stream())
-        .toList();
+    return faces;
+//        .stream()
+//        .flatMap(f -> f.triangles().stream())
+//        .toList();
   }
   
 }

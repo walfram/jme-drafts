@@ -7,6 +7,7 @@ import com.jme3.app.StatsAppState;
 import com.jme3.app.state.ConstantVerifierState;
 import com.jme3.audio.AudioListenerState;
 import com.jme3.material.Material;
+import com.jme3.material.Materials;
 import com.jme3.math.FastMath;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
@@ -31,7 +32,9 @@ public class CigarShipMk3Test extends SimpleApplication {
 
   private static final float cellExtent = 4f;
   private static final float cellSize = 2f * cellExtent;
+
   private Material material;
+  private Material metal;
 
   public static void main(String[] args) {
     CigarShipMk3Test app = new CigarShipMk3Test();
@@ -55,6 +58,9 @@ public class CigarShipMk3Test extends SimpleApplication {
     material = new ShowNormalsMaterial(assetManager);
     // material.getAdditionalRenderState().setWireframe(true);
 
+    metal = new Material(assetManager, Materials.UNSHADED);
+    metal.setTexture("ColorMap", assetManager.loadTexture("flat-lay-metal-surface.jpg"));
+
     hull();
     engine();
     bridge();
@@ -70,21 +76,22 @@ public class CigarShipMk3Test extends SimpleApplication {
       }
     });
 
-    Geometry bridge = new Geometry("bridge", new FlatShadedMesh(mesh));
-    bridge.setMaterial(material);
+//    Geometry bridge = new Geometry("bridge", new FlatShadedMesh(mesh));
+    Geometry bridge = new Geometry("bridge", mesh);
+    bridge.setMaterial(metal);
     bridge.scale(cellExtent, cellExtent, 2f * cellExtent);
     bridge.setLocalTranslation(0, 0, 2.5f * cellSize);
     rootNode.attachChild(bridge);
   }
 
   private void engine() {
-    Geometry engineFront = new Geometry("engineFront", new FlatShadedMesh(new Cylinder(2, 16, 1.5f * cellExtent, cellSize, true)));
-    engineFront.setMaterial(material);
+    Geometry engineFront = new Geometry("engineFront", new Cylinder(2, 16, 1.5f * cellExtent, cellSize, true));
+    engineFront.setMaterial(metal);
     engineFront.setLocalTranslation(0, 0, -2f * cellSize);
     rootNode.attachChild(engineFront);
 
-    Geometry engineBack = new Geometry("engineBack", new FlatShadedMesh(new Cylinder(2, 8, cellExtent, 0.7f * cellExtent, cellSize, true, false)));
-    engineBack.setMaterial(material);
+    Geometry engineBack = new Geometry("engineBack", new Cylinder(2, 8, cellExtent, 0.7f * cellExtent, cellSize, true, false));
+    engineBack.setMaterial(metal);
     engineBack.setLocalTranslation(0, 0, -3f * cellSize);
     rootNode.attachChild(engineBack);
   }
@@ -94,7 +101,7 @@ public class CigarShipMk3Test extends SimpleApplication {
     float minor = 30f * FastMath.DEG_TO_RAD;
 
     Geometry hull = new Geometry("hull", new IrregularCylinder(3 * cellSize, 1.5f * cellExtent, major, minor));
-    hull.setMaterial(material);
+    hull.setMaterial(metal);
     rootNode.attachChild(hull);
 
     DMesh mesh = new DMesh(new Box(1, 1, 1), (v, n) -> {
@@ -113,7 +120,7 @@ public class CigarShipMk3Test extends SimpleApplication {
 
     for (float angle : angles) {
       Geometry siding = new Geometry("siding", new FlatShadedMesh(mesh));
-      siding.setMaterial(material);
+      siding.setMaterial(metal);
       siding.scale(cellExtent, 0.5f * cellExtent, 2 * cellExtent);
       siding.move(0, 1.5f * cellExtent, 0);
 

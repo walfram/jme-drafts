@@ -2,8 +2,8 @@ package mesh;
 
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
-import com.jme3.math.Triangle;
 import com.jme3.math.Vector3f;
+import mesh.face.Face;
 import mesh.face.QuadFace;
 
 import java.util.ArrayList;
@@ -14,10 +14,10 @@ public class TubeMesh extends FlatShadedMesh {
     super(trianglesOf(radialSamples, ri, ro, height));
   }
   
-  private static List<Triangle> trianglesOf(int radialSamples, float ri, float ro, float height) {
+  private static List<Face> trianglesOf(int radialSamples, float ri, float ro, float height) {
     float angleDelta = FastMath.TWO_PI / radialSamples;
     
-    List<QuadFace> quadFaces = new ArrayList<>(radialSamples * 4);
+    List<Face> quadFaces = new ArrayList<>(radialSamples * 4);
     Quaternion rotation = new Quaternion();
     
     for (int i = 0; i < radialSamples; i++) {
@@ -44,10 +44,10 @@ public class TubeMesh extends FlatShadedMesh {
       quadFaces.add(inner);
     }
 
-    return quadFaces
-        .stream()
-        .flatMap(f -> f.triangles().stream())
-        .toList();
+    return quadFaces;
+//        .stream()
+//        .flatMap(f -> f.triangles().stream())
+//        .toList();
   }
   
 }

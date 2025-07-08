@@ -1,6 +1,7 @@
 package mesh.face;
 
 import com.jme3.math.Triangle;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 
 import java.util.List;
@@ -26,5 +27,20 @@ public record SymmetricQuadFace(Vector3f v0, Vector3f v1, Vector3f v2, Vector3f 
   @Override
   public List<Vector3f> points() {
     return List.of(v0, v1, v2, v3);
+  }
+
+  @Override
+  public List<Vector3f> normals() {
+    return triangles().stream().flatMap(t -> Stream.of(t.getNormal(), t.getNormal(), t.getNormal())).toList();
+  }
+
+  @Override
+  public int triangleCount() {
+    return 2;
+  }
+
+  @Override
+  public List<Vector2f> texCoords() {
+    return List.of();
   }
 }

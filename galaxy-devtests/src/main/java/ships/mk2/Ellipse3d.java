@@ -25,7 +25,7 @@ public class Ellipse3d extends FlatShadedMesh {
     super(ellipse3dTriangles(xExtent, yExtent, zExtent, numberOfFrames, numberOfPoints, roundedBack));
   }
 
-  private static List<Triangle> ellipse3dTriangles(float xExtent, float yExtent, float zExtent, int numberOfFrames, int numberOfPoints, boolean roundedBack) {
+  private static List<Face> ellipse3dTriangles(float xExtent, float yExtent, float zExtent, int numberOfFrames, int numberOfPoints, boolean roundedBack) {
     Ellipse xz = new EllipseXZ(zExtent, xExtent, numberOfFrames);
     logger.debug("xz slices = {}", xz.points());
     List<Vector3f> xExtents = xz.points().stream().filter(v -> (v.x > 0)).filter(v -> (Math.abs(v.x) > FastMath.ZERO_TOLERANCE)).toList();
@@ -111,9 +111,9 @@ public class Ellipse3d extends FlatShadedMesh {
 //      }
 //    }
 
-    return faces
-        .stream()
-        .flatMap(f -> f.triangles().stream())
-        .toList();
+    return faces;
+//        .stream()
+//        .flatMap(f -> f.triangles().stream())
+//        .toList();
   }
 }
